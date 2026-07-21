@@ -761,11 +761,13 @@
     configStatus.textContent = 'Guardando…';
     configStatus.className = 'status-msg';
 
+    const sent = collectForm();
+
     try {
       const res = await fetch('/api/config', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', 'X-Admin-Key': key },
-        body: JSON.stringify(collectForm())
+        body: JSON.stringify(sent)
       });
       if (res.status === 401){
         configStatus.textContent = 'Clave incorrecta.';
@@ -777,6 +779,27 @@
         configStatus.className = 'status-msg error';
         return;
       }
+
+      const data = await res.json();
+      const saved = data.config || {};
+
+      // El servidor valida y a veces reemplaza un valor por el de
+      // respaldo si no lo reconoce — avisamos si eso pasó, en vez de
+      // dejar que parezca que "no se guardó nada".
+      const discrepancias = [];
+      if (sent.fotoPrincipal && saved.fotoPrincipal !== sent.fotoPrincipal) discrepancias.push('la foto principal');
+      (sent.galeria || []).forEach((url, i) => {
+        if (saved.galeria && saved.galeria[i] !== url && !saved.galeria.includes(url)) discrepancias.push(`la foto #${i + 1} de la galería`);
+      });
+      if (sent.ubicacion?.mapaEmbedUrl && saved.ubicacion?.mapaEmbedUrl !== sent.ubicacion.mapaEmbedUrl) discrepancias.push('el mapa incrustado');
+
+      if (discrepancias.length){
+        configStatus.textContent = `Guardado, pero el servidor no reconoció y reemplazó por el valor anterior: ${discrepancias.join(', ')}. Revisa que la URL sea válida.`;
+        configStatus.className = 'status-msg error';
+        fillForm(saved);
+        return;
+      }
+
       configStatus.textContent = 'Guardado ✓ — los cambios ya se ven en el sitio (recarga la página de la invitación).';
       configStatus.className = 'status-msg ok';
     } catch (err){

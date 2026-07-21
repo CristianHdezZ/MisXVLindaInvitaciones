@@ -30,6 +30,7 @@ const DEFAULT_CONFIG = {
   fraseGate: 'Hay momentos inolvidables que se atesoran en el corazón para siempre. Me siento muy feliz de llegar a este momento de mi vida y quiero compartirlo contigo.',
   mensajeCarta: 'Hoy quiero compartir contigo uno de los días más felices de mi vida. Quince años de historias, de risas y de aprender a florecer, y quiero que estés ahí para verlo con tus propios ojos. Esta invitación es un pedacito de mi corazón, hecha con la misma ilusión con la que espero abrazarte ese día.',
   hashtag: '#LindaXV2026',
+  fotoPrincipal: 'assets/gallery/Image01.jpeg',
   colores: {
     blush: '#FBEAEE',
     blush2: '#F6D8DF',
@@ -87,11 +88,14 @@ function sanitizeChoice(value, allowed, fallback) {
 }
 
 function sanitizeUrl(value, fallback) {
-  if (typeof value !== 'string' || !value.trim()) return fallback;
+  if (typeof value !== 'string') return fallback;
   const v = value.trim();
-  // Permite rutas relativas propias (assets/...) o URLs http(s) completas.
-  if (v.startsWith('assets/') || /^https?:\/\//i.test(v)) return v.slice(0, 2000);
-  return fallback;
+  if (!v) return fallback;
+  // Bloquea esquemas peligrosos (javascript:, data:, vbscript:); acepta
+  // cualquier otra cosa — rutas relativas propias del sitio (con o sin
+  // barra inicial), URLs http(s) completas, etc.
+  if (/^(javascript|data|vbscript):/i.test(v)) return fallback;
+  return v.slice(0, 2000);
 }
 
 function sanitizeConfig(body) {
@@ -156,6 +160,7 @@ function sanitizeConfig(body) {
     fraseGate: sanitizeText(b.fraseGate, 400, d.fraseGate),
     mensajeCarta: sanitizeText(b.mensajeCarta, 800, d.mensajeCarta),
     hashtag: sanitizeText(b.hashtag, 40, d.hashtag),
+    fotoPrincipal: sanitizeUrl(b.fotoPrincipal, d.fotoPrincipal),
     colores,
     tipografia,
     itinerario,
