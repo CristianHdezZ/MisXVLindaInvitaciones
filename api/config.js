@@ -2,9 +2,14 @@ const { getConfig, setConfig } = require('../lib/store');
 
 const ADMIN_KEY = process.env.ADMIN_KEY || '';
 
-// Íconos permitidos para el itinerario — lista cerrada para no aceptar
-// SVG/HTML arbitrario desde el formulario (evita inyección de contenido).
-const ICONOS_VALIDOS = ['copa', 'ceremonia', 'vals', 'cena', 'iglesia', 'corazon', 'regalo', 'reloj'];
+// Íconos permitidos — lista cerrada para no aceptar SVG/HTML arbitrario
+// desde el formulario (evita inyección de contenido). Se usan tanto en
+// el itinerario como en la sección de vestimenta.
+const ICONOS_VALIDOS = [
+  'copa', 'ceremonia', 'vals', 'cena', 'iglesia', 'corazon', 'regalo', 'reloj',
+  'vestido', 'esmoquin', 'anillo', 'flor', 'mariposa', 'estrella', 'diamante',
+  'musica', 'pastel', 'corona', 'sombrero', 'zapato', 'abanico', 'sobre'
+];
 
 // Fuentes permitidas — lista cerrada (no texto libre) para no tener que
 // cargar URLs de Google Fonts arbitrarias ni romper el diseño con una
@@ -38,7 +43,9 @@ const DEFAULT_CONFIG = {
     display: 'Cormorant Garamond',
     script: 'Alex Brush',
     body: 'Jost',
-    escala: 'normal'
+    escalaNombre: 'normal',
+    escalaTitulos: 'normal',
+    escalaMensajes: 'normal'
   },
   itinerario: [
     { titulo: 'Recepción', hora: '7:00 p.m.', icono: 'copa' },
@@ -46,6 +53,12 @@ const DEFAULT_CONFIG = {
     { titulo: 'Vals', hora: '8:00 p.m.', icono: 'vals' },
     { titulo: 'Cena', hora: '9:00 p.m.', icono: 'cena' }
   ],
+  vestimenta: {
+    nota: 'Color a evitar: rosa palo — ¡es el mío! 🌹',
+    colorEvitar: '#E9AABB',
+    iconoIzquierdo: 'vestido',
+    iconoDerecho: 'esmoquin'
+  },
   ubicacion: {
     nombreLugar: 'Salón de Eventos Imperial Eventos Deluxe',
     direccion: 'Cr 40ªª Nº 48ª -12 Sector UCO Rionegro- Antioquia',
@@ -99,7 +112,9 @@ function sanitizeConfig(body) {
     display: sanitizeChoice(b?.tipografia?.display, FUENTES_DISPLAY, d.tipografia.display),
     script: sanitizeChoice(b?.tipografia?.script, FUENTES_SCRIPT, d.tipografia.script),
     body: sanitizeChoice(b?.tipografia?.body, FUENTES_BODY, d.tipografia.body),
-    escala: sanitizeChoice(b?.tipografia?.escala, ESCALAS_VALIDAS, d.tipografia.escala)
+    escalaNombre: sanitizeChoice(b?.tipografia?.escalaNombre, ESCALAS_VALIDAS, d.tipografia.escalaNombre),
+    escalaTitulos: sanitizeChoice(b?.tipografia?.escalaTitulos, ESCALAS_VALIDAS, d.tipografia.escalaTitulos),
+    escalaMensajes: sanitizeChoice(b?.tipografia?.escalaMensajes, ESCALAS_VALIDAS, d.tipografia.escalaMensajes)
   };
 
   const itinerario = Array.isArray(b.itinerario)
@@ -109,6 +124,13 @@ function sanitizeConfig(body) {
         icono: ICONOS_VALIDOS.includes(item?.icono) ? item.icono : 'copa'
       }))
     : d.itinerario;
+
+  const vestimenta = {
+    nota: sanitizeText(b?.vestimenta?.nota, 200, d.vestimenta.nota),
+    colorEvitar: sanitizeColor(b?.vestimenta?.colorEvitar, d.vestimenta.colorEvitar),
+    iconoIzquierdo: ICONOS_VALIDOS.includes(b?.vestimenta?.iconoIzquierdo) ? b.vestimenta.iconoIzquierdo : d.vestimenta.iconoIzquierdo,
+    iconoDerecho: ICONOS_VALIDOS.includes(b?.vestimenta?.iconoDerecho) ? b.vestimenta.iconoDerecho : d.vestimenta.iconoDerecho
+  };
 
   const galeria = Array.isArray(b.galeria)
     ? b.galeria.slice(0, 24).map((url) => sanitizeUrl(url, null)).filter(Boolean)
@@ -137,6 +159,7 @@ function sanitizeConfig(body) {
     colores,
     tipografia,
     itinerario,
+    vestimenta,
     ubicacion,
     galeria: galeria.length ? galeria : d.galeria
   };

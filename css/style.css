@@ -13,7 +13,9 @@
   --blanco:       #ffffff;
   --verde:        #8FA98A;
   --vestido:      #E9AABB;
-  --scale-mult:   1;
+  --scale-nombre:   1;
+  --scale-titulos:  1;
+  --scale-mensajes: 1;
 
   --f-display: 'Cormorant Garamond', serif;
   --f-script:  'Alex Brush', cursive;
@@ -25,7 +27,7 @@
 }
 
 *,*::before,*::after{ box-sizing:border-box; }
-html{ scroll-behavior:smooth; font-size:calc(16px * var(--scale-mult)); }
+html{ scroll-behavior:smooth; }
 
 body{
   margin:0;
@@ -73,12 +75,12 @@ img{ max-width:100%; display:block; }
 
 .gate__content{ max-width:440px; margin:2vh auto; }
 .gate__eyebrow{
-  font-size:.72rem; letter-spacing:.2em; text-transform:uppercase;
+  font-size:calc(.72rem * var(--scale-mensajes)); letter-spacing:.2em; text-transform:uppercase;
   color:var(--tinta-suave); margin:0 0 10px;
 }
 .gate__name{
   font-family:var(--f-script);
-  font-size:clamp(3rem, 11vw, 4.6rem);
+  font-size:calc(clamp(3rem, 11vw, 4.6rem) * var(--scale-nombre));
   color:var(--rosa-deep);
   line-height:1;
 }
@@ -88,7 +90,7 @@ img{ max-width:100%; display:block; }
 }
 .gate__quote{
   font-family:var(--f-display); font-style:italic;
-  font-size:1.02rem; color:var(--tinta);
+  font-size:calc(1.02rem * var(--scale-mensajes)); color:var(--tinta);
   max-width:360px; margin:0 auto 22px;
 }
 .gate__btn{
@@ -177,7 +179,7 @@ img{ max-width:100%; display:block; }
   min-height:100svh; display:flex; flex-direction:column; align-items:center; justify-content:center;
   text-align:center; position:relative; padding:10vh 6vw 8vh;
 }
-.hero__eyebrow{ max-width:360px; font-size:.85rem; color:var(--tinta-suave); font-style:italic; font-family:var(--f-display); margin-bottom:22px; }
+.hero__eyebrow{ max-width:360px; font-size:calc(.85rem * var(--scale-mensajes)); color:var(--tinta-suave); font-style:italic; font-family:var(--f-display); margin-bottom:22px; }
 .hero__frame{
   width:180px; height:230px; border-radius:50% / 40%;
   overflow:hidden; border:2px solid var(--oro);
@@ -185,7 +187,7 @@ img{ max-width:100%; display:block; }
   margin-bottom:22px;
 }
 .hero__frame img{ width:100%; height:100%; object-fit:cover; }
-.hero__name{ font-family:var(--f-script); font-size:clamp(2.6rem, 8vw, 3.8rem); color:var(--rosa-deep); }
+.hero__name{ font-family:var(--f-script); font-size:calc(clamp(2.6rem, 8vw, 3.8rem) * var(--scale-nombre)); color:var(--rosa-deep); }
 .hero__apellido{ font-family:var(--f-display); font-style:italic; font-size:clamp(1.1rem, 3vw, 1.5rem); color:var(--vino); letter-spacing:.06em; margin-top:2px; }
 .hero__subtitle{ font-size:.85rem; color:var(--tinta-suave); margin:6px 0 18px; letter-spacing:.04em; }
 .hero__badge{
@@ -210,10 +212,10 @@ img{ max-width:100%; display:block; }
 .section__inner{ max-width:var(--container); margin:0 auto; text-align:center; }
 .section__eyebrow{ display:inline-block; font-size:.72rem; letter-spacing:.24em; text-transform:uppercase; color:var(--rosa-deep); margin-bottom:14px; position:relative; }
 .section__eyebrow::before,.section__eyebrow::after{ content:''; display:inline-block; width:20px; height:1px; background:var(--oro); vertical-align:middle; margin:0 10px 3px; }
-.section__title{ font-size:clamp(1.7rem, 4vw, 2.6rem); margin-bottom:8px; }
+.section__title{ font-size:calc(clamp(1.7rem, 4vw, 2.6rem) * var(--scale-titulos)); margin-bottom:8px; }
 
 /* CARTA */
-.carta__texto{ font-family:var(--f-display); font-size:clamp(1.15rem, 2.4vw, 1.5rem); font-style:italic; color:var(--tinta); max-width:560px; margin:26px auto 22px; }
+.carta__texto{ font-family:var(--f-display); font-size:calc(clamp(1.15rem, 2.4vw, 1.5rem) * var(--scale-mensajes)); font-style:italic; color:var(--tinta); max-width:560px; margin:26px auto 22px; }
 .carta__firma{ font-family:var(--f-script); font-size:2rem; color:var(--rosa-deep); }
 
 /* COUNTDOWN */
@@ -236,22 +238,22 @@ img{ max-width:100%; display:block; }
 .timeline__icon svg{ width:22px; height:22px; }
 .tl-stroke{ fill:none; stroke:var(--rosa-deep); stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
 .timeline__text{ display:flex; flex-direction:column; }
-.timeline__text strong{ font-family:var(--f-display); font-size:1.1rem; color:var(--vino); font-weight:600; }
-.timeline__text em{ font-style:normal; font-size:.78rem; color:var(--tinta-suave); letter-spacing:.06em; }
+.timeline__text strong{ font-family:var(--f-display); font-size:calc(1.1rem * var(--scale-mensajes)); color:var(--vino); font-weight:600; }
+.timeline__text em{ font-style:normal; font-size:calc(.78rem * var(--scale-mensajes)); color:var(--tinta-suave); letter-spacing:.06em; }
 
 /* VESTIMENTA */
 .vestimenta__icons{ display:flex; justify-content:center; gap:50px; margin:34px 0 18px; }
-.vestimenta__icons svg{ width:56px; height:74px; }
-.vt-fill{ fill:var(--vino); }
-.vt-bow{ fill:var(--rosa-deep); }
-.vestimenta__nota{ font-size:.9rem; color:var(--tinta-suave); font-style:italic; }
+.vestimenta__icon{ width:64px; height:64px; display:inline-flex; align-items:center; justify-content:center; }
+.vestimenta__icon svg{ width:100%; height:100%; fill:none; stroke:var(--vino); stroke-width:1.6; stroke-linecap:round; stroke-linejoin:round; }
+.vestimenta__nota{ font-size:calc(.9rem * var(--scale-mensajes)); color:var(--tinta-suave); font-style:italic; display:flex; align-items:center; justify-content:center; gap:8px; }
+.color-swatch{ display:inline-block; width:14px; height:14px; border-radius:50%; border:1px solid var(--oro); flex:0 0 auto; }
 
 /* DETALLES */
 .detalles__grid{ display:grid; grid-template-columns:1fr 1fr; gap:34px; margin-top:40px; text-align:left; }
 .detalles__grid--single{ grid-template-columns:1fr; max-width:420px; margin-left:auto; margin-right:auto; }
 @media (max-width:720px){ .detalles__grid{ grid-template-columns:1fr; } }
 .detalle-card{ background:var(--blanco); border:1px solid var(--blush-2); border-radius:var(--radius); padding:28px; box-shadow:0 20px 40px -28px rgba(139,79,98,.35); }
-.detalle-card h3{ font-size:1.3rem; margin-bottom:4px; }
+.detalle-card h3{ font-size:calc(1.3rem * var(--scale-titulos)); margin-bottom:4px; }
 .detalle-card__hora{ color:var(--oro); font-size:.78rem; letter-spacing:.18em; text-transform:uppercase; margin:0 0 10px; }
 .detalle-card p{ margin:0 0 14px; color:var(--tinta-suave); font-size:.92rem; }
 .mapa-wrap{ border-radius:var(--radius); overflow:hidden; aspect-ratio:4/3; margin-bottom:12px; filter:saturate(.85); }

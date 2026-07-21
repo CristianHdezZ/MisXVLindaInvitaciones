@@ -97,7 +97,7 @@
   .it-row__fields{ display:grid; grid-template-columns:2fr 1fr auto; gap:10px; margin-bottom:10px; }
   .it-row__fields input{ padding:8px 10px; border:1px solid var(--blush-2); border-radius:4px; font-family:'Jost',sans-serif; font-size:.85rem; }
   @media (max-width:600px){ .it-row__fields{ grid-template-columns:1fr 1fr; } }
-  .icon-picker{ display:flex; gap:8px; flex-wrap:wrap; }
+  .icon-picker{ display:flex; gap:8px; flex-wrap:wrap; max-height:104px; overflow-y:auto; padding:4px 2px; }
   .icon-pick{
     width:40px; height:40px; padding:7px; border-radius:6px; border:1.5px solid var(--blush-2);
     background:var(--blanco); cursor:pointer; display:flex; align-items:center; justify-content:center;
@@ -189,13 +189,42 @@
       <div class="field"><label for="fontScript">Fuente del nombre</label><select id="fontScript"></select></div>
       <div class="field"><label for="fontBody">Fuente de texto</label><select id="fontBody"></select></div>
     </div>
-    <div class="field" style="max-width:220px;">
-      <label for="fontEscala">Tamaño de letra</label>
-      <select id="fontEscala">
-        <option value="compacta">Compacto</option>
-        <option value="normal">Normal</option>
-        <option value="grande">Grande</option>
-      </select>
+    <p class="hint" style="margin-bottom:10px;">Tamaño de letra por tipo de texto — cada uno se puede ajustar por separado.</p>
+    <div class="row-3">
+      <div class="field">
+        <label for="scaleNombre">Tamaño del nombre</label>
+        <select id="scaleNombre"><option value="compacta">Compacto</option><option value="normal">Normal</option><option value="grande">Grande</option></select>
+      </div>
+      <div class="field">
+        <label for="scaleTitulos">Tamaño de títulos</label>
+        <select id="scaleTitulos"><option value="compacta">Compacto</option><option value="normal">Normal</option><option value="grande">Grande</option></select>
+      </div>
+      <div class="field">
+        <label for="scaleMensajes">Tamaño de mensajes</label>
+        <select id="scaleMensajes"><option value="compacta">Compacto</option><option value="normal">Normal</option><option value="grande">Grande</option></select>
+      </div>
+    </div>
+  </div>
+
+  <div class="card-box">
+    <h2>Código de vestimenta</h2>
+    <div class="field">
+      <label for="vestNota">Texto (incluye el color a evitar en palabras)</label>
+      <input type="text" id="vestNota" placeholder="Color a evitar: rosa palo — ¡es el mío! 🌹">
+    </div>
+    <div class="field">
+      <label>Color a evitar (muestra junto al texto)</label>
+      <div class="color-field"><input type="color" id="vestColorEvitar"></div>
+    </div>
+    <div class="field">
+      <label>Ícono izquierdo</label>
+      <input type="hidden" id="vestIconoIzquierdo" value="vestido">
+      <div class="icon-picker" id="vestIconoIzquierdoPicker"></div>
+    </div>
+    <div class="field">
+      <label>Ícono derecho</label>
+      <input type="hidden" id="vestIconoDerecho" value="esmoquin">
+      <div class="icon-picker" id="vestIconoDerechoPicker"></div>
     </div>
   </div>
 
@@ -274,11 +303,29 @@
     iglesia: '<path d="M20,6 L20,14 M14,10 L26,10 M12,34 L12,18 L20,12 L28,18 L28,34 Z"/>',
     corazon: '<path d="M20,32 C6,22 8,10 16,10 C19,10 20,13 20,13 C20,13 21,10 24,10 C32,10 34,22 20,32Z"/>',
     regalo: '<rect x="9" y="15" width="22" height="17"/><line x1="9" y1="21" x2="31" y2="21"/><line x1="20" y1="15" x2="20" y2="32"/><path d="M20,15 C15,15 13,8 20,8 C27,8 25,15 20,15Z"/>',
-    reloj: '<circle cx="20" cy="20" r="13"/><line x1="20" y1="20" x2="20" y2="12"/><line x1="20" y1="20" x2="26" y2="24"/>'
+    reloj: '<circle cx="20" cy="20" r="13"/><line x1="20" y1="20" x2="20" y2="12"/><line x1="20" y1="20" x2="26" y2="24"/>',
+    vestido: '<path d="M20,6 L16,16 L10,34 L30,34 L24,16 Z"/><line x1="16" y1="16" x2="24" y2="16"/>',
+    esmoquin: '<path d="M10,16 L18,20 L10,24 Z"/><path d="M30,16 L22,20 L30,24 Z"/><circle cx="20" cy="20" r="2"/>',
+    anillo: '<circle cx="20" cy="24" r="10"/><path d="M20,14 L17,8 L23,8 Z"/>',
+    flor: '<circle cx="20" cy="12" r="5"/><circle cx="28" cy="20" r="5"/><circle cx="20" cy="28" r="5"/><circle cx="12" cy="20" r="5"/><circle cx="20" cy="20" r="4"/>',
+    mariposa: '<path d="M20,20 C10,8 4,10 6,20 C4,30 10,32 20,20Z"/><path d="M20,20 C30,8 36,10 34,20 C36,30 30,32 20,20Z"/><line x1="20" y1="12" x2="20" y2="28"/>',
+    estrella: '<path d="M20,6 L23,16 L34,16 L25,22 L28,33 L20,26 L12,33 L15,22 L6,16 L17,16 Z"/>',
+    diamante: '<path d="M12,14 L28,14 L34,20 L20,34 L6,20 Z"/><line x1="12" y1="14" x2="20" y2="34"/><line x1="28" y1="14" x2="20" y2="34"/><line x1="6" y1="20" x2="34" y2="20"/>',
+    musica: '<circle cx="14" cy="30" r="4"/><line x1="18" y1="30" x2="18" y2="10"/><path d="M18,10 L28,14 L28,20"/>',
+    pastel: '<rect x="10" y="22" width="20" height="10"/><rect x="13" y="16" width="14" height="6"/><line x1="20" y1="16" x2="20" y2="10"/><path d="M20,10 C18,8 22,6 20,4"/>',
+    corona: '<path d="M8,26 L8,16 L14,22 L20,12 L26,22 L32,16 L32,26 Z"/><line x1="8" y1="26" x2="32" y2="26"/>',
+    sombrero: '<rect x="14" y="8" width="12" height="14"/><ellipse cx="20" cy="24" rx="14" ry="4"/>',
+    zapato: '<path d="M8,28 L8,22 C8,18 14,16 20,16 L28,20 L30,26 L30,28 Z"/><line x1="28" y1="28" x2="28" y2="34"/>',
+    abanico: '<path d="M6,32 A14,14 0 0 1 34,32"/><line x1="20" y1="32" x2="6" y2="32"/><line x1="20" y1="32" x2="12" y2="20"/><line x1="20" y1="32" x2="20" y2="18"/><line x1="20" y1="32" x2="28" y2="20"/><line x1="20" y1="32" x2="34" y2="32"/>',
+    sobre: '<rect x="6" y="12" width="28" height="18"/><path d="M6,12 L20,24 L34,12"/>'
   };
   const ICON_LABELS = {
     copa:'Recepción', ceremonia:'Ceremonia', vals:'Vals', cena:'Cena',
-    iglesia:'Iglesia', corazon:'Corazón', regalo:'Regalo', reloj:'Reloj'
+    iglesia:'Iglesia', corazon:'Corazón', regalo:'Regalo', reloj:'Reloj',
+    vestido:'Vestido', esmoquin:'Esmoquin', anillo:'Anillo', flor:'Flor',
+    mariposa:'Mariposa', estrella:'Estrella', diamante:'Diamante', musica:'Música',
+    pastel:'Pastel', corona:'Corona', sombrero:'Sombrero', zapato:'Zapato',
+    abanico:'Abanico', sobre:'Sobre'
   };
 
   const FUENTES_DISPLAY = ['Cormorant Garamond','Playfair Display','EB Garamond','Marcellus'];
@@ -397,6 +444,28 @@
     `).join('');
   }
 
+  // Picker de ícono independiente (no dentro de una fila repetible) — se
+  // usa para los dos íconos de la sección de vestimenta.
+  function setupIconPicker(containerId, hiddenInputId, initial){
+    const container = document.getElementById(containerId);
+    const hidden = document.getElementById(hiddenInputId);
+    function render(selected){
+      container.innerHTML = iconPickerHtml(selected);
+      container.querySelectorAll('.icon-pick').forEach(btn => {
+        btn.addEventListener('click', () => {
+          container.querySelectorAll('.icon-pick').forEach(b => b.classList.remove('selected'));
+          btn.classList.add('selected');
+          hidden.value = btn.dataset.icon;
+        });
+      });
+    }
+    render(initial);
+    return { setSelected: render };
+  }
+
+  const vestIzquierdoPicker = setupIconPicker('vestIconoIzquierdoPicker', 'vestIconoIzquierdo', 'vestido');
+  const vestDerechoPicker = setupIconPicker('vestIconoDerechoPicker', 'vestIconoDerecho', 'esmoquin');
+
   function addItinerarioRow(item){
     item = item || { titulo:'', hora:'', icono:'copa' };
     const row = document.createElement('div');
@@ -487,10 +556,20 @@
     document.getElementById('fontDisplay').value = t.display || 'Cormorant Garamond';
     document.getElementById('fontScript').value = t.script || 'Alex Brush';
     document.getElementById('fontBody').value = t.body || 'Jost';
-    document.getElementById('fontEscala').value = t.escala || 'normal';
+    document.getElementById('scaleNombre').value = t.escalaNombre || 'normal';
+    document.getElementById('scaleTitulos').value = t.escalaTitulos || 'normal';
+    document.getElementById('scaleMensajes').value = t.escalaMensajes || 'normal';
 
     itinerarioRows.innerHTML = '';
     (config.itinerario || []).forEach(addItinerarioRow);
+
+    const v = config.vestimenta || {};
+    document.getElementById('vestNota').value = v.nota || '';
+    document.getElementById('vestColorEvitar').value = v.colorEvitar || '#E9AABB';
+    document.getElementById('vestIconoIzquierdo').value = v.iconoIzquierdo || 'vestido';
+    document.getElementById('vestIconoDerecho').value = v.iconoDerecho || 'esmoquin';
+    vestIzquierdoPicker.setSelected(v.iconoIzquierdo || 'vestido');
+    vestDerechoPicker.setSelected(v.iconoDerecho || 'esmoquin');
 
     const u = config.ubicacion || {};
     document.getElementById('cfgLugar').value = u.nombreLugar || '';
@@ -538,13 +617,21 @@
         display: document.getElementById('fontDisplay').value,
         script: document.getElementById('fontScript').value,
         body: document.getElementById('fontBody').value,
-        escala: document.getElementById('fontEscala').value
+        escalaNombre: document.getElementById('scaleNombre').value,
+        escalaTitulos: document.getElementById('scaleTitulos').value,
+        escalaMensajes: document.getElementById('scaleMensajes').value
       },
       itinerario: [...itinerarioRows.querySelectorAll('.it-row')].map(row => ({
         titulo: row.querySelector('.it-titulo').value.trim(),
         hora: row.querySelector('.it-hora').value.trim(),
         icono: row.querySelector('.it-icono').value
       })),
+      vestimenta: {
+        nota: document.getElementById('vestNota').value.trim(),
+        colorEvitar: document.getElementById('vestColorEvitar').value,
+        iconoIzquierdo: document.getElementById('vestIconoIzquierdo').value,
+        iconoDerecho: document.getElementById('vestIconoDerecho').value
+      },
       ubicacion: {
         nombreLugar: document.getElementById('cfgLugar').value.trim(),
         direccion: document.getElementById('cfgDireccion').value.trim(),

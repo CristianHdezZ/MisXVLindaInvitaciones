@@ -2,8 +2,9 @@ function escapeHtml(str) {
   return String(str).replace(/[&<>"']/g, (m) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
 }
 
-// Íconos disponibles para el itinerario — deben coincidir con los que
-// acepta api/config.js. Cada valor es el contenido interno del <svg>.
+// Íconos disponibles — deben coincidir con los que acepta api/config.js.
+// Cada valor es el contenido interno del <svg>. Se usan en el itinerario
+// y en la sección de vestimenta.
 const ICON_LIBRARY = {
   copa: '<path d="M10,8 H30 L20,22 Z" class="tl-stroke"/><line x1="20" y1="22" x2="20" y2="32" class="tl-stroke"/><line x1="12" y1="32" x2="28" y2="32" class="tl-stroke"/>',
   ceremonia: '<path d="M12,6 L15,20 A5,5 0 0 0 25,20 L28,6" class="tl-stroke"/><line x1="20" y1="20" x2="20" y2="30" class="tl-stroke"/><line x1="14" y1="34" x2="26" y2="34" class="tl-stroke"/><line x1="20" y1="30" x2="20" y2="34" class="tl-stroke"/>',
@@ -12,7 +13,21 @@ const ICON_LIBRARY = {
   iglesia: '<path d="M20,6 L20,14 M14,10 L26,10 M12,34 L12,18 L20,12 L28,18 L28,34 Z" class="tl-stroke"/>',
   corazon: '<path d="M20,32 C6,22 8,10 16,10 C19,10 20,13 20,13 C20,13 21,10 24,10 C32,10 34,22 20,32Z" class="tl-stroke"/>',
   regalo: '<rect x="9" y="15" width="22" height="17" class="tl-stroke"/><line x1="9" y1="21" x2="31" y2="21" class="tl-stroke"/><line x1="20" y1="15" x2="20" y2="32" class="tl-stroke"/><path d="M20,15 C15,15 13,8 20,8 C27,8 25,15 20,15Z" class="tl-stroke"/>',
-  reloj: '<circle cx="20" cy="20" r="13" class="tl-stroke"/><line x1="20" y1="20" x2="20" y2="12" class="tl-stroke"/><line x1="20" y1="20" x2="26" y2="24" class="tl-stroke"/>'
+  reloj: '<circle cx="20" cy="20" r="13" class="tl-stroke"/><line x1="20" y1="20" x2="20" y2="12" class="tl-stroke"/><line x1="20" y1="20" x2="26" y2="24" class="tl-stroke"/>',
+  vestido: '<path d="M20,6 L16,16 L10,34 L30,34 L24,16 Z" class="tl-stroke"/><line x1="16" y1="16" x2="24" y2="16" class="tl-stroke"/>',
+  esmoquin: '<path d="M10,16 L18,20 L10,24 Z" class="tl-stroke"/><path d="M30,16 L22,20 L30,24 Z" class="tl-stroke"/><circle cx="20" cy="20" r="2" class="tl-stroke"/>',
+  anillo: '<circle cx="20" cy="24" r="10" class="tl-stroke"/><path d="M20,14 L17,8 L23,8 Z" class="tl-stroke"/>',
+  flor: '<circle cx="20" cy="12" r="5" class="tl-stroke"/><circle cx="28" cy="20" r="5" class="tl-stroke"/><circle cx="20" cy="28" r="5" class="tl-stroke"/><circle cx="12" cy="20" r="5" class="tl-stroke"/><circle cx="20" cy="20" r="4" class="tl-stroke"/>',
+  mariposa: '<path d="M20,20 C10,8 4,10 6,20 C4,30 10,32 20,20Z" class="tl-stroke"/><path d="M20,20 C30,8 36,10 34,20 C36,30 30,32 20,20Z" class="tl-stroke"/><line x1="20" y1="12" x2="20" y2="28" class="tl-stroke"/>',
+  estrella: '<path d="M20,6 L23,16 L34,16 L25,22 L28,33 L20,26 L12,33 L15,22 L6,16 L17,16 Z" class="tl-stroke"/>',
+  diamante: '<path d="M12,14 L28,14 L34,20 L20,34 L6,20 Z" class="tl-stroke"/><line x1="12" y1="14" x2="20" y2="34" class="tl-stroke"/><line x1="28" y1="14" x2="20" y2="34" class="tl-stroke"/><line x1="6" y1="20" x2="34" y2="20" class="tl-stroke"/>',
+  musica: '<circle cx="14" cy="30" r="4" class="tl-stroke"/><line x1="18" y1="30" x2="18" y2="10" class="tl-stroke"/><path d="M18,10 L28,14 L28,20" class="tl-stroke"/>',
+  pastel: '<rect x="10" y="22" width="20" height="10" class="tl-stroke"/><rect x="13" y="16" width="14" height="6" class="tl-stroke"/><line x1="20" y1="16" x2="20" y2="10" class="tl-stroke"/><path d="M20,10 C18,8 22,6 20,4" class="tl-stroke"/>',
+  corona: '<path d="M8,26 L8,16 L14,22 L20,12 L26,22 L32,16 L32,26 Z" class="tl-stroke"/><line x1="8" y1="26" x2="32" y2="26" class="tl-stroke"/>',
+  sombrero: '<rect x="14" y="8" width="12" height="14" class="tl-stroke"/><ellipse cx="20" cy="24" rx="14" ry="4" class="tl-stroke"/>',
+  zapato: '<path d="M8,28 L8,22 C8,18 14,16 20,16 L28,20 L30,26 L30,28 Z" class="tl-stroke"/><line x1="28" y1="28" x2="28" y2="34" class="tl-stroke"/>',
+  abanico: '<path d="M6,32 A14,14 0 0 1 34,32" class="tl-stroke"/><line x1="20" y1="32" x2="6" y2="32" class="tl-stroke"/><line x1="20" y1="32" x2="12" y2="20" class="tl-stroke"/><line x1="20" y1="32" x2="20" y2="18" class="tl-stroke"/><line x1="20" y1="32" x2="28" y2="20" class="tl-stroke"/><line x1="20" y1="32" x2="34" y2="32" class="tl-stroke"/>',
+  sobre: '<rect x="6" y="12" width="28" height="18" class="tl-stroke"/><path d="M6,12 L20,24 L34,12" class="tl-stroke"/>'
 };
 
 function applyColors(colores) {
@@ -71,9 +86,33 @@ function applyTipografia(tipografia) {
   if (tipografia.display) root.setProperty('--f-display', `'${tipografia.display}', serif`);
   if (tipografia.script) root.setProperty('--f-script', `'${tipografia.script}', cursive`);
   if (tipografia.body) root.setProperty('--f-body', `'${tipografia.body}', sans-serif`);
-  if (tipografia.escala && SCALE_MAP[tipografia.escala]) {
-    root.setProperty('--scale-mult', SCALE_MAP[tipografia.escala]);
+
+  if (tipografia.escalaNombre && SCALE_MAP[tipografia.escalaNombre]) {
+    root.setProperty('--scale-nombre', SCALE_MAP[tipografia.escalaNombre]);
   }
+  if (tipografia.escalaTitulos && SCALE_MAP[tipografia.escalaTitulos]) {
+    root.setProperty('--scale-titulos', SCALE_MAP[tipografia.escalaTitulos]);
+  }
+  if (tipografia.escalaMensajes && SCALE_MAP[tipografia.escalaMensajes]) {
+    root.setProperty('--scale-mensajes', SCALE_MAP[tipografia.escalaMensajes]);
+  }
+}
+
+function renderVestimenta(v) {
+  if (!v) return;
+  const container = document.getElementById('vestimentaIcons');
+  if (container && (v.iconoIzquierdo || v.iconoDerecho)) {
+    const left = ICON_LIBRARY[v.iconoIzquierdo] || ICON_LIBRARY.vestido;
+    const right = ICON_LIBRARY[v.iconoDerecho] || ICON_LIBRARY.esmoquin;
+    container.innerHTML = `
+      <span class="vestimenta__icon"><svg viewBox="0 0 40 40">${left}</svg></span>
+      <span class="vestimenta__icon"><svg viewBox="0 0 40 40">${right}</svg></span>
+    `;
+  }
+  const swatch = document.getElementById('colorEvitarSwatch');
+  if (swatch && v.colorEvitar) swatch.style.background = v.colorEvitar;
+  const nota = document.getElementById('vestimentaNota');
+  if (nota && v.nota) nota.textContent = v.nota;
 }
 
 function renderTextos(config) {
@@ -168,6 +207,7 @@ async function applyConfig() {
     applyColors(config.colores);
     applyTipografia(config.tipografia);
     renderItinerario(config.itinerario);
+    renderVestimenta(config.vestimenta);
     renderGaleria(config.galeria);
     renderUbicacion(config.ubicacion);
   } catch (err) {
