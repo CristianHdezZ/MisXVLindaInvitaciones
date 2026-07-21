@@ -30,7 +30,7 @@ const DEFAULT_CONFIG = {
   fraseGate: 'Hay momentos inolvidables que se atesoran en el corazón para siempre. Me siento muy feliz de llegar a este momento de mi vida y quiero compartirlo contigo.',
   mensajeCarta: 'Hoy quiero compartir contigo uno de los días más felices de mi vida. Quince años de historias, de risas y de aprender a florecer, y quiero que estés ahí para verlo con tus propios ojos. Esta invitación es un pedacito de mi corazón, hecha con la misma ilusión con la que espero abrazarte ese día.',
   hashtag: '#LindaXV2026',
-  fotoPrincipal: 'assets/gallery/Image01.jpeg',
+  fotoPrincipal: 'assets/gallery/image01.jpeg',
   colores: {
     blush: '#FBEAEE',
     blush2: '#F6D8DF',
@@ -38,7 +38,8 @@ const DEFAULT_CONFIG = {
     rosaDeep: '#C97D95',
     vino: '#8B4F62',
     oro: '#B8935C',
-    vestido: '#E9AABB'
+    vestido: '#E9AABB',
+    icono: '#8B4F62'
   },
   tipografia: {
     display: 'Cormorant Garamond',
@@ -68,9 +69,9 @@ const DEFAULT_CONFIG = {
     mapaLink: 'https://www.google.com/maps/place/Imperial+Eventos+Deluxe/@6.1887244,-75.3635988'
   },
   galeria: [
-    'assets/gallery/Image01.jpeg',
-    'assets/gallery/Image02.jpeg',
-    'assets/gallery/Image03.jpeg'
+    'assets/gallery/image01.jpeg',
+    'assets/gallery/image02.jpeg',
+    'assets/gallery/image03.jpeg'
   ]
 };
 
@@ -109,7 +110,8 @@ function sanitizeConfig(body) {
     rosaDeep: sanitizeColor(b?.colores?.rosaDeep, d.colores.rosaDeep),
     vino: sanitizeColor(b?.colores?.vino, d.colores.vino),
     oro: sanitizeColor(b?.colores?.oro, d.colores.oro),
-    vestido: sanitizeColor(b?.colores?.vestido, d.colores.vestido)
+    vestido: sanitizeColor(b?.colores?.vestido, d.colores.vestido),
+    icono: sanitizeColor(b?.colores?.icono, d.colores.icono)
   };
 
   const tipografia = {
