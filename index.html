@@ -107,7 +107,7 @@
 <header id="hero" class="hero">
   <p class="hero__eyebrow reveal">Tenemos el honor de invitarlos a la celebración de los XV años de nuestra hija</p>
 
-   <div class="hero__frame reveal">
+  <div class="hero__frame reveal">
     <img id="fotoPrincipal" src="assets/gallery/image01.jpeg" alt="Retrato de Linda Hernández">
   </div>
 
@@ -127,6 +127,16 @@
 
   <!-- ===================== CARTA / MENSAJE PERSONALIZADO ===================== -->
   <section id="carta" class="section carta">
+    <svg class="carta__garland carta__garland--top" viewBox="0 0 500 100" aria-hidden="true">
+      <g class="rose" transform="translate(70,25) scale(0.75)"><circle r="26" class="rose__c1"/><circle r="17" cx="-6" cy="4" class="rose__c2"/><circle r="12" cx="8" cy="-6" class="rose__c3"/></g>
+      <g class="rose" transform="translate(200,10) scale(0.55)"><circle r="26" class="rose__c1"/><circle r="17" cx="-6" cy="4" class="rose__c2"/><circle r="12" cx="8" cy="-6" class="rose__c3"/></g>
+      <g class="rose" transform="translate(300,10) scale(0.55)"><circle r="26" class="rose__c1"/><circle r="17" cx="-6" cy="4" class="rose__c2"/><circle r="12" cx="8" cy="-6" class="rose__c3"/></g>
+      <g class="rose" transform="translate(430,25) scale(0.75)"><circle r="26" class="rose__c1"/><circle r="17" cx="-6" cy="4" class="rose__c2"/><circle r="12" cx="8" cy="-6" class="rose__c3"/></g>
+      <path d="M0,20 Q120,55 250,25 T500,20" class="garland__vine"/>
+      <ellipse cx="150" cy="35" rx="12" ry="5" class="leaf" transform="rotate(20 150 35)"/>
+      <ellipse cx="380" cy="32" rx="12" ry="5" class="leaf" transform="rotate(-15 380 32)"/>
+    </svg>
+
     <div class="section__inner reveal">
       <span class="section__eyebrow">Mensaje para ti</span>
       <p class="carta__texto">
@@ -138,6 +148,22 @@
       </p>
       <p class="carta__firma">Con cariño, Linda</p>
     </div>
+
+    <svg class="carta__dress" viewBox="0 0 220 260" aria-hidden="true">
+      <ellipse cx="110" cy="250" rx="90" ry="9" class="dress__shadow"/>
+      <path d="M110,10 C118,10 124,20 122,32 L112,70 C155,90 185,150 195,235
+        C160,250 60,250 25,235 C35,150 65,90 108,70 L98,32 C96,20 102,10,110,10 Z" class="dress__body"/>
+      <circle cx="60" cy="150" r="3" class="dress__sparkle"/>
+      <circle cx="150" cy="170" r="2.5" class="dress__sparkle"/>
+      <circle cx="90" cy="210" r="2" class="dress__sparkle"/>
+      <circle cx="140" cy="120" r="2" class="dress__sparkle"/>
+    </svg>
+
+    <svg class="carta__garland carta__garland--bottom" viewBox="0 0 500 100" aria-hidden="true">
+      <g class="rose" transform="translate(90,70) scale(0.6)"><circle r="26" class="rose__c1"/><circle r="17" cx="-6" cy="4" class="rose__c2"/><circle r="12" cx="8" cy="-6" class="rose__c3"/></g>
+      <g class="rose" transform="translate(410,68) scale(0.7)"><circle r="26" class="rose__c1"/><circle r="17" cx="-6" cy="4" class="rose__c2"/><circle r="12" cx="8" cy="-6" class="rose__c3"/></g>
+      <path d="M0,60 Q150,90 250,65 T500,60" class="garland__vine"/>
+    </svg>
   </section>
 
   <!-- ===================== CUENTA REGRESIVA ===================== -->
@@ -195,8 +221,8 @@
       <span class="section__eyebrow">Código de vestimenta</span>
       <h2 class="section__title">Vestimenta formal</h2>
       <div class="vestimenta__icons" id="vestimentaIcons">
-        <span class="vestimenta__icon"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20,6 L16,16 L10,34 L30,34 L24,16 Z" class="tl-stroke"/><line x1="16" y1="16" x2="24" y2="16" class="tl-stroke"/></svg></span>
-        <span class="vestimenta__icon"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M10,16 L18,20 L10,24 Z" class="tl-stroke"/><path d="M30,16 L22,20 L30,24 Z" class="tl-stroke"/><circle cx="20" cy="20" r="2" class="tl-stroke"/></svg></span>
+        <span class="vestimenta__icon"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20,4 C22,4 23,6 22,8 L18,8 C17,6 18,4 20,4 Z" fill="var(--vino)" stroke="none"/><path d="M18,8 L13,15 C7,20 5,28 5,35 L35,35 C35,28 33,20 27,15 L22,8 L20,15 Z" fill="var(--vino)" stroke="none"/><path d="M14,20 C17,23 23,23 26,20" stroke="var(--blush)" stroke-width="1.5" fill="none"/></svg></span>
+        <span class="vestimenta__icon"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M12,8 L16,4 L20,8 L24,4 L28,8 L26,35 L14,35 Z" fill="var(--vino)" stroke="none"/><path d="M14,16 L20,20 L14,24 Z" fill="var(--blush)" stroke="none"/><path d="M26,16 L20,20 L26,24 Z" fill="var(--blush)" stroke="none"/></svg></span>
       </div>
       <p class="vestimenta__nota">
         <span class="color-swatch" id="colorEvitarSwatch" style="background:#E9AABB" aria-hidden="true"></span>
