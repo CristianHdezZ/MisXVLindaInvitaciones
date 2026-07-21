@@ -113,6 +113,18 @@
   .add-btn{ background:none; color:var(--vino); border:1px dashed var(--oro); font-size:.82rem; margin-top:4px; }
   .add-btn:hover{ background:var(--blush-2); }
   .hint{ font-size:.78rem; color:var(--tinta-suave); margin-top:4px; }
+
+  .template-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:14px; }
+  .template-card{
+    border:2px solid var(--blush-2); border-radius:8px; padding:14px;
+    cursor:pointer; background:var(--blanco); text-align:left;
+  }
+  .template-card:hover{ border-color:var(--rosa-deep); }
+  .template-card.selected{ border-color:var(--vino); box-shadow:0 0 0 1px var(--vino); }
+  .template-card__swatches{ display:flex; gap:6px; margin-bottom:10px; }
+  .template-card__swatches span{ width:22px; height:22px; border-radius:50%; border:1px solid rgba(0,0,0,.08); }
+  .template-card__name{ font-family:'Cormorant Garamond',serif; font-size:1.05rem; color:var(--vino); display:block; }
+  .template-card__desc{ font-size:.76rem; color:var(--tinta-suave); }
 </style>
 </head>
 <body>
@@ -143,6 +155,16 @@
 <!-- ===================== PANEL: EDITOR DE CONTENIDO ===================== -->
 <div class="panel" id="panel-editor">
 
+  <div class="card-box" style="border-color:var(--oro);">
+    <h2>Plantilla de estilo</h2>
+    <p class="hint" style="margin-top:-6px; margin-bottom:14px;">
+      Elige un punto de partida — aplica colores y tipografía de una vez.
+      Puedes seguir ajustando cada cosa por separado después, y no se guarda
+      hasta que pulses "Guardar cambios" al final.
+    </p>
+    <div class="template-grid" id="templateGrid"></div>
+  </div>
+
   <div class="card-box">
     <h2>Datos principales</h2>
     <div class="row-2">
@@ -155,6 +177,15 @@
       <p class="hint">El día, mes y año que se muestran en la invitación y la cuenta regresiva se calculan solos a partir de esta fecha.</p>
     </div>
     <div class="field"><label for="cfgHashtag">Hashtag</label><input type="text" id="cfgHashtag" placeholder="#NombreXV2026"></div>
+    <div class="field">
+      <label for="cfgFoto">URL de la foto principal (retrato en la portada)</label>
+      <input type="text" id="cfgFoto" placeholder="assets/gallery/foto.jpg o https://...">
+      <p class="hint">Misma regla que la galería: ruta propia (<code>assets/gallery/foto.jpg</code>) o un enlace externo público.</p>
+    </div>
+    <div class="field">
+      <label>Vista previa</label>
+      <img id="fotoPreview" alt="" style="width:100px; height:130px; object-fit:cover; border-radius:6px; border:1px solid var(--blush-2); display:block;">
+    </div>
   </div>
 
   <div class="card-box">
@@ -304,8 +335,8 @@
     corazon: '<path d="M20,32 C6,22 8,10 16,10 C19,10 20,13 20,13 C20,13 21,10 24,10 C32,10 34,22 20,32Z"/>',
     regalo: '<rect x="9" y="15" width="22" height="17"/><line x1="9" y1="21" x2="31" y2="21"/><line x1="20" y1="15" x2="20" y2="32"/><path d="M20,15 C15,15 13,8 20,8 C27,8 25,15 20,15Z"/>',
     reloj: '<circle cx="20" cy="20" r="13"/><line x1="20" y1="20" x2="20" y2="12"/><line x1="20" y1="20" x2="26" y2="24"/>',
-    vestido: '<path d="M20,6 L16,16 L10,34 L30,34 L24,16 Z"/><line x1="16" y1="16" x2="24" y2="16"/>',
-    esmoquin: '<path d="M10,16 L18,20 L10,24 Z"/><path d="M30,16 L22,20 L30,24 Z"/><circle cx="20" cy="20" r="2"/>',
+    vestido: '<path d="M20,4 C22,4 23,6 22,8 L18,8 C17,6 18,4 20,4 Z" fill="#8B4F62" stroke="none"/><path d="M18,8 L13,15 C7,20 5,28 5,35 L35,35 C35,28 33,20 27,15 L22,8 L20,15 Z" fill="#8B4F62" stroke="none"/><path d="M14,20 C17,23 23,23 26,20" stroke="#FBEAEE" stroke-width="1.5" fill="none"/>',
+    esmoquin: '<path d="M12,8 L16,4 L20,8 L24,4 L28,8 L26,35 L14,35 Z" fill="#8B4F62" stroke="none"/><path d="M14,16 L20,20 L14,24 Z" fill="#FBEAEE" stroke="none"/><path d="M26,16 L20,20 L26,24 Z" fill="#FBEAEE" stroke="none"/>',
     anillo: '<circle cx="20" cy="24" r="10"/><path d="M20,14 L17,8 L23,8 Z"/>',
     flor: '<circle cx="20" cy="12" r="5"/><circle cx="28" cy="20" r="5"/><circle cx="20" cy="28" r="5"/><circle cx="12" cy="20" r="5"/><circle cx="20" cy="20" r="4"/>',
     mariposa: '<path d="M20,20 C10,8 4,10 6,20 C4,30 10,32 20,20Z"/><path d="M20,20 C30,8 36,10 34,20 C36,30 30,32 20,20Z"/><line x1="20" y1="12" x2="20" y2="28"/>',
@@ -331,6 +362,72 @@
   const FUENTES_DISPLAY = ['Cormorant Garamond','Playfair Display','EB Garamond','Marcellus'];
   const FUENTES_SCRIPT = ['Alex Brush','Great Vibes','Parisienne','Dancing Script','Playball'];
   const FUENTES_BODY = ['Jost','Poppins','Montserrat','Lato'];
+
+  /* ---------------- Plantillas de estilo ---------------- */
+  const TEMPLATES = [
+    {
+      id: 'blush',
+      nombre: 'Blush Clásico',
+      desc: 'El estilo actual del sitio — suave y minimalista.',
+      colores: { blush:'#FBEAEE', blush2:'#F6D8DF', rosa:'#E9AABB', rosaDeep:'#C97D95', vino:'#8B4F62', oro:'#B8935C', vestido:'#E9AABB' },
+      tipografia: { display:'Cormorant Garamond', script:'Alex Brush', body:'Jost' }
+    },
+    {
+      id: 'rosa-dorado',
+      nombre: 'Rosa Dorado',
+      desc: 'Rosa más intenso con dorado marcado — estilo clásico de invitación con flores acuarela.',
+      colores: { blush:'#FDEDF0', blush2:'#FBDCE3', rosa:'#F0B8C6', rosaDeep:'#D98CA0', vino:'#8B3F55', oro:'#C9A227', vestido:'#F0B8C6' },
+      tipografia: { display:'Playfair Display', script:'Great Vibes', body:'Poppins' }
+    },
+    {
+      id: 'vino-elegante',
+      nombre: 'Vino Elegante',
+      desc: 'Paleta más formal y profunda, tonos tierra y vino.',
+      colores: { blush:'#F5EDEA', blush2:'#EBDCD6', rosa:'#C99B93', rosaDeep:'#9C5F56', vino:'#5C2A28', oro:'#A8763E', vestido:'#C99B93' },
+      tipografia: { display:'EB Garamond', script:'Parisienne', body:'Montserrat' }
+    }
+  ];
+
+  function applyTemplate(tpl){
+    document.getElementById('colBlush').value = tpl.colores.blush;
+    document.getElementById('colBlush2').value = tpl.colores.blush2;
+    document.getElementById('colRosa').value = tpl.colores.rosa;
+    document.getElementById('colRosaDeep').value = tpl.colores.rosaDeep;
+    document.getElementById('colVino').value = tpl.colores.vino;
+    document.getElementById('colOro').value = tpl.colores.oro;
+    document.getElementById('colVestido').value = tpl.colores.vestido;
+    document.getElementById('fontDisplay').value = tpl.tipografia.display;
+    document.getElementById('fontScript').value = tpl.tipografia.script;
+    document.getElementById('fontBody').value = tpl.tipografia.body;
+
+    document.querySelectorAll('.template-card').forEach(c => c.classList.toggle('selected', c.dataset.id === tpl.id));
+    configStatus.textContent = `Plantilla "${tpl.nombre}" aplicada — revisa y pulsa "Guardar cambios" para publicarla.`;
+    configStatus.className = 'status-msg ok';
+  }
+
+  function renderTemplateGrid(){
+    const grid = document.getElementById('templateGrid');
+    grid.innerHTML = TEMPLATES.map(tpl => `
+      <button type="button" class="template-card" data-id="${tpl.id}">
+        <div class="template-card__swatches">
+          <span style="background:${tpl.colores.blush2}"></span>
+          <span style="background:${tpl.colores.rosa}"></span>
+          <span style="background:${tpl.colores.rosaDeep}"></span>
+          <span style="background:${tpl.colores.vino}"></span>
+          <span style="background:${tpl.colores.oro}"></span>
+        </div>
+        <span class="template-card__name">${tpl.nombre}</span>
+        <span class="template-card__desc">${tpl.desc}</span>
+      </button>
+    `).join('');
+    grid.querySelectorAll('.template-card').forEach(card => {
+      card.addEventListener('click', () => {
+        const tpl = TEMPLATES.find(t => t.id === card.dataset.id);
+        if (tpl) applyTemplate(tpl);
+      });
+    });
+  }
+  renderTemplateGrid();
 
   function fillSelect(el, options){
     el.innerHTML = options.map(o => `<option value="${o}">${o}</option>`).join('');
@@ -504,6 +601,15 @@
   document.getElementById('addItinerario').addEventListener('click', () => addItinerarioRow());
   document.getElementById('addGaleria').addEventListener('click', () => addGaleriaRow());
 
+  /* ---------------- Foto principal: vista previa en vivo ---------------- */
+  let fotoDebounce;
+  document.getElementById('cfgFoto').addEventListener('input', (e) => {
+    clearTimeout(fotoDebounce);
+    fotoDebounce = setTimeout(() => {
+      document.getElementById('fotoPreview').src = e.target.value.trim();
+    }, 500);
+  });
+
   /* ---------------- Mapa: vista previa + autogenerado desde la dirección ---------------- */
   const mapaPreview = document.getElementById('mapaPreview');
   const cfgMapaEmbed = document.getElementById('cfgMapaEmbed');
@@ -542,6 +648,10 @@
     document.getElementById('cfgHashtag').value = config.hashtag || '';
     document.getElementById('cfgFrase').value = config.fraseGate || '';
     document.getElementById('cfgCarta').value = config.mensajeCarta || '';
+
+    const foto = config.fotoPrincipal || '';
+    document.getElementById('cfgFoto').value = foto;
+    document.getElementById('fotoPreview').src = foto;
 
     const c = config.colores || {};
     document.getElementById('colBlush').value = c.blush || '#FBEAEE';
@@ -602,6 +712,7 @@
       apellido: document.getElementById('cfgApellido').value.trim(),
       fechaEvento: document.getElementById('cfgFecha').value,
       hashtag: document.getElementById('cfgHashtag').value.trim(),
+      fotoPrincipal: document.getElementById('cfgFoto').value.trim(),
       fraseGate: document.getElementById('cfgFrase').value.trim(),
       mensajeCarta: document.getElementById('cfgCarta').value.trim(),
       colores: {
