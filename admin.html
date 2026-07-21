@@ -155,15 +155,6 @@
       <p class="hint">El día, mes y año que se muestran en la invitación y la cuenta regresiva se calculan solos a partir de esta fecha.</p>
     </div>
     <div class="field"><label for="cfgHashtag">Hashtag</label><input type="text" id="cfgHashtag" placeholder="#NombreXV2026"></div>
-    <div class="field">
-      <label for="cfgFoto">URL de la foto principal (retrato en la portada)</label>
-      <input type="text" id="cfgFoto" placeholder="assets/gallery/foto.jpg o https://...">
-      <p class="hint">Misma regla que la galería: ruta propia (<code>assets/gallery/foto.jpg</code>) o un enlace externo público.</p>
-    </div>
-    <div class="field">
-      <label>Vista previa</label>
-      <img id="fotoPreview" alt="" style="width:100px; height:130px; object-fit:cover; border-radius:6px; border:1px solid var(--blush-2); display:block;">
-    </div>
   </div>
 
   <div class="card-box">
@@ -313,8 +304,8 @@
     corazon: '<path d="M20,32 C6,22 8,10 16,10 C19,10 20,13 20,13 C20,13 21,10 24,10 C32,10 34,22 20,32Z"/>',
     regalo: '<rect x="9" y="15" width="22" height="17"/><line x1="9" y1="21" x2="31" y2="21"/><line x1="20" y1="15" x2="20" y2="32"/><path d="M20,15 C15,15 13,8 20,8 C27,8 25,15 20,15Z"/>',
     reloj: '<circle cx="20" cy="20" r="13"/><line x1="20" y1="20" x2="20" y2="12"/><line x1="20" y1="20" x2="26" y2="24"/>',
-    vestido: '<path d="M20,6 C22,6 23,8 21,11 L19,11 C17,8 18,6 20,6 Z"/><path d="M19,11 L14,17 C10,22 8,28 7,34 L33,34 C32,28 30,22 26,17 L21,11 Z"/><path d="M14,17 C17,19 23,19 26,17"/>',
-    esmoquin: '<path d="M12,10 L16,6 L20,10 L24,6 L28,10"/><path d="M16,6 L12,34 M24,6 L28,34"/><path d="M15,15 L20,19 L15,23 Z"/><path d="M25,15 L20,19 L25,23 Z"/><circle cx="20" cy="19" r="1.6" fill="#8B4F62" stroke="none"/>',
+    vestido: '<path d="M20,6 L16,16 L10,34 L30,34 L24,16 Z"/><line x1="16" y1="16" x2="24" y2="16"/>',
+    esmoquin: '<path d="M10,16 L18,20 L10,24 Z"/><path d="M30,16 L22,20 L30,24 Z"/><circle cx="20" cy="20" r="2"/>',
     anillo: '<circle cx="20" cy="24" r="10"/><path d="M20,14 L17,8 L23,8 Z"/>',
     flor: '<circle cx="20" cy="12" r="5"/><circle cx="28" cy="20" r="5"/><circle cx="20" cy="28" r="5"/><circle cx="12" cy="20" r="5"/><circle cx="20" cy="20" r="4"/>',
     mariposa: '<path d="M20,20 C10,8 4,10 6,20 C4,30 10,32 20,20Z"/><path d="M20,20 C30,8 36,10 34,20 C36,30 30,32 20,20Z"/><line x1="20" y1="12" x2="20" y2="28"/>',
@@ -513,15 +504,6 @@
   document.getElementById('addItinerario').addEventListener('click', () => addItinerarioRow());
   document.getElementById('addGaleria').addEventListener('click', () => addGaleriaRow());
 
-  /* ---------------- Foto principal: vista previa en vivo ---------------- */
-  let fotoDebounce;
-  document.getElementById('cfgFoto').addEventListener('input', (e) => {
-    clearTimeout(fotoDebounce);
-    fotoDebounce = setTimeout(() => {
-      document.getElementById('fotoPreview').src = e.target.value.trim();
-    }, 500);
-  });
-
   /* ---------------- Mapa: vista previa + autogenerado desde la dirección ---------------- */
   const mapaPreview = document.getElementById('mapaPreview');
   const cfgMapaEmbed = document.getElementById('cfgMapaEmbed');
@@ -560,10 +542,6 @@
     document.getElementById('cfgHashtag').value = config.hashtag || '';
     document.getElementById('cfgFrase').value = config.fraseGate || '';
     document.getElementById('cfgCarta').value = config.mensajeCarta || '';
-
-    const foto = config.fotoPrincipal || '';
-    document.getElementById('cfgFoto').value = foto;
-    document.getElementById('fotoPreview').src = foto;
 
     const c = config.colores || {};
     document.getElementById('colBlush').value = c.blush || '#FBEAEE';
@@ -624,7 +602,6 @@
       apellido: document.getElementById('cfgApellido').value.trim(),
       fechaEvento: document.getElementById('cfgFecha').value,
       hashtag: document.getElementById('cfgHashtag').value.trim(),
-      fotoPrincipal: document.getElementById('cfgFoto').value.trim(),
       fraseGate: document.getElementById('cfgFrase').value.trim(),
       mensajeCarta: document.getElementById('cfgCarta').value.trim(),
       colores: {

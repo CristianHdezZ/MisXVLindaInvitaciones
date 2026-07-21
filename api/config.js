@@ -30,7 +30,6 @@ const DEFAULT_CONFIG = {
   fraseGate: 'Hay momentos inolvidables que se atesoran en el corazón para siempre. Me siento muy feliz de llegar a este momento de mi vida y quiero compartirlo contigo.',
   mensajeCarta: 'Hoy quiero compartir contigo uno de los días más felices de mi vida. Quince años de historias, de risas y de aprender a florecer, y quiero que estés ahí para verlo con tus propios ojos. Esta invitación es un pedacito de mi corazón, hecha con la misma ilusión con la que espero abrazarte ese día.',
   hashtag: '#LindaXV2026',
-  fotoPrincipal: 'assets/gallery/Image01.jpeg',
   colores: {
     blush: '#FBEAEE',
     blush2: '#F6D8DF',
@@ -157,7 +156,6 @@ function sanitizeConfig(body) {
     fraseGate: sanitizeText(b.fraseGate, 400, d.fraseGate),
     mensajeCarta: sanitizeText(b.mensajeCarta, 800, d.mensajeCarta),
     hashtag: sanitizeText(b.hashtag, 40, d.hashtag),
-    fotoPrincipal: sanitizeUrl(b.fotoPrincipal, d.fotoPrincipal),
     colores,
     tipografia,
     itinerario,
