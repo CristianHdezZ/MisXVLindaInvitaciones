@@ -349,6 +349,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         body: JSON.stringify(data)
       });
 
+      // Siempre intenta leer el body — ahí vienen los mensajes reales
+      // de validación del backend (ej. "Ingresa un teléfono válido.").
+      let payload = null;
+      try { payload = await response.json(); } catch (parseErr) { /* respuesta sin JSON: se maneja abajo */ }
+
       if (response.ok){
         setStatus(
           data.asistencia === 'si'
@@ -358,9 +363,11 @@ document.addEventListener('DOMContentLoaded', async () => {
         );
         rsvpForm.reset();
       } else if (response.status === 409){
-        setStatus('Ya existe una confirmación registrada con este número de teléfono. Si crees que es un error, escríbenos directamente.', 'error');
+        setStatus(payload?.error || 'Ya existe una confirmación registrada con este número de teléfono.', 'error');
+      } else if (response.status === 400 && Array.isArray(payload?.errors) && payload.errors.length){
+        setStatus(payload.errors.join(' '), 'error');
       } else {
-        setStatus('No pudimos enviar tu confirmación. Inténtalo de nuevo en un momento.', 'error');
+        setStatus(payload?.error || 'No pudimos enviar tu confirmación. Inténtalo de nuevo en un momento.', 'error');
       }
     } catch (err){
       setStatus('Sin conexión. Tu respuesta quedó guardada en este dispositivo; inténtalo de nuevo cuando tengas internet.', 'error');
