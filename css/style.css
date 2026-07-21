@@ -108,11 +108,12 @@ img{ max-width:100%; display:block; }
 
 .gate__dress{ width:min(200px, 40vw); height:auto; flex:0 0 auto; margin:1vh 0; }
 .dress__body{ fill:var(--vestido); opacity:.9; }
+.dress__pleat{ fill:none; stroke:var(--tinta-suave); stroke-width:1; opacity:.22; stroke-linecap:round; }
 .dress__shadow{ fill:var(--tinta-suave); opacity:.15; }
 .dress__sparkle{ fill:#fff; opacity:.9; animation:twinkle 2.4s ease-in-out infinite; }
-.dress__sparkle:nth-child(3){ animation-delay:.4s; }
-.dress__sparkle:nth-child(4){ animation-delay:.8s; }
-.dress__sparkle:nth-child(5){ animation-delay:1.2s; }
+.dress__sparkle:nth-of-type(2){ animation-delay:.4s; }
+.dress__sparkle:nth-of-type(3){ animation-delay:.8s; }
+.dress__sparkle:nth-of-type(4){ animation-delay:1.2s; }
 @keyframes twinkle{ 0%,100%{ opacity:.2; } 50%{ opacity:1; } }
 
 .butterfly{ position:absolute; width:50px; height:34px; }
@@ -215,20 +216,20 @@ img{ max-width:100%; display:block; }
 .section__title{ font-size:calc(clamp(1.7rem, 4vw, 2.6rem) * var(--scale-titulos)); margin-bottom:8px; }
 
 /* CARTA */
-.carta{ position:relative; overflow:hidden; padding-bottom:24vh; }
+.carta{ position:relative; overflow:hidden; padding-bottom:max(280px, 24vh); }
 .carta__texto{ font-family:var(--f-display); font-size:calc(clamp(1.15rem, 2.4vw, 1.5rem) * var(--scale-mensajes)); font-style:italic; color:var(--tinta); max-width:560px; margin:26px auto 22px; }
-.carta__firma{ font-family:var(--f-script); font-size:2rem; color:var(--rosa-deep); }
+.carta__firma{ font-family:var(--f-script); font-size:2rem; color:var(--rosa-deep); margin-bottom:10px; }
 
 .carta__garland{ width:100%; max-width:640px; height:auto; display:block; margin:0 auto; }
 .carta__garland--top{ margin-bottom:-10px; }
 .carta__garland--bottom{ position:absolute; bottom:2vh; left:50%; transform:translateX(-50%); z-index:0; opacity:.9; }
 .carta__dress{
   width:min(180px, 34vw); height:auto;
-  position:absolute; bottom:-6px; left:50%; transform:translateX(-50%);
+  position:absolute; bottom:-10px; left:50%; transform:translateX(-50%);
   z-index:1; opacity:.95;
 }
 @media (max-width:600px){
-  .carta{ padding-bottom:26vh; }
+  .carta{ padding-bottom:max(240px, 26vh); }
   .carta__dress{ width:min(150px, 40vw); }
 }
 
