@@ -14,8 +14,8 @@ const ICON_LIBRARY = {
   corazon: '<path d="M20,32 C6,22 8,10 16,10 C19,10 20,13 20,13 C20,13 21,10 24,10 C32,10 34,22 20,32Z" class="tl-stroke"/>',
   regalo: '<rect x="9" y="15" width="22" height="17" class="tl-stroke"/><line x1="9" y1="21" x2="31" y2="21" class="tl-stroke"/><line x1="20" y1="15" x2="20" y2="32" class="tl-stroke"/><path d="M20,15 C15,15 13,8 20,8 C27,8 25,15 20,15Z" class="tl-stroke"/>',
   reloj: '<circle cx="20" cy="20" r="13" class="tl-stroke"/><line x1="20" y1="20" x2="20" y2="12" class="tl-stroke"/><line x1="20" y1="20" x2="26" y2="24" class="tl-stroke"/>',
-  vestido: '<path d="M20,6 L16,16 L10,34 L30,34 L24,16 Z" class="tl-stroke"/><line x1="16" y1="16" x2="24" y2="16" class="tl-stroke"/>',
-  esmoquin: '<path d="M10,16 L18,20 L10,24 Z" class="tl-stroke"/><path d="M30,16 L22,20 L30,24 Z" class="tl-stroke"/><circle cx="20" cy="20" r="2" class="tl-stroke"/>',
+  vestido: '<path d="M20,4 C22,4 23,6 22,8 L18,8 C17,6 18,4 20,4 Z" fill="var(--vino)" stroke="none"/><path d="M18,8 L13,15 C7,20 5,28 5,35 L35,35 C35,28 33,20 27,15 L22,8 L20,15 Z" fill="var(--vino)" stroke="none"/><path d="M14,20 C17,23 23,23 26,20" stroke="var(--blush)" stroke-width="1.5" fill="none"/>',
+  esmoquin: '<path d="M12,8 L16,4 L20,8 L24,4 L28,8 L26,35 L14,35 Z" fill="var(--vino)" stroke="none"/><path d="M14,16 L20,20 L14,24 Z" fill="var(--blush)" stroke="none"/><path d="M26,16 L20,20 L26,24 Z" fill="var(--blush)" stroke="none"/>',
   anillo: '<circle cx="20" cy="24" r="10" class="tl-stroke"/><path d="M20,14 L17,8 L23,8 Z" class="tl-stroke"/>',
   flor: '<circle cx="20" cy="12" r="5" class="tl-stroke"/><circle cx="28" cy="20" r="5" class="tl-stroke"/><circle cx="20" cy="28" r="5" class="tl-stroke"/><circle cx="12" cy="20" r="5" class="tl-stroke"/><circle cx="20" cy="20" r="4" class="tl-stroke"/>',
   mariposa: '<path d="M20,20 C10,8 4,10 6,20 C4,30 10,32 20,20Z" class="tl-stroke"/><path d="M20,20 C30,8 36,10 34,20 C36,30 30,32 20,20Z" class="tl-stroke"/><line x1="20" y1="12" x2="20" y2="28" class="tl-stroke"/>',
@@ -194,6 +194,13 @@ function renderGaleria(urls) {
     .join('');
 }
 
+function renderFotoPrincipal(url, nombre, apellido) {
+  const img = document.getElementById('fotoPrincipal');
+  if (!img) return;
+  if (url) img.src = url;
+  if (nombre) img.alt = 'Retrato de ' + nombre + (apellido ? ' ' + apellido : '');
+}
+
 async function applyConfig() {
   try {
     const res = await fetch('/api/config');
@@ -203,6 +210,7 @@ async function applyConfig() {
     if (!config) return;
 
     renderTextos(config);
+    renderFotoPrincipal(config.fotoPrincipal, config.nombre, config.apellido);
     renderFecha(config.fechaEvento);
     applyColors(config.colores);
     applyTipografia(config.tipografia);
