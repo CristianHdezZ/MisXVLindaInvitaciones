@@ -12,6 +12,8 @@
   --tinta-suave:  #9C7680;
   --blanco:       #ffffff;
   --verde:        #8FA98A;
+  --vestido:      #E9AABB;
+  --scale-mult:   1;
 
   --f-display: 'Cormorant Garamond', serif;
   --f-script:  'Alex Brush', cursive;
@@ -23,7 +25,7 @@
 }
 
 *,*::before,*::after{ box-sizing:border-box; }
-html{ scroll-behavior:smooth; }
+html{ scroll-behavior:smooth; font-size:calc(16px * var(--scale-mult)); }
 
 body{
   margin:0;
@@ -103,7 +105,7 @@ img{ max-width:100%; display:block; }
 .gate__btn:hover{ background:var(--rosa-deep); color:var(--blanco); }
 
 .gate__dress{ width:min(200px, 40vw); height:auto; flex:0 0 auto; margin:1vh 0; }
-.dress__body{ fill:var(--rosa); opacity:.9; }
+.dress__body{ fill:var(--vestido); opacity:.9; }
 .dress__shadow{ fill:var(--tinta-suave); opacity:.15; }
 .dress__sparkle{ fill:#fff; opacity:.9; animation:twinkle 2.4s ease-in-out infinite; }
 .dress__sparkle:nth-child(3){ animation-delay:.4s; }

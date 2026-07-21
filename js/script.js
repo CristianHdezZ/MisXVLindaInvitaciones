@@ -24,6 +24,56 @@ function applyColors(colores) {
   if (colores.rosaDeep) root.setProperty('--rosa-deep', colores.rosaDeep);
   if (colores.vino) root.setProperty('--vino', colores.vino);
   if (colores.oro) root.setProperty('--oro', colores.oro);
+  if (colores.vestido) root.setProperty('--vestido', colores.vestido);
+}
+
+// Pesos que se piden a Google Fonts por cada tipografía permitida —
+// deben coincidir con la lista cerrada de api/config.js.
+const FONT_WEIGHTS = {
+  'Cormorant Garamond': 'ital,wght@0,400;0,500;0,600;1,400',
+  'Playfair Display': 'ital,wght@0,500;0,600;1,500',
+  'EB Garamond': 'ital,wght@0,400;0,500;0,600;1,400',
+  'Marcellus': '400',
+  'Alex Brush': '400',
+  'Great Vibes': '400',
+  'Parisienne': '400',
+  'Dancing Script': '500;700',
+  'Playball': '400',
+  'Jost': '300;400;500;600',
+  'Poppins': '300;400;500;600',
+  'Montserrat': '300;400;500;600',
+  'Lato': '300;400;700'
+};
+
+const SCALE_MAP = { compacta: 0.9, normal: 1, grande: 1.12 };
+
+function applyTipografia(tipografia) {
+  if (!tipografia) return;
+  const root = document.documentElement.style;
+
+  const families = [tipografia.display, tipografia.script, tipografia.body].filter(Boolean);
+  if (families.length) {
+    const params = families
+      .map((f) => `family=${encodeURIComponent(f)}${FONT_WEIGHTS[f] ? ':' + FONT_WEIGHTS[f] : ''}`)
+      .join('&');
+    const href = `https://fonts.googleapis.com/css2?${params}&display=swap`;
+
+    let link = document.getElementById('dynamicFontLink');
+    if (!link) {
+      link = document.createElement('link');
+      link.id = 'dynamicFontLink';
+      link.rel = 'stylesheet';
+      document.head.appendChild(link);
+    }
+    if (link.href !== href) link.href = href;
+  }
+
+  if (tipografia.display) root.setProperty('--f-display', `'${tipografia.display}', serif`);
+  if (tipografia.script) root.setProperty('--f-script', `'${tipografia.script}', cursive`);
+  if (tipografia.body) root.setProperty('--f-body', `'${tipografia.body}', sans-serif`);
+  if (tipografia.escala && SCALE_MAP[tipografia.escala]) {
+    root.setProperty('--scale-mult', SCALE_MAP[tipografia.escala]);
+  }
 }
 
 function renderTextos(config) {
@@ -116,6 +166,7 @@ async function applyConfig() {
     renderTextos(config);
     renderFecha(config.fechaEvento);
     applyColors(config.colores);
+    applyTipografia(config.tipografia);
     renderItinerario(config.itinerario);
     renderGaleria(config.galeria);
     renderUbicacion(config.ubicacion);

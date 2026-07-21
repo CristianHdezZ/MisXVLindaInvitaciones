@@ -93,6 +93,20 @@
   .repeat-row select{ padding:9px 8px; border:1px solid var(--blush-2); border-radius:4px; font-family:'Jost',sans-serif; font-size:.85rem; }
   @media (max-width:640px){ .repeat-row{ grid-template-columns:1fr 1fr; } }
 
+  .it-row{ border:1px solid var(--blush-2); border-radius:6px; padding:14px; margin-bottom:14px; background:#FEFBFA; }
+  .it-row__fields{ display:grid; grid-template-columns:2fr 1fr auto; gap:10px; margin-bottom:10px; }
+  .it-row__fields input{ padding:8px 10px; border:1px solid var(--blush-2); border-radius:4px; font-family:'Jost',sans-serif; font-size:.85rem; }
+  @media (max-width:600px){ .it-row__fields{ grid-template-columns:1fr 1fr; } }
+  .icon-picker{ display:flex; gap:8px; flex-wrap:wrap; }
+  .icon-pick{
+    width:40px; height:40px; padding:7px; border-radius:6px; border:1.5px solid var(--blush-2);
+    background:var(--blanco); cursor:pointer; display:flex; align-items:center; justify-content:center;
+  }
+  .icon-pick svg{ width:100%; height:100%; fill:none; stroke:var(--tinta-suave); stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+  .icon-pick:hover{ border-color:var(--rosa-deep); }
+  .icon-pick.selected{ border-color:var(--rosa-deep); background:var(--blush-2); }
+  .icon-pick.selected svg{ stroke:var(--vino); }
+
   .gallery-row{ display:grid; grid-template-columns:1fr auto; gap:10px; align-items:center; margin-bottom:8px; }
   .remove-btn{ background:none; color:#B3413E; border:1px solid #F0C9C9; padding:6px 10px; font-size:.8rem; }
   .remove-btn:hover{ background:#F5E1E0; }
@@ -164,6 +178,24 @@
       <div class="field"><label>Rosa oscuro</label><div class="color-field"><input type="color" id="colRosaDeep"></div></div>
       <div class="field"><label>Vino (textos)</label><div class="color-field"><input type="color" id="colVino"></div></div>
       <div class="field"><label>Oro</label><div class="color-field"><input type="color" id="colOro"></div></div>
+      <div class="field"><label>Vestido</label><div class="color-field"><input type="color" id="colVestido"></div></div>
+    </div>
+  </div>
+
+  <div class="card-box">
+    <h2>Tipografía</h2>
+    <div class="row-3">
+      <div class="field"><label for="fontDisplay">Fuente de títulos</label><select id="fontDisplay"></select></div>
+      <div class="field"><label for="fontScript">Fuente del nombre</label><select id="fontScript"></select></div>
+      <div class="field"><label for="fontBody">Fuente de texto</label><select id="fontBody"></select></div>
+    </div>
+    <div class="field" style="max-width:220px;">
+      <label for="fontEscala">Tamaño de letra</label>
+      <select id="fontEscala">
+        <option value="compacta">Compacto</option>
+        <option value="normal">Normal</option>
+        <option value="grande">Grande</option>
+      </select>
     </div>
   </div>
 
@@ -185,6 +217,14 @@
     <div class="field">
       <label for="cfgMapaLink">URL "Cómo llegar" (enlace normal de Google Maps)</label>
       <input type="text" id="cfgMapaLink" placeholder="https://www.google.com/maps/place/...">
+    </div>
+    <button type="button" class="ghost small" id="genMapaBtn">Generar mapa desde la dirección</button>
+    <p class="hint">Usa el nombre del lugar + la dirección de arriba para armar el mapa automáticamente — no hace falta ir a Google Maps a copiar el código de inserción. Si prefieres un pin más exacto, puedes pegar tú mismo la URL de inserción en el campo de arriba.</p>
+    <div class="field" style="margin-top:14px;">
+      <label>Vista previa</label>
+      <div style="border-radius:6px; overflow:hidden; aspect-ratio:16/9; max-width:420px; border:1px solid var(--blush-2);">
+        <iframe id="mapaPreview" width="100%" height="100%" style="border:0; display:block;" loading="lazy"></iframe>
+      </div>
     </div>
   </div>
 
@@ -226,6 +266,32 @@
   }
 
   /* ---------------- Tabs ---------------- */
+  const ICON_SVGS = {
+    copa: '<path d="M10,8 H30 L20,22 Z"/><line x1="20" y1="22" x2="20" y2="32"/><line x1="12" y1="32" x2="28" y2="32"/>',
+    ceremonia: '<path d="M12,6 L15,20 A5,5 0 0 0 25,20 L28,6"/><line x1="20" y1="20" x2="20" y2="30"/><line x1="14" y1="34" x2="26" y2="34"/><line x1="20" y1="30" x2="20" y2="34"/>',
+    vals: '<circle cx="15" cy="12" r="4"/><circle cx="25" cy="12" r="4"/><path d="M15,16 C10,20 10,28 14,33"/><path d="M25,16 C30,20 30,28 26,33"/>',
+    cena: '<circle cx="20" cy="20" r="12"/><circle cx="20" cy="20" r="5"/>',
+    iglesia: '<path d="M20,6 L20,14 M14,10 L26,10 M12,34 L12,18 L20,12 L28,18 L28,34 Z"/>',
+    corazon: '<path d="M20,32 C6,22 8,10 16,10 C19,10 20,13 20,13 C20,13 21,10 24,10 C32,10 34,22 20,32Z"/>',
+    regalo: '<rect x="9" y="15" width="22" height="17"/><line x1="9" y1="21" x2="31" y2="21"/><line x1="20" y1="15" x2="20" y2="32"/><path d="M20,15 C15,15 13,8 20,8 C27,8 25,15 20,15Z"/>',
+    reloj: '<circle cx="20" cy="20" r="13"/><line x1="20" y1="20" x2="20" y2="12"/><line x1="20" y1="20" x2="26" y2="24"/>'
+  };
+  const ICON_LABELS = {
+    copa:'Recepción', ceremonia:'Ceremonia', vals:'Vals', cena:'Cena',
+    iglesia:'Iglesia', corazon:'Corazón', regalo:'Regalo', reloj:'Reloj'
+  };
+
+  const FUENTES_DISPLAY = ['Cormorant Garamond','Playfair Display','EB Garamond','Marcellus'];
+  const FUENTES_SCRIPT = ['Alex Brush','Great Vibes','Parisienne','Dancing Script','Playball'];
+  const FUENTES_BODY = ['Jost','Poppins','Montserrat','Lato'];
+
+  function fillSelect(el, options){
+    el.innerHTML = options.map(o => `<option value="${o}">${o}</option>`).join('');
+  }
+  fillSelect(document.getElementById('fontDisplay'), FUENTES_DISPLAY);
+  fillSelect(document.getElementById('fontScript'), FUENTES_SCRIPT);
+  fillSelect(document.getElementById('fontBody'), FUENTES_BODY);
+
   document.querySelectorAll('.tab-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -309,12 +375,6 @@
   /* ==================================================================
      PANEL: EDITOR DE CONTENIDO
      ================================================================== */
-  const ICONOS = [
-    ['copa','Copa (recepción)'], ['ceremonia','Copas (ceremonia)'], ['vals','Baile (vals)'],
-    ['cena','Plato (cena)'], ['iglesia','Iglesia'], ['corazon','Corazón'],
-    ['regalo','Regalo'], ['reloj','Reloj']
-  ];
-
   const itinerarioRows = document.getElementById('itinerarioRows');
   const galeriaRows = document.getElementById('galeriaRows');
   const configStatus = document.getElementById('configStatus');
@@ -329,17 +389,35 @@
     return `${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}T${pad(d.getHours())}:${pad(d.getMinutes())}`;
   }
 
+  function iconPickerHtml(selected){
+    return Object.keys(ICON_SVGS).map(key => `
+      <button type="button" class="icon-pick ${key === selected ? 'selected' : ''}" data-icon="${key}" title="${ICON_LABELS[key]}">
+        <svg viewBox="0 0 40 40">${ICON_SVGS[key]}</svg>
+      </button>
+    `).join('');
+  }
+
   function addItinerarioRow(item){
     item = item || { titulo:'', hora:'', icono:'copa' };
     const row = document.createElement('div');
-    row.className = 'repeat-row';
+    row.className = 'it-row';
     row.innerHTML = `
-      <input type="text" class="it-titulo" placeholder="Actividad" value="${escapeHtml(item.titulo)}">
-      <input type="text" class="it-hora" placeholder="7:00 p.m." value="${escapeHtml(item.hora)}">
-      <select class="it-icono">${ICONOS.map(([v,l]) => `<option value="${v}" ${v===item.icono?'selected':''}>${l}</option>`).join('')}</select>
-      <button type="button" class="remove-btn">Quitar</button>
+      <div class="it-row__fields">
+        <input type="text" class="it-titulo" placeholder="Actividad" value="${escapeHtml(item.titulo)}">
+        <input type="text" class="it-hora" placeholder="7:00 p.m." value="${escapeHtml(item.hora)}">
+        <button type="button" class="remove-btn">Quitar</button>
+      </div>
+      <input type="hidden" class="it-icono" value="${item.icono}">
+      <div class="icon-picker">${iconPickerHtml(item.icono)}</div>
     `;
     row.querySelector('.remove-btn').addEventListener('click', () => row.remove());
+    row.querySelectorAll('.icon-pick').forEach(btn => {
+      btn.addEventListener('click', () => {
+        row.querySelectorAll('.icon-pick').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+        row.querySelector('.it-icono').value = btn.dataset.icon;
+      });
+    });
     itinerarioRows.appendChild(row);
   }
 
@@ -357,6 +435,37 @@
   document.getElementById('addItinerario').addEventListener('click', () => addItinerarioRow());
   document.getElementById('addGaleria').addEventListener('click', () => addGaleriaRow());
 
+  /* ---------------- Mapa: vista previa + autogenerado desde la dirección ---------------- */
+  const mapaPreview = document.getElementById('mapaPreview');
+  const cfgMapaEmbed = document.getElementById('cfgMapaEmbed');
+
+  function updateMapaPreview(){
+    const url = cfgMapaEmbed.value.trim();
+    mapaPreview.src = url || 'about:blank';
+  }
+
+  let mapaDebounce;
+  cfgMapaEmbed.addEventListener('input', () => {
+    clearTimeout(mapaDebounce);
+    mapaDebounce = setTimeout(updateMapaPreview, 600);
+  });
+
+  document.getElementById('genMapaBtn').addEventListener('click', () => {
+    const lugar = document.getElementById('cfgLugar').value.trim();
+    const direccion = document.getElementById('cfgDireccion').value.trim();
+    const consulta = [lugar, direccion].filter(Boolean).join(', ');
+
+    if (!consulta){
+      alert('Escribe primero el nombre del lugar o la dirección.');
+      return;
+    }
+
+    const q = encodeURIComponent(consulta);
+    document.getElementById('cfgMapaEmbed').value = `https://www.google.com/maps?q=${q}&output=embed`;
+    document.getElementById('cfgMapaLink').value = `https://www.google.com/maps?q=${q}`;
+    updateMapaPreview();
+  });
+
   function fillForm(config){
     document.getElementById('cfgNombre').value = config.nombre || '';
     document.getElementById('cfgApellido').value = config.apellido || '';
@@ -372,6 +481,13 @@
     document.getElementById('colRosaDeep').value = c.rosaDeep || '#C97D95';
     document.getElementById('colVino').value = c.vino || '#8B4F62';
     document.getElementById('colOro').value = c.oro || '#B8935C';
+    document.getElementById('colVestido').value = c.vestido || c.rosa || '#E9AABB';
+
+    const t = config.tipografia || {};
+    document.getElementById('fontDisplay').value = t.display || 'Cormorant Garamond';
+    document.getElementById('fontScript').value = t.script || 'Alex Brush';
+    document.getElementById('fontBody').value = t.body || 'Jost';
+    document.getElementById('fontEscala').value = t.escala || 'normal';
 
     itinerarioRows.innerHTML = '';
     (config.itinerario || []).forEach(addItinerarioRow);
@@ -382,6 +498,7 @@
     document.getElementById('cfgHoraLugar').value = u.hora || '';
     document.getElementById('cfgMapaEmbed').value = u.mapaEmbedUrl || '';
     document.getElementById('cfgMapaLink').value = u.mapaLink || '';
+    updateMapaPreview();
 
     galeriaRows.innerHTML = '';
     (config.galeria || []).forEach(addGaleriaRow);
@@ -414,9 +531,16 @@
         rosa: document.getElementById('colRosa').value,
         rosaDeep: document.getElementById('colRosaDeep').value,
         vino: document.getElementById('colVino').value,
-        oro: document.getElementById('colOro').value
+        oro: document.getElementById('colOro').value,
+        vestido: document.getElementById('colVestido').value
       },
-      itinerario: [...itinerarioRows.querySelectorAll('.repeat-row')].map(row => ({
+      tipografia: {
+        display: document.getElementById('fontDisplay').value,
+        script: document.getElementById('fontScript').value,
+        body: document.getElementById('fontBody').value,
+        escala: document.getElementById('fontEscala').value
+      },
+      itinerario: [...itinerarioRows.querySelectorAll('.it-row')].map(row => ({
         titulo: row.querySelector('.it-titulo').value.trim(),
         hora: row.querySelector('.it-hora').value.trim(),
         icono: row.querySelector('.it-icono').value

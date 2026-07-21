@@ -6,6 +6,14 @@ const ADMIN_KEY = process.env.ADMIN_KEY || '';
 // SVG/HTML arbitrario desde el formulario (evita inyección de contenido).
 const ICONOS_VALIDOS = ['copa', 'ceremonia', 'vals', 'cena', 'iglesia', 'corazon', 'regalo', 'reloj'];
 
+// Fuentes permitidas — lista cerrada (no texto libre) para no tener que
+// cargar URLs de Google Fonts arbitrarias ni romper el diseño con una
+// fuente que no combine.
+const FUENTES_DISPLAY = ['Cormorant Garamond', 'Playfair Display', 'EB Garamond', 'Marcellus'];
+const FUENTES_SCRIPT = ['Alex Brush', 'Great Vibes', 'Parisienne', 'Dancing Script', 'Playball'];
+const FUENTES_BODY = ['Jost', 'Poppins', 'Montserrat', 'Lato'];
+const ESCALAS_VALIDAS = ['compacta', 'normal', 'grande'];
+
 const HEX_COLOR = /^#[0-9a-fA-F]{3,8}$/;
 
 // Contenido por defecto — se usa si todavía no se guardó ninguna
@@ -23,7 +31,14 @@ const DEFAULT_CONFIG = {
     rosa: '#E9AABB',
     rosaDeep: '#C97D95',
     vino: '#8B4F62',
-    oro: '#B8935C'
+    oro: '#B8935C',
+    vestido: '#E9AABB'
+  },
+  tipografia: {
+    display: 'Cormorant Garamond',
+    script: 'Alex Brush',
+    body: 'Jost',
+    escala: 'normal'
   },
   itinerario: [
     { titulo: 'Recepción', hora: '7:00 p.m.', icono: 'copa' },
@@ -39,9 +54,9 @@ const DEFAULT_CONFIG = {
     mapaLink: 'https://www.google.com/maps/place/Imperial+Eventos+Deluxe/@6.1887244,-75.3635988'
   },
   galeria: [
-    'assets/gallery/image01.jpeg',
-    'assets/gallery/image02.jpeg',
-    'assets/gallery/image03.jpeg'
+    'assets/gallery/Image01.jpeg',
+    'assets/gallery/Image02.jpeg',
+    'assets/gallery/Image03.jpeg'
   ]
 };
 
@@ -52,6 +67,10 @@ function sanitizeText(value, maxLen, fallback) {
 
 function sanitizeColor(value, fallback) {
   return typeof value === 'string' && HEX_COLOR.test(value.trim()) ? value.trim() : fallback;
+}
+
+function sanitizeChoice(value, allowed, fallback) {
+  return typeof value === 'string' && allowed.includes(value) ? value : fallback;
 }
 
 function sanitizeUrl(value, fallback) {
@@ -72,7 +91,15 @@ function sanitizeConfig(body) {
     rosa: sanitizeColor(b?.colores?.rosa, d.colores.rosa),
     rosaDeep: sanitizeColor(b?.colores?.rosaDeep, d.colores.rosaDeep),
     vino: sanitizeColor(b?.colores?.vino, d.colores.vino),
-    oro: sanitizeColor(b?.colores?.oro, d.colores.oro)
+    oro: sanitizeColor(b?.colores?.oro, d.colores.oro),
+    vestido: sanitizeColor(b?.colores?.vestido, d.colores.vestido)
+  };
+
+  const tipografia = {
+    display: sanitizeChoice(b?.tipografia?.display, FUENTES_DISPLAY, d.tipografia.display),
+    script: sanitizeChoice(b?.tipografia?.script, FUENTES_SCRIPT, d.tipografia.script),
+    body: sanitizeChoice(b?.tipografia?.body, FUENTES_BODY, d.tipografia.body),
+    escala: sanitizeChoice(b?.tipografia?.escala, ESCALAS_VALIDAS, d.tipografia.escala)
   };
 
   const itinerario = Array.isArray(b.itinerario)
@@ -108,6 +135,7 @@ function sanitizeConfig(body) {
     mensajeCarta: sanitizeText(b.mensajeCarta, 800, d.mensajeCarta),
     hashtag: sanitizeText(b.hashtag, 40, d.hashtag),
     colores,
+    tipografia,
     itinerario,
     ubicacion,
     galeria: galeria.length ? galeria : d.galeria
