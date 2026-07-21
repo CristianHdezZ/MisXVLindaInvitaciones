@@ -109,6 +109,7 @@ img{ max-width:100%; display:block; }
 .gate__dress{ width:min(200px, 40vw); height:auto; flex:0 0 auto; margin:1vh 0; }
 .dress__body{ fill:var(--vestido); opacity:.92; }
 .dress__hair{ fill:var(--vino); opacity:.9; }
+.dress__arm{ fill:var(--tinta-suave); opacity:.6; }
 .dress__sleeve{ fill:var(--vestido); opacity:.85; }
 .dress__lace{ fill:none; stroke:var(--blush); stroke-width:1; opacity:.75; stroke-linecap:round; }
 .dress__bow{ fill:var(--rosa-deep); opacity:.95; }
