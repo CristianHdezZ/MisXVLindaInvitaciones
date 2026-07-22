@@ -61,6 +61,7 @@
        diseño. Puedes cambiar el src por cualquier animación gratuita de
        https://lottiefiles.com (botón "Embed" → copia la URL .json/.lottie). -->
   <lottie-player
+    id="gateLottie"
     class="gate__lottie"
     src="https://assets9.lottiefiles.com/packages/lf20_touohxv0.json"
     background="transparent" speed="0.6" loop autoplay>
@@ -154,6 +155,7 @@
   <a href="#cuenta" data-label="Cuenta regresiva"></a>
   <a href="#itinerario" data-label="Itinerario"></a>
   <a href="#vestimenta" data-label="Vestimenta"></a>
+  <a href="#regalos" data-label="Regalos"></a>
   <a href="#detalles" data-label="Ubicación"></a>
   <a href="#galeria" data-label="Galería"></a>
   <a href="#rsvp" data-label="Confirmar"></a>
@@ -315,6 +317,20 @@
         <span class="color-swatch" id="colorEvitarSwatch" style="background:#E9AABB" aria-hidden="true"></span>
         <span id="vestimentaNota">Color a evitar: rosa palo — ¡es el mío! 🌹</span>
       </p>
+    </div>
+  </section>
+
+  <!-- ===================== REGALOS ===================== -->
+  <section id="regalos" class="section regalos">
+    <div id="regalosLluvia" class="regalos__lluvia" aria-hidden="true"></div>
+    <div class="section__inner" data-aos="fade-up">
+      <span class="section__eyebrow">Con cariño</span>
+      <h2 class="section__title" id="regalosTitulo">Mesa de regalos</h2>
+      <div class="regalos__sobre" data-aos="zoom-in" aria-hidden="true">
+        <iconify-icon icon="mdi:email-heart-outline"></iconify-icon>
+      </div>
+      <p class="regalos__mensaje" id="regalosMensaje">Tu presencia es mi mejor regalo. Si además deseas obsequiarme algo, un sobre con tu cariño será recibido con todo el corazón.</p>
+      <p class="regalos__detalle" id="regalosDetalle"></p>
     </div>
   </section>
 

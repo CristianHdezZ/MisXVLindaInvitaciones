@@ -46,7 +46,7 @@ module.exports = async (req, res) => {
 
     const errors = [];
     if (!nombre) errors.push('El nombre es obligatorio.');
-    if (telefono.replace('+', '').length < 7) errors.push('Ingresa un teléfono válido.');
+    if (telefono.replace('+', '').length < 10) errors.push('Ingresa un teléfono válido.');
     if (!asistencia) errors.push('Debes indicar si asistirás.');
     if (errors.length) return res.status(400).json({ ok: false, errors });
 

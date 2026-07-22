@@ -183,6 +183,45 @@ function renderFotoPrincipal(url, nombre, apellido) {
   if (nombre) img.alt = 'Retrato de ' + nombre + (apellido ? ' ' + apellido : '');
 }
 
+function renderLottieGate(url) {
+  const player = document.getElementById('gateLottie');
+  if (player && url && player.getAttribute('src') !== url) {
+    player.setAttribute('src', url);
+  }
+}
+
+function renderRegalos(regalos) {
+  const section = document.getElementById('regalos');
+  if (!section) return;
+  if (!regalos || regalos.activo === false) {
+    section.style.display = 'none';
+    return;
+  }
+  section.style.display = '';
+  const setText = (id, val) => { const el = document.getElementById(id); if (el) el.textContent = val || ''; };
+  if (regalos.titulo) setText('regalosTitulo', regalos.titulo);
+  if (regalos.mensaje) setText('regalosMensaje', regalos.mensaje);
+  setText('regalosDetalle', regalos.detalle || '');
+}
+
+// Lluvia de sobres: crea unos cuantos sobres animados que caen dentro
+// de la sección de regalos. CSS puro (animación), sin librería extra.
+function iniciarLluviaSobres() {
+  const cont = document.getElementById('regalosLluvia');
+  if (!cont || cont.dataset.iniciada) return;
+  cont.dataset.iniciada = '1';
+  const total = 14;
+  let html = '';
+  for (let i = 0; i < total; i++) {
+    const left = Math.round(Math.random() * 96);
+    const dur = (5 + Math.random() * 5).toFixed(1);
+    const delay = (Math.random() * 6).toFixed(1);
+    const size = (16 + Math.random() * 16).toFixed(0);
+    html += `<iconify-icon class="regalos__sobre-anim" icon="mdi:email-outline" style="left:${left}%;font-size:${size}px;animation-duration:${dur}s;animation-delay:${delay}s"></iconify-icon>`;
+  }
+  cont.innerHTML = html;
+}
+
 async function applyConfig() {
   try {
     const res = await fetch('/api/config');
@@ -193,11 +232,13 @@ async function applyConfig() {
 
     renderTextos(config);
     renderFotoPrincipal(config.fotoPrincipal, config.nombre, config.apellido);
+    renderLottieGate(config.lottieGate);
     renderFecha(config.fechaEvento);
     applyColors(config.colores);
     applyTipografia(config.tipografia);
     renderItinerario(config.itinerario);
     renderVestimenta(config.vestimenta);
+    renderRegalos(config.regalos);
     renderGaleria(config.galeria);
     renderUbicacion(config.ubicacion);
   } catch (err) {
@@ -265,6 +306,9 @@ document.addEventListener('DOMContentLoaded', async () => {
       }
     });
   }
+
+  // -- Lluvia de sobres en la sección de regalos --
+  iniciarLluviaSobres();
 
   /* =========================================================
      0. PORTADA — botón "abrir invitación"

@@ -271,6 +271,26 @@ img{ max-width:100%; display:block; }
 .vestimenta__icon{ width:64px; height:64px; display:inline-flex; align-items:center; justify-content:center; }
 .vestimenta__icon iconify-icon{ font-size:56px; color:var(--icono); }
 .vestimenta__nota{ font-size:calc(.9rem * var(--scale-mensajes)); color:var(--tinta-suave); font-style:italic; display:flex; align-items:center; justify-content:center; gap:8px; }
+
+/* REGALOS */
+.regalos{ position:relative; overflow:hidden; }
+.regalos__lluvia{ position:absolute; inset:0; z-index:0; pointer-events:none; }
+.regalos .section__inner{ position:relative; z-index:1; }
+.regalos__sobre{ margin:26px auto 18px; width:88px; height:88px; display:flex; align-items:center; justify-content:center; border-radius:50%; background:var(--blanco); box-shadow:0 14px 34px -20px rgba(139,79,98,.5); }
+.regalos__sobre iconify-icon{ font-size:48px; color:var(--icono); }
+.regalos__mensaje{ font-family:var(--f-display); font-size:calc(clamp(1.1rem, 2.3vw, 1.4rem) * var(--scale-mensajes)); font-style:italic; color:var(--tinta); max-width:540px; margin:0 auto 14px; }
+.regalos__detalle{ font-size:calc(.95rem * var(--scale-mensajes)); color:var(--tinta-suave); max-width:480px; margin:0 auto; white-space:pre-line; }
+.regalos__detalle:empty{ display:none; }
+
+@keyframes sobre-cae{
+  0%{ transform:translateY(-40px) rotate(-8deg); opacity:0; }
+  12%{ opacity:.85; }
+  100%{ transform:translateY(320px) rotate(8deg); opacity:0; }
+}
+.regalos__sobre-anim{
+  position:absolute; top:0; color:var(--rosa-deep); opacity:0;
+  animation:sobre-cae linear infinite;
+}
 .color-swatch{ display:inline-block; width:14px; height:14px; border-radius:50%; border:1px solid var(--oro); flex:0 0 auto; }
 
 /* DETALLES */

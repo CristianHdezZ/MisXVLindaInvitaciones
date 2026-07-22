@@ -52,6 +52,7 @@ const DEFAULT_CONFIG = {
   mensajeCarta: 'Hoy quiero compartir contigo uno de los días más felices de mi vida. Quince años de historias, de risas y de aprender a florecer, y quiero que estés ahí para verlo con tus propios ojos. Esta invitación es un pedacito de mi corazón, hecha con la misma ilusión con la que espero abrazarte ese día.',
   hashtag: '#LindaXV2026',
   fotoPrincipal: 'assets/gallery/image01.jpeg',
+  lottieGate: 'https://assets9.lottiefiles.com/packages/lf20_touohxv0.json',
   colores: {
     blush: '#FBEAEE',
     blush2: '#F6D8DF',
@@ -81,6 +82,12 @@ const DEFAULT_CONFIG = {
     colorEvitar: '#E9AABB',
     iconoIzquierdo: 'fa6-solid:person-dress',
     iconoDerecho: 'mdi:tie'
+  },
+  regalos: {
+    activo: true,
+    titulo: 'Mesa de regalos',
+    mensaje: 'Tu presencia es mi mejor regalo. Si además deseas obsequiarme algo, un sobre con tu cariño será recibido con todo el corazón.',
+    detalle: ''
   },
   ubicacion: {
     nombreLugar: 'Salón de Eventos Imperial Eventos Deluxe',
@@ -164,6 +171,13 @@ function sanitizeConfig(body) {
     iconoDerecho: ICONOS_VALIDOS.includes(vestimentaIconoDer) ? vestimentaIconoDer : d.vestimenta.iconoDerecho
   };
 
+  const regalos = {
+    activo: typeof b?.regalos?.activo === 'boolean' ? b.regalos.activo : d.regalos.activo,
+    titulo: sanitizeText(b?.regalos?.titulo, 80, d.regalos.titulo),
+    mensaje: sanitizeText(b?.regalos?.mensaje, 400, d.regalos.mensaje),
+    detalle: sanitizeText(b?.regalos?.detalle, 300, d.regalos.detalle || '')
+  };
+
   const galeria = Array.isArray(b.galeria)
     ? b.galeria.slice(0, 24).map((url) => sanitizeUrl(url, null)).filter(Boolean)
     : d.galeria;
@@ -189,10 +203,12 @@ function sanitizeConfig(body) {
     mensajeCarta: sanitizeText(b.mensajeCarta, 800, d.mensajeCarta),
     hashtag: sanitizeText(b.hashtag, 40, d.hashtag),
     fotoPrincipal: sanitizeUrl(b.fotoPrincipal, d.fotoPrincipal),
+    lottieGate: sanitizeUrl(b.lottieGate, d.lottieGate),
     colores,
     tipografia,
     itinerario,
     vestimenta,
+    regalos,
     ubicacion,
     galeria: galeria.length ? galeria : d.galeria
   };

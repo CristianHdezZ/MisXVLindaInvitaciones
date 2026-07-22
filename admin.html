@@ -114,6 +114,8 @@
   .add-btn{ background:none; color:var(--vino); border:1px dashed var(--oro); font-size:.82rem; margin-top:4px; }
   .add-btn:hover{ background:var(--blush-2); }
   .hint{ font-size:.78rem; color:var(--tinta-suave); margin-top:4px; }
+  .switch-label{ display:flex; align-items:center; gap:10px; cursor:pointer; font-size:.92rem; color:var(--tinta); text-transform:none; letter-spacing:0; }
+  .switch-label input{ width:18px; height:18px; accent-color:var(--vino); cursor:pointer; }
 
   .template-grid{ display:grid; grid-template-columns:repeat(auto-fit,minmax(180px,1fr)); gap:14px; }
   .template-card{
@@ -187,6 +189,11 @@
       <label>Vista previa</label>
       <img id="fotoPreview" alt="" style="width:100px; height:130px; object-fit:cover; border-radius:6px; border:1px solid var(--blush-2); display:block;">
     </div>
+    <div class="field">
+      <label for="cfgLottie">Animación de la portada (URL de Lottie .json)</label>
+      <input type="text" id="cfgLottie" placeholder="https://assets.lottiefiles.com/....json">
+      <p class="hint">Es la animación pequeña que aparece en la portada (arriba a la derecha). Consíguela gratis en <code>lottiefiles.com</code> → botón "Embed / Asset link" → copia la URL que termina en <code>.json</code>. Déjala vacía para usar la de por defecto.</p>
+    </div>
   </div>
 
   <div class="card-box">
@@ -251,13 +258,35 @@
     </div>
     <div class="field">
       <label>Ícono izquierdo</label>
-      <input type="hidden" id="vestIconoIzquierdo" value="vestido">
+      <input type="hidden" id="vestIconoIzquierdo" value="fa6-solid:person-dress">
       <div class="icon-picker" id="vestIconoIzquierdoPicker"></div>
     </div>
     <div class="field">
       <label>Ícono derecho</label>
-      <input type="hidden" id="vestIconoDerecho" value="esmoquin">
+      <input type="hidden" id="vestIconoDerecho" value="mdi:tie">
       <div class="icon-picker" id="vestIconoDerechoPicker"></div>
+    </div>
+  </div>
+
+  <div class="card-box">
+    <h2>Regalos</h2>
+    <div class="field">
+      <label class="switch-label">
+        <input type="checkbox" id="regActivo" checked>
+        Mostrar la sección de regalos (con lluvia de sobres)
+      </label>
+    </div>
+    <div class="field">
+      <label for="regTitulo">Título</label>
+      <input type="text" id="regTitulo" placeholder="Mesa de regalos">
+    </div>
+    <div class="field">
+      <label for="regMensaje">Mensaje</label>
+      <textarea id="regMensaje" rows="3" placeholder="Tu presencia es mi mejor regalo..."></textarea>
+    </div>
+    <div class="field">
+      <label for="regDetalle">Detalle adicional (opcional)</label>
+      <textarea id="regDetalle" rows="2" placeholder="Ej. datos bancarios, lista en una tienda, etc. Déjalo vacío si no aplica."></textarea>
     </div>
   </div>
 
@@ -651,6 +680,7 @@
     const foto = config.fotoPrincipal || '';
     document.getElementById('cfgFoto').value = foto;
     document.getElementById('fotoPreview').src = foto;
+    document.getElementById('cfgLottie').value = config.lottieGate || '';
 
     const c = config.colores || {};
     document.getElementById('colBlush').value = c.blush || '#FBEAEE';
@@ -680,6 +710,12 @@
     document.getElementById('vestIconoDerecho').value = v.iconoDerecho || 'mdi:tie';
     vestIzquierdoPicker.setSelected(v.iconoIzquierdo || 'fa6-solid:person-dress');
     vestDerechoPicker.setSelected(v.iconoDerecho || 'mdi:tie');
+
+    const reg = config.regalos || {};
+    document.getElementById('regActivo').checked = reg.activo !== false;
+    document.getElementById('regTitulo').value = reg.titulo || '';
+    document.getElementById('regMensaje').value = reg.mensaje || '';
+    document.getElementById('regDetalle').value = reg.detalle || '';
 
     const u = config.ubicacion || {};
     document.getElementById('cfgLugar').value = u.nombreLugar || '';
@@ -713,6 +749,7 @@
       fechaEvento: document.getElementById('cfgFecha').value,
       hashtag: document.getElementById('cfgHashtag').value.trim(),
       fotoPrincipal: document.getElementById('cfgFoto').value.trim(),
+      lottieGate: document.getElementById('cfgLottie').value.trim(),
       fraseGate: document.getElementById('cfgFrase').value.trim(),
       mensajeCarta: document.getElementById('cfgCarta').value.trim(),
       colores: {
@@ -743,6 +780,12 @@
         colorEvitar: document.getElementById('vestColorEvitar').value,
         iconoIzquierdo: document.getElementById('vestIconoIzquierdo').value,
         iconoDerecho: document.getElementById('vestIconoDerecho').value
+      },
+      regalos: {
+        activo: document.getElementById('regActivo').checked,
+        titulo: document.getElementById('regTitulo').value.trim(),
+        mensaje: document.getElementById('regMensaje').value.trim(),
+        detalle: document.getElementById('regDetalle').value.trim()
       },
       ubicacion: {
         nombreLugar: document.getElementById('cfgLugar').value.trim(),

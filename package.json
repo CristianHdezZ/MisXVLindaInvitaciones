@@ -7,8 +7,12 @@
     "node": ">=18"
   },
   "scripts": {
-    "dev": "vercel dev",
+    "dev:local": "node dev-server.js",
     "deploy": "vercel --prod"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2"
   },
   "devDependencies": {
     "vercel": "^37.0.0"
