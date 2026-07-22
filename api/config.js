@@ -45,6 +45,7 @@ const FUENTES_DISPLAY = ['Cormorant Garamond', 'Playfair Display', 'EB Garamond'
 const FUENTES_SCRIPT = ['Alex Brush', 'Great Vibes', 'Parisienne', 'Dancing Script', 'Playball'];
 const FUENTES_BODY = ['Jost', 'Poppins', 'Montserrat', 'Lato'];
 const ESCALAS_VALIDAS = ['compacta', 'normal', 'grande'];
+const ESCALAS_ICONOS_VALIDAS = ['pequeno', 'normal', 'grande2', 'xl'];
 
 const HEX_COLOR = /^#[0-9a-fA-F]{3,8}$/;
 
@@ -58,7 +59,7 @@ const DEFAULT_CONFIG = {
   mensajeCarta: 'Hoy quiero compartir contigo uno de los días más felices de mi vida. Quince años de historias, de risas y de aprender a florecer, y quiero que estés ahí para verlo con tus propios ojos. Esta invitación es un pedacito de mi corazón, hecha con la misma ilusión con la que espero abrazarte ese día.',
   hashtag: '#LindaXV2026',
   fotoPrincipal: 'assets/gallery/image01.jpeg',
-  lottieGate: 'https://assets9.lottiefiles.com/packages/lf20_touohxv0.json',
+  lottieGate: 'assets/flor.json',
   colores: {
     blush: '#FBEAEE',
     blush2: '#F6D8DF',
@@ -75,7 +76,8 @@ const DEFAULT_CONFIG = {
     body: 'Jost',
     escalaNombre: 'normal',
     escalaTitulos: 'normal',
-    escalaMensajes: 'normal'
+    escalaMensajes: 'normal',
+    escalaIconos: 'normal'
   },
   itinerario: [
     { titulo: 'Recepción', hora: '7:00 p.m.', icono: 'ph:martini' },
@@ -154,7 +156,8 @@ function sanitizeConfig(body) {
     body: sanitizeChoice(b?.tipografia?.body, FUENTES_BODY, d.tipografia.body),
     escalaNombre: sanitizeChoice(b?.tipografia?.escalaNombre, ESCALAS_VALIDAS, d.tipografia.escalaNombre),
     escalaTitulos: sanitizeChoice(b?.tipografia?.escalaTitulos, ESCALAS_VALIDAS, d.tipografia.escalaTitulos),
-    escalaMensajes: sanitizeChoice(b?.tipografia?.escalaMensajes, ESCALAS_VALIDAS, d.tipografia.escalaMensajes)
+    escalaMensajes: sanitizeChoice(b?.tipografia?.escalaMensajes, ESCALAS_VALIDAS, d.tipografia.escalaMensajes),
+    escalaIconos: sanitizeChoice(b?.tipografia?.escalaIconos, ESCALAS_ICONOS_VALIDAS, d.tipografia.escalaIconos)
   };
 
   const itinerario = Array.isArray(b.itinerario)

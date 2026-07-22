@@ -242,6 +242,10 @@
         <label for="scaleMensajes">Tamaño de mensajes</label>
         <select id="scaleMensajes"><option value="compacta">Compacto</option><option value="normal">Normal</option><option value="grande">Grande</option></select>
       </div>
+      <div class="field">
+        <label for="scaleIconos">Tamaño de íconos</label>
+        <select id="scaleIconos"><option value="pequeno">Pequeño</option><option value="normal">Normal</option><option value="grande2">Grande</option><option value="xl">Extra grande</option></select>
+      </div>
     </div>
   </div>
 
@@ -732,6 +736,7 @@ function iconoSvg(id, extraClass) {
     document.getElementById('scaleNombre').value = t.escalaNombre || 'normal';
     document.getElementById('scaleTitulos').value = t.escalaTitulos || 'normal';
     document.getElementById('scaleMensajes').value = t.escalaMensajes || 'normal';
+    document.getElementById('scaleIconos').value = t.escalaIconos || 'normal';
 
     itinerarioRows.innerHTML = '';
     (config.itinerario || []).forEach(addItinerarioRow);
@@ -801,7 +806,8 @@ function iconoSvg(id, extraClass) {
         body: document.getElementById('fontBody').value,
         escalaNombre: document.getElementById('scaleNombre').value,
         escalaTitulos: document.getElementById('scaleTitulos').value,
-        escalaMensajes: document.getElementById('scaleMensajes').value
+        escalaMensajes: document.getElementById('scaleMensajes').value,
+        escalaIconos: document.getElementById('scaleIconos').value
       },
       itinerario: [...itinerarioRows.querySelectorAll('.it-row')].map(row => ({
         titulo: row.querySelector('.it-titulo').value.trim(),

@@ -75,7 +75,7 @@ const FONT_WEIGHTS = {
   'Lato': '300;400;700'
 };
 
-const SCALE_MAP = { compacta: 0.9, normal: 1, grande: 1.12 };
+const SCALE_MAP = { compacta: 0.9, normal: 1, grande: 1.12, pequeno: 0.8, mediano: 1, grande2: 1.25, xl: 1.5 };
 
 function applyTipografia(tipografia) {
   if (!tipografia) return;
@@ -110,6 +110,9 @@ function applyTipografia(tipografia) {
   }
   if (tipografia.escalaMensajes && SCALE_MAP[tipografia.escalaMensajes]) {
     root.setProperty('--scale-mensajes', SCALE_MAP[tipografia.escalaMensajes]);
+  }
+  if (tipografia.escalaIconos && SCALE_MAP[tipografia.escalaIconos]) {
+    root.setProperty('--scale-iconos', SCALE_MAP[tipografia.escalaIconos]);
   }
 }
 
