@@ -2,34 +2,6 @@ function escapeHtml(str) {
   return String(str).replace(/[&<>"']/g, (m) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[m]));
 }
 
-// Íconos disponibles — deben coincidir con los que acepta api/config.js.
-// Cada valor es el contenido interno del <svg>. Se usan en el itinerario
-// y en la sección de vestimenta.
-const ICON_LIBRARY = {
-  copa: '<path d="M8,8 L32,8 L20,22 Z" fill="var(--icono)" stroke="none"/><rect x="18.5" y="22" width="3" height="9" fill="var(--icono)" stroke="none"/><rect x="12" y="31" width="16" height="2.5" rx="1.2" fill="var(--icono)" stroke="none"/><circle cx="16" cy="9" r="2.2" fill="var(--blush)" stroke="none"/><path d="M14,9 L20,8" stroke="var(--icono)" stroke-width="1" fill="none"/>',
-  ceremonia: '<path d="M10,34 L10,20 C10,12 30,12 30,20 L30,34" fill="none" stroke="var(--icono)" stroke-width="2.2" stroke-linecap="round"/><path d="M20,10 C18,8 15,9 15,12 C15,14.5 20,18 20,18 C20,18 25,14.5 25,12 C25,9 22,8 20,10Z" fill="var(--icono)" stroke="none"/><path d="M15,22 L25,22 L23,30 L17,30 Z" fill="none" stroke="var(--icono)" stroke-width="1.6"/><line x1="20" y1="30" x2="20" y2="34" stroke="var(--icono)" stroke-width="1.6"/><line x1="16" y1="34" x2="24" y2="34" stroke="var(--icono)" stroke-width="1.6" stroke-linecap="round"/>',
-  vals: '<circle cx="16" cy="10" r="3" fill="var(--icono)" stroke="none"/><circle cx="24" cy="10" r="3" fill="var(--icono)" stroke="none"/><path d="M12,16 C8,20 8,28 12,34 L28,34 C32,28 32,20 28,16 C26,20 24,24 20,24 C16,24 14,20 12,16Z" fill="var(--icono)" stroke="none"/>',
-  cena: '<circle cx="20" cy="21" r="12" fill="none" stroke="var(--icono)" stroke-width="1.6"/><circle cx="20" cy="21" r="6.5" fill="none" stroke="var(--icono)" stroke-width="1"/><path d="M7,9 L7,17 M5,9 L5,15 M9,9 L9,15 M5,15 C5,17.5 9,17.5 9,15" stroke="var(--icono)" stroke-width="1.3" fill="none" stroke-linecap="round"/><line x1="7" y1="9" x2="7" y2="34" stroke="var(--icono)" stroke-width="1.3" stroke-linecap="round"/><path d="M33,9 C35.5,11.5 35.5,15.5 33,18 L33,34" stroke="var(--icono)" stroke-width="1.3" fill="none" stroke-linecap="round"/>',
-  iglesia: '<path d="M20,6 L20,14 M14,10 L26,10 M12,34 L12,18 L20,12 L28,18 L28,34 Z" class="tl-stroke"/>',
-  corazon: '<path d="M20,32 C6,22 8,10 16,10 C19,10 20,13 20,13 C20,13 21,10 24,10 C32,10 34,22 20,32Z" class="tl-stroke"/>',
-  regalo: '<rect x="9" y="15" width="22" height="17" class="tl-stroke"/><line x1="9" y1="21" x2="31" y2="21" class="tl-stroke"/><line x1="20" y1="15" x2="20" y2="32" class="tl-stroke"/><path d="M20,15 C15,15 13,8 20,8 C27,8 25,15 20,15Z" class="tl-stroke"/>',
-  reloj: '<circle cx="20" cy="20" r="13" class="tl-stroke"/><line x1="20" y1="20" x2="20" y2="12" class="tl-stroke"/><line x1="20" y1="20" x2="26" y2="24" class="tl-stroke"/>',
-  vestido: '<path d="M20,4 C22,4 23,6 22,8 L18,8 C17,6 18,4 20,4 Z" fill="var(--icono)" stroke="none"/><path d="M18,8 L16,27 C15.5,29 16,30 17.5,30.5 L17.5,32 C12,33.5 9,35.5 9,37 L31,37 C31,35.5 28,33.5 22.5,32 L22.5,30.5 C24,30 24.5,29 24,27 L22,8 Z" fill="var(--icono)" stroke="none"/>',
-  esmoquin: '<path d="M20,4 L24,7 L28,4 L30,7 L26,11 L30,15 L34,36 L22,36 L21,18 L19,18 L18,36 L6,36 L10,15 L14,11 L10,7 L12,4 L16,7 Z" fill="var(--icono)" stroke="none"/><path d="M17,10 L20,15 L23,10 L20,8Z" fill="var(--blush)" stroke="none"/>',
-  anillo: '<circle cx="20" cy="24" r="10" class="tl-stroke"/><path d="M20,14 L17,8 L23,8 Z" class="tl-stroke"/>',
-  flor: '<circle cx="20" cy="12" r="5" class="tl-stroke"/><circle cx="28" cy="20" r="5" class="tl-stroke"/><circle cx="20" cy="28" r="5" class="tl-stroke"/><circle cx="12" cy="20" r="5" class="tl-stroke"/><circle cx="20" cy="20" r="4" class="tl-stroke"/>',
-  mariposa: '<path d="M20,20 C10,8 4,10 6,20 C4,30 10,32 20,20Z" class="tl-stroke"/><path d="M20,20 C30,8 36,10 34,20 C36,30 30,32 20,20Z" class="tl-stroke"/><line x1="20" y1="12" x2="20" y2="28" class="tl-stroke"/>',
-  estrella: '<path d="M20,6 L23,16 L34,16 L25,22 L28,33 L20,26 L12,33 L15,22 L6,16 L17,16 Z" class="tl-stroke"/>',
-  diamante: '<path d="M12,14 L28,14 L34,20 L20,34 L6,20 Z" class="tl-stroke"/><line x1="12" y1="14" x2="20" y2="34" class="tl-stroke"/><line x1="28" y1="14" x2="20" y2="34" class="tl-stroke"/><line x1="6" y1="20" x2="34" y2="20" class="tl-stroke"/>',
-  musica: '<circle cx="14" cy="30" r="4" class="tl-stroke"/><line x1="18" y1="30" x2="18" y2="10" class="tl-stroke"/><path d="M18,10 L28,14 L28,20" class="tl-stroke"/>',
-  pastel: '<rect x="10" y="22" width="20" height="10" class="tl-stroke"/><rect x="13" y="16" width="14" height="6" class="tl-stroke"/><line x1="20" y1="16" x2="20" y2="10" class="tl-stroke"/><path d="M20,10 C18,8 22,6 20,4" class="tl-stroke"/>',
-  corona: '<path d="M8,26 L8,16 L14,22 L20,12 L26,22 L32,16 L32,26 Z" class="tl-stroke"/><line x1="8" y1="26" x2="32" y2="26" class="tl-stroke"/>',
-  sombrero: '<rect x="14" y="8" width="12" height="14" class="tl-stroke"/><ellipse cx="20" cy="24" rx="14" ry="4" class="tl-stroke"/>',
-  zapato: '<path d="M8,28 L8,22 C8,18 14,16 20,16 L28,20 L30,26 L30,28 Z" class="tl-stroke"/><line x1="28" y1="28" x2="28" y2="34" class="tl-stroke"/>',
-  abanico: '<path d="M6,32 A14,14 0 0 1 34,32" class="tl-stroke"/><line x1="20" y1="32" x2="6" y2="32" class="tl-stroke"/><line x1="20" y1="32" x2="12" y2="20" class="tl-stroke"/><line x1="20" y1="32" x2="20" y2="18" class="tl-stroke"/><line x1="20" y1="32" x2="28" y2="20" class="tl-stroke"/><line x1="20" y1="32" x2="34" y2="32" class="tl-stroke"/>',
-  sobre: '<rect x="6" y="12" width="28" height="18" class="tl-stroke"/><path d="M6,12 L20,24 L34,12" class="tl-stroke"/>'
-};
-
 function applyColors(colores) {
   if (!colores) return;
   const root = document.documentElement.style;
@@ -103,11 +75,11 @@ function renderVestimenta(v) {
   if (!v) return;
   const container = document.getElementById('vestimentaIcons');
   if (container && (v.iconoIzquierdo || v.iconoDerecho)) {
-    const left = ICON_LIBRARY[v.iconoIzquierdo] || ICON_LIBRARY.vestido;
-    const right = ICON_LIBRARY[v.iconoDerecho] || ICON_LIBRARY.esmoquin;
+    const left = v.iconoIzquierdo || 'fa6-solid:person-dress';
+    const right = v.iconoDerecho || 'mdi:tie';
     container.innerHTML = `
-      <span class="vestimenta__icon"><svg viewBox="0 0 40 40">${left}</svg></span>
-      <span class="vestimenta__icon"><svg viewBox="0 0 40 40">${right}</svg></span>
+      <span class="vestimenta__icon"><iconify-icon icon="${left}"></iconify-icon></span>
+      <span class="vestimenta__icon"><iconify-icon icon="${right}"></iconify-icon></span>
     `;
   }
   const swatch = document.getElementById('colorEvitarSwatch');
@@ -160,7 +132,7 @@ function renderItinerario(items) {
     .map(
       (item) => `
     <li class="timeline__item">
-      <span class="timeline__icon" aria-hidden="true"><svg viewBox="0 0 40 40">${ICON_LIBRARY[item.icono] || ICON_LIBRARY.copa}</svg></span>
+      <span class="timeline__icon" aria-hidden="true"><iconify-icon icon="${item.icono || 'mdi:glass-cocktail'}"></iconify-icon></span>
       <span class="timeline__text"><strong>${escapeHtml(item.titulo)}</strong><em>${escapeHtml(item.hora)}</em></span>
     </li>`
     )
@@ -185,14 +157,23 @@ function renderUbicacion(ubicacion) {
 }
 
 function renderGaleria(urls) {
-  const grid = document.getElementById('galeriaGrid');
-  if (!grid || !Array.isArray(urls) || !urls.length) return;
-  grid.innerHTML = urls
+  const wrapper = document.getElementById('galeriaWrapper');
+  if (!wrapper || !Array.isArray(urls) || !urls.length) return false;
+  wrapper.innerHTML = urls
     .map(
       (url, i) => `
-    <button class="galeria__item" data-full="${escapeHtml(url)}"><img src="${escapeHtml(url)}" alt="Foto ${i + 1}" loading="lazy"></button>`
+    <div class="swiper-slide"><button class="galeria__item" data-full="${escapeHtml(url)}"><img src="${escapeHtml(url)}" alt="Foto ${i + 1}" loading="lazy"></button></div>`
     )
     .join('');
+  // Si Swiper ya está inicializado, avísale que cambiaron los slides.
+  if (window.__galeriaSwiper) {
+    window.__galeriaSwiper.update();
+    if (window.__galeriaSwiper.params.loop) {
+      window.__galeriaSwiper.loopDestroy();
+      window.__galeriaSwiper.loopCreate();
+    }
+  }
+  return true;
 }
 
 function renderFotoPrincipal(url, nombre, apellido) {
@@ -232,6 +213,60 @@ document.addEventListener('DOMContentLoaded', async () => {
   await applyConfig();
 
   /* =========================================================
+     LIBRERÍAS PREMIUM (AOS, Swiper, tsParticles, confetti, GSAP)
+     Todas se cargan por CDN en index.html. Aquí se inicializan.
+     Cada una va protegida con typeof por si un CDN no cargó
+     (sin internet, bloqueador, etc.) — el sitio sigue funcionando.
+     ========================================================= */
+
+  // -- AOS: animaciones al hacer scroll --
+  if (typeof AOS !== 'undefined') {
+    AOS.init({ duration: 800, easing: 'ease-out-cubic', once: true, offset: 80 });
+  }
+
+  // -- Swiper: carrusel de la galería --
+  // La galería puede haberse repintado desde /api/config, así que
+  // inicializamos DESPUÉS de applyConfig para tomar los slides actuales.
+  let galeriaSwiper = null;
+  if (typeof Swiper !== 'undefined' && document.getElementById('galeriaSwiper')) {
+    galeriaSwiper = new Swiper('#galeriaSwiper', {
+      slidesPerView: 1,
+      spaceBetween: 16,
+      loop: true,
+      grabCursor: true,
+      centeredSlides: true,
+      pagination: { el: '.swiper-pagination', clickable: true },
+      navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' },
+      breakpoints: {
+        640: { slidesPerView: 1.6 },
+        900: { slidesPerView: 2.2 }
+      }
+    });
+    // Exponer para que applyConfig pueda refrescarlo si recarga fotos.
+    window.__galeriaSwiper = galeriaSwiper;
+  }
+
+  // -- tsParticles: corazones/brillos flotando en la portada --
+  if (typeof tsParticles !== 'undefined' && document.getElementById('gateParticles')) {
+    tsParticles.load({
+      id: 'gateParticles',
+      options: {
+        fpsLimit: 60,
+        fullScreen: { enable: false },
+        particles: {
+          number: { value: 26, density: { enable: true, area: 800 } },
+          color: { value: ['#E9AABB', '#C97D95', '#F6D8DF', '#B8935C'] },
+          shape: { type: ['circle', 'heart'] },
+          opacity: { value: { min: 0.2, max: 0.7 }, animation: { enable: true, speed: 0.6 } },
+          size: { value: { min: 3, max: 7 } },
+          move: { enable: true, speed: 1.1, direction: 'top', outModes: { default: 'out' }, straight: false }
+        },
+        detectRetina: true
+      }
+    });
+  }
+
+  /* =========================================================
      0. PORTADA — botón "abrir invitación"
      ========================================================= */
   const gate = document.getElementById('gate');
@@ -243,6 +278,23 @@ document.addEventListener('DOMContentLoaded', async () => {
     gate.classList.add('is-closed');
     document.body.classList.remove('gate-active');
     window.scrollTo({ top:0 });
+
+    // -- Canvas Confetti: estallido al abrir la invitación --
+    if (typeof confetti === 'function') {
+      confetti({
+        particleCount: 140,
+        spread: 75,
+        origin: { y: 0.6 },
+        colors: ['#E9AABB', '#C97D95', '#B8935C', '#F6D8DF', '#ffffff'],
+        scalar: 0.9
+      });
+    }
+
+    // -- GSAP: entrada suave del hero al abrir --
+    if (typeof gsap !== 'undefined') {
+      gsap.from('.hero__frame', { duration: 1, y: 30, opacity: 0, ease: 'power2.out', delay: 0.15 });
+      gsap.from('.hero__name', { duration: 1, y: 20, opacity: 0, ease: 'power2.out', delay: 0.35 });
+    }
 
     // Intenta iniciar la música de fondo al abrir la invitación.
     musicRef.play().then(() => {
@@ -269,18 +321,9 @@ document.addEventListener('DOMContentLoaded', async () => {
   updateVine();
 
   /* =========================================================
-     2. REVEAL ON SCROLL
+     2. REVEAL ON SCROLL — reemplazado por AOS (data-aos en el HTML),
+        inicializado arriba. Ya no se usa IntersectionObserver aquí.
      ========================================================= */
-  const revealEls = document.querySelectorAll('.reveal');
-  const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting){
-        entry.target.classList.add('is-visible');
-        revealObserver.unobserve(entry.target);
-      }
-    });
-  }, { threshold:0.2 });
-  revealEls.forEach(el => revealObserver.observe(el));
 
   /* =========================================================
      3. DOT NAV — sección activa
@@ -343,14 +386,20 @@ document.addEventListener('DOMContentLoaded', async () => {
   const lightboxImg = document.getElementById('lightboxImg');
   const lightboxClose = document.getElementById('lightboxClose');
 
-  document.querySelectorAll('.galeria__item').forEach(btn => {
-    btn.addEventListener('click', () => {
+  // Delegación: un solo listener en el carrusel sirve para cualquier
+  // slide, incluidos los que se repintan dinámicamente desde /api/config.
+  const galeriaSwiperEl = document.getElementById('galeriaSwiper');
+  if (galeriaSwiperEl) {
+    galeriaSwiperEl.addEventListener('click', (e) => {
+      const btn = e.target.closest('.galeria__item');
+      if (!btn) return;
       lightboxImg.src = btn.dataset.full;
-      lightboxImg.alt = btn.querySelector('img').alt;
+      const img = btn.querySelector('img');
+      lightboxImg.alt = img ? img.alt : '';
       lightbox.classList.add('is-open');
       lightbox.setAttribute('aria-hidden','false');
     });
-  });
+  }
 
   function closeLightbox(){
     lightbox.classList.remove('is-open');
@@ -462,6 +511,16 @@ document.addEventListener('DOMContentLoaded', async () => {
           'ok'
         );
         rsvpForm.reset();
+
+        // -- Canvas Confetti: celebración al confirmar asistencia --
+        if (data.asistencia === 'si' && typeof confetti === 'function') {
+          const fin = Date.now() + 800;
+          (function lluvia() {
+            confetti({ particleCount: 4, angle: 60, spread: 55, origin: { x: 0 }, colors: ['#E9AABB', '#C97D95', '#B8935C'] });
+            confetti({ particleCount: 4, angle: 120, spread: 55, origin: { x: 1 }, colors: ['#E9AABB', '#C97D95', '#B8935C'] });
+            if (Date.now() < fin) requestAnimationFrame(lluvia);
+          })();
+        }
       } else if (response.status === 409){
         setStatus(payload?.error || 'Ya existe una confirmación registrada con este número de teléfono.', 'error');
       } else if (response.status === 400 && Array.isArray(payload?.errors) && payload.errors.length){

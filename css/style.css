@@ -66,6 +66,9 @@ img{ max-width:100%; display:block; }
   transition:opacity .8s var(--ease), visibility .8s;
 }
 .gate.is-closed{ opacity:0; visibility:hidden; pointer-events:none; }
+.gate__particles{ position:absolute; inset:0; z-index:0; pointer-events:none; }
+.gate__lottie{ width:80px; height:80px; position:absolute; top:16%; right:8%; opacity:.85; pointer-events:none; }
+@media (max-width:640px){ .gate__lottie{ width:56px; height:56px; right:4%; } }
 
 .garland{ width:min(500px, 90vw); height:auto; flex:0 0 auto; }
 .rose__c1{ fill:var(--rosa); opacity:.9; }
@@ -74,7 +77,7 @@ img{ max-width:100%; display:block; }
 .garland__vine{ fill:none; stroke:var(--verde); stroke-width:1.4; opacity:.55; }
 .leaf{ fill:var(--verde); opacity:.55; }
 
-.gate__content{ max-width:440px; margin:2vh auto; }
+.gate__content{ max-width:440px; margin:2vh auto; position:relative; z-index:1; }
 .gate__eyebrow{
   font-size:calc(.72rem * var(--scale-mensajes)); letter-spacing:.2em; text-transform:uppercase;
   color:var(--tinta-suave); margin:0 0 10px;
@@ -145,8 +148,7 @@ img{ max-width:100%; display:block; }
 /* =========================================================
    REVEAL ON SCROLL
    ========================================================= */
-.reveal{ opacity:0; transform:translateY(24px); transition:opacity .9s var(--ease), transform .9s var(--ease); }
-.reveal.is-visible{ opacity:1; transform:translateY(0); }
+/* Animaciones de scroll ahora las maneja AOS (ver <link> de aos.css) */
 
 /* =========================================================
    DOT NAV
@@ -259,8 +261,7 @@ img{ max-width:100%; display:block; }
   display:flex; align-items:center; justify-content:center;
   box-shadow:0 8px 18px -12px rgba(139,79,98,.5);
 }
-.timeline__icon svg{ width:29px; height:29px; }
-.tl-stroke{ fill:none; stroke:var(--icono); stroke-width:2; stroke-linecap:round; stroke-linejoin:round; }
+.timeline__icon iconify-icon{ font-size:26px; color:var(--icono); }
 .timeline__text{ display:flex; flex-direction:column; }
 .timeline__text strong{ font-family:var(--f-display); font-size:calc(1.1rem * var(--scale-mensajes)); color:var(--vino); font-weight:600; }
 .timeline__text em{ font-style:normal; font-size:calc(.78rem * var(--scale-mensajes)); color:var(--tinta-suave); letter-spacing:.06em; }
@@ -268,7 +269,7 @@ img{ max-width:100%; display:block; }
 /* VESTIMENTA */
 .vestimenta__icons{ display:flex; justify-content:center; gap:50px; margin:34px 0 18px; }
 .vestimenta__icon{ width:64px; height:64px; display:inline-flex; align-items:center; justify-content:center; }
-.vestimenta__icon svg{ width:100%; height:100%; }
+.vestimenta__icon iconify-icon{ font-size:56px; color:var(--icono); }
 .vestimenta__nota{ font-size:calc(.9rem * var(--scale-mensajes)); color:var(--tinta-suave); font-style:italic; display:flex; align-items:center; justify-content:center; gap:8px; }
 .color-swatch{ display:inline-block; width:14px; height:14px; border-radius:50%; border:1px solid var(--oro); flex:0 0 auto; }
 
@@ -284,12 +285,18 @@ img{ max-width:100%; display:block; }
 .mapa-wrap iframe{ width:100%; height:100%; border:0; }
 .btn-link{ display:inline-block; font-size:.82rem; letter-spacing:.05em; color:var(--vino); text-decoration:none; border-bottom:1px solid var(--oro); padding-bottom:2px; }
 
-/* GALERÍA */
-.galeria__grid{ display:grid; grid-template-columns:repeat(3,1fr); gap:10px; margin-top:36px; }
-@media (max-width:640px){ .galeria__grid{ grid-template-columns:repeat(2,1fr); } }
-.galeria__item{ border:0; padding:0; background:var(--blush-2); aspect-ratio:1; overflow:hidden; cursor:pointer; border-radius:2px; }
+/* GALERÍA — carrusel Swiper */
+.galeria__swiper{ margin-top:36px; padding-bottom:44px; }
+.galeria__swiper .swiper-slide{ width:min(280px, 70vw); }
+.galeria__item{ border:0; padding:0; width:100%; background:var(--blush-2); aspect-ratio:4/5; overflow:hidden; cursor:pointer; border-radius:6px; box-shadow:0 16px 34px -20px rgba(139,79,98,.45); }
 .galeria__item img{ width:100%; height:100%; object-fit:cover; transition:transform .6s var(--ease); }
 .galeria__item:hover img{ transform:scale(1.08); }
+.galeria__swiper .swiper-button-prev,
+.galeria__swiper .swiper-button-next{ color:var(--vino); }
+.galeria__swiper .swiper-button-prev::after,
+.galeria__swiper .swiper-button-next::after{ font-size:1.3rem; }
+.galeria__swiper .swiper-pagination-bullet{ background:var(--rosa-deep); opacity:.4; }
+.galeria__swiper .swiper-pagination-bullet-active{ opacity:1; background:var(--vino); }
 
 .lightbox{ position:fixed; inset:0; background:rgba(110,75,84,.92); display:flex; align-items:center; justify-content:center; z-index:100; opacity:0; pointer-events:none; transition:opacity .3s; padding:5vh 5vw; }
 .lightbox.is-open{ opacity:1; pointer-events:auto; }

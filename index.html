@@ -12,6 +12,14 @@
 
 <link rel="stylesheet" href="css/style.css">
 
+<!-- ===================== LIBRERÍAS (CDN, sin build tools) ===================== -->
+<!-- Iconify: íconos vectoriales profesionales, sustituyen los SVG dibujados a mano -->
+<script src="https://code.iconify.design/iconify-icon/2.1.0/iconify-icon.min.js"></script>
+<!-- AOS: animaciones al hacer scroll -->
+<link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
+<!-- Swiper: carrusel de la galería de fotos -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+
 <!-- ===================== VISTA PREVIA AL COMPARTIR (WhatsApp, Facebook, Telegram, etc.) ===================== -->
 <!-- og:image y og:url deben ser URLs absolutas y públicas — actualiza el dominio si lo cambias -->
 <meta property="og:type" content="website">
@@ -32,6 +40,7 @@
 
 <!-- ===================== PORTADA / SOBRE ===================== -->
 <div class="gate" id="gate">
+  <div id="gateParticles" class="gate__particles" aria-hidden="true"></div>
   <svg class="garland garland--top" viewBox="0 0 500 140" aria-hidden="true">
     <g class="rose" transform="translate(60,20)"><circle r="26" class="rose__c1"/><circle r="17" cx="-6" cy="4" class="rose__c2"/><circle r="12" cx="8" cy="-6" class="rose__c3"/></g>
     <g class="rose" transform="translate(150,-10) scale(0.8)"><circle r="26" class="rose__c1"/><circle r="17" cx="-6" cy="4" class="rose__c2"/><circle r="12" cx="8" cy="-6" class="rose__c3"/></g>
@@ -45,6 +54,16 @@
 
   <svg class="butterfly butterfly--1" viewBox="0 0 60 40" aria-hidden="true"><g class="butterfly__wings"><path d="M28,20 C10,0 0,5 4,20 C0,35 10,40 28,20Z" class="wing wing--l"/><path d="M32,20 C50,0 60,5 56,20 C60,35 50,40 32,20Z" class="wing wing--r"/></g><line x1="30" y1="8" x2="30" y2="32" class="butterfly__body"/></svg>
   <svg class="butterfly butterfly--2" viewBox="0 0 60 40" aria-hidden="true"><g class="butterfly__wings"><path d="M28,20 C10,0 0,5 4,20 C0,35 10,40 28,20Z" class="wing wing--l"/><path d="M32,20 C50,0 60,5 56,20 C60,35 50,40 32,20Z" class="wing wing--r"/></g><line x1="30" y1="8" x2="30" y2="32" class="butterfly__body"/></svg>
+
+  <!-- Animación Lottie decorativa (brillos/corazones flotando). Si no carga
+       (por ejemplo sin conexión), simplemente no se ve nada — no rompe el
+       diseño. Puedes cambiar el src por cualquier animación gratuita de
+       https://lottiefiles.com (botón "Embed" → copia la URL .json/.lottie). -->
+  <lottie-player
+    class="gate__lottie"
+    src="https://assets9.lottiefiles.com/packages/lf20_touohxv0.json"
+    background="transparent" speed="0.6" loop autoplay>
+  </lottie-player>
 
   <div class="gate__content">
     <p class="gate__eyebrow">Con la bendición de Dios y mi familia</p>
@@ -141,29 +160,29 @@
 
 <!-- ===================== BIENVENIDA / FOTO ===================== -->
 <header id="hero" class="hero">
-  <p class="hero__eyebrow reveal">Tenemos el honor de invitarlos a la celebración de los XV años de nuestra hija</p>
+  <p class="hero__eyebrow" data-aos="fade-down">Tenemos el honor de invitarlos a la celebración de los XV años de nuestra hija</p>
 
-  <div class="hero__frame reveal">
+  <div class="hero__frame" data-aos="zoom-in" data-aos-delay="100">
     <img id="fotoPrincipal" src="assets/gallery/image01.jpeg" alt="Retrato de Linda Hernández">
   </div>
 
-  <svg class="name-crown reveal" viewBox="0 0 100 60" aria-hidden="true">
+  <svg class="name-crown" viewBox="0 0 100 60" aria-hidden="true" data-aos="fade-down" data-aos-delay="150">
     <path d="M10,50 L10,30 L25,42 L35,15 L50,35 L65,15 L75,42 L90,30 L90,50 Z" fill="none" stroke="var(--oro)" stroke-width="4" stroke-linejoin="round" stroke-linecap="round"/>
     <circle cx="35" cy="15" r="4" fill="var(--oro)"/>
     <circle cx="50" cy="10" r="5" fill="var(--rosa-deep)"/>
     <circle cx="65" cy="15" r="4" fill="var(--oro)"/>
     <line x1="15" y1="50" x2="85" y2="50" stroke="var(--oro)" stroke-width="4" stroke-linecap="round"/>
   </svg>
-  <h1 class="hero__name reveal">Linda</h1>
-  <p class="hero__apellido reveal">Hernández</p>
-  <p class="hero__subtitle reveal">Que se llevará a cabo el día</p>
+  <h1 class="hero__name" data-aos="fade-up" data-aos-delay="200">Linda</h1>
+  <p class="hero__apellido" data-aos="fade-up" data-aos-delay="250">Hernández</p>
+  <p class="hero__subtitle" data-aos="fade-up" data-aos-delay="300">Que se llevará a cabo el día</p>
 
-  <div class="hero__badge reveal">
+  <div class="hero__badge" data-aos="zoom-in" data-aos-delay="350">
     <span>Sábado</span>
     <strong>19</strong>
     <span>Septiembre</span>
   </div>
-  <p class="hero__year reveal">2026</p>
+  <p class="hero__year" data-aos="fade-up" data-aos-delay="400">2026</p>
 </header>
 
 <main>
@@ -180,7 +199,7 @@
       <ellipse cx="380" cy="32" rx="12" ry="5" class="leaf" transform="rotate(-15 380 32)"/>
     </svg>
 
-    <div class="section__inner reveal">
+    <div class="section__inner" data-aos="fade-up">
       <span class="section__eyebrow">Mensaje para ti</span>
       <p class="carta__texto">
         Hoy quiero compartir contigo uno de los días más felices de mi vida.
@@ -243,7 +262,7 @@
 
   <!-- ===================== CUENTA REGRESIVA ===================== -->
   <section id="cuenta" class="section cuenta">
-    <div class="section__inner reveal">
+    <div class="section__inner" data-aos="fade-up">
       <span class="section__eyebrow">Falta poco</span>
       <h2 class="section__title">La cuenta regresiva ya empezó</h2>
       <div id="countdown" class="countdown" data-date="2026-09-19T18:00:00">
@@ -257,33 +276,25 @@
 
   <!-- ===================== ITINERARIO ===================== -->
   <section id="itinerario" class="section itinerario">
-    <div class="section__inner reveal">
+    <div class="section__inner" data-aos="fade-up">
       <span class="section__eyebrow">Programa</span>
       <h2 class="section__title">Itinerario</h2>
 
-      <ul class="timeline">
+      <ul class="timeline" data-aos="fade-up">
         <li class="timeline__item">
-          <span class="timeline__icon" aria-hidden="true">
-            <svg viewBox="0 0 40 40"><path d="M8,8 L32,8 L20,22 Z" fill="var(--icono)" stroke="none"/><rect x="18.5" y="22" width="3" height="9" fill="var(--icono)" stroke="none"/><rect x="12" y="31" width="16" height="2.5" rx="1.2" fill="var(--icono)" stroke="none"/><circle cx="16" cy="9" r="2.2" fill="var(--blush)" stroke="none"/><path d="M14,9 L20,8" stroke="var(--icono)" stroke-width="1" fill="none"/></svg>
-          </span>
+          <span class="timeline__icon" aria-hidden="true"><iconify-icon icon="mdi:glass-cocktail"></iconify-icon></span>
           <span class="timeline__text"><strong>Recepción</strong><em>7:00 p.m.</em></span>
         </li>
         <li class="timeline__item">
-          <span class="timeline__icon" aria-hidden="true">
-            <svg viewBox="0 0 40 40"><path d="M10,34 L10,20 C10,12 30,12 30,20 L30,34" fill="none" stroke="var(--icono)" stroke-width="2.2" stroke-linecap="round"/><path d="M20,10 C18,8 15,9 15,12 C15,14.5 20,18 20,18 C20,18 25,14.5 25,12 C25,9 22,8 20,10Z" fill="var(--icono)" stroke="none"/><path d="M15,22 L25,22 L23,30 L17,30 Z" fill="none" stroke="var(--icono)" stroke-width="1.6"/><line x1="20" y1="30" x2="20" y2="34" stroke="var(--icono)" stroke-width="1.6"/><line x1="16" y1="34" x2="24" y2="34" stroke="var(--icono)" stroke-width="1.6" stroke-linecap="round"/></svg>
-          </span>
+          <span class="timeline__icon" aria-hidden="true"><iconify-icon icon="mdi:church"></iconify-icon></span>
           <span class="timeline__text"><strong>Ceremonia</strong><em>7:30 p.m.</em></span>
         </li>
         <li class="timeline__item">
-          <span class="timeline__icon" aria-hidden="true">
-            <svg viewBox="0 0 40 40"><circle cx="16" cy="10" r="3" fill="var(--icono)" stroke="none"/><circle cx="24" cy="10" r="3" fill="var(--icono)" stroke="none"/><path d="M12,16 C8,20 8,28 12,34 L28,34 C32,28 32,20 28,16 C26,20 24,24 20,24 C16,24 14,20 12,16Z" fill="var(--icono)" stroke="none"/></svg>
-          </span>
+          <span class="timeline__icon" aria-hidden="true"><iconify-icon icon="mdi:dance-ballroom"></iconify-icon></span>
           <span class="timeline__text"><strong>Vals</strong><em>8:00 p.m.</em></span>
         </li>
         <li class="timeline__item">
-          <span class="timeline__icon" aria-hidden="true">
-            <svg viewBox="0 0 40 40"><circle cx="20" cy="21" r="12" fill="none" stroke="var(--icono)" stroke-width="1.6"/><circle cx="20" cy="21" r="6.5" fill="none" stroke="var(--icono)" stroke-width="1"/><path d="M7,9 L7,17 M5,9 L5,15 M9,9 L9,15 M5,15 C5,17.5 9,17.5 9,15" stroke="var(--icono)" stroke-width="1.3" fill="none" stroke-linecap="round"/><line x1="7" y1="9" x2="7" y2="34" stroke="var(--icono)" stroke-width="1.3" stroke-linecap="round"/><path d="M33,9 C35.5,11.5 35.5,15.5 33,18 L33,34" stroke="var(--icono)" stroke-width="1.3" fill="none" stroke-linecap="round"/></svg>
-          </span>
+          <span class="timeline__icon" aria-hidden="true"><iconify-icon icon="mdi:silverware-fork-knife"></iconify-icon></span>
           <span class="timeline__text"><strong>Cena</strong><em>9:00 p.m.</em></span>
         </li>
       </ul>
@@ -292,12 +303,12 @@
 
   <!-- ===================== VESTIMENTA ===================== -->
   <section id="vestimenta" class="section vestimenta">
-    <div class="section__inner reveal">
+    <div class="section__inner" data-aos="fade-up">
       <span class="section__eyebrow">Código de vestimenta</span>
       <h2 class="section__title">Vestimenta formal</h2>
-      <div class="vestimenta__icons" id="vestimentaIcons">
-        <span class="vestimenta__icon"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20,4 C22,4 23,6 22,8 L18,8 C17,6 18,4 20,4 Z" fill="var(--icono)" stroke="none"/><path d="M18,8 L16,27 C15.5,29 16,30 17.5,30.5 L17.5,32 C12,33.5 9,35.5 9,37 L31,37 C31,35.5 28,33.5 22.5,32 L22.5,30.5 C24,30 24.5,29 24,27 L22,8 Z" fill="var(--icono)" stroke="none"/></svg></span>
-        <span class="vestimenta__icon"><svg viewBox="0 0 40 40" aria-hidden="true"><path d="M20,4 L24,7 L28,4 L30,7 L26,11 L30,15 L34,36 L22,36 L21,18 L19,18 L18,36 L6,36 L10,15 L14,11 L10,7 L12,4 L16,7 Z" fill="var(--icono)" stroke="none"/><path d="M17,10 L20,15 L23,10 L20,8Z" fill="var(--blush)" stroke="none"/></svg></span>
+      <div class="vestimenta__icons" id="vestimentaIcons" data-aos="zoom-in">
+        <span class="vestimenta__icon"><iconify-icon icon="fa6-solid:person-dress"></iconify-icon></span>
+        <span class="vestimenta__icon"><iconify-icon icon="mdi:tie"></iconify-icon></span>
       </div>
       <p class="vestimenta__nota">
         <span class="color-swatch" id="colorEvitarSwatch" style="background:#E9AABB" aria-hidden="true"></span>
@@ -308,7 +319,7 @@
 
   <!-- ===================== DETALLES / MAPA ===================== -->
   <section id="detalles" class="section detalles">
-    <div class="section__inner reveal">
+    <div class="section__inner" data-aos="fade-up">
       <span class="section__eyebrow">Ubicación</span>
       <h2 class="section__title">Dónde y cuándo</h2>
 
@@ -328,16 +339,22 @@
 
   <!-- ===================== GALERÍA ===================== -->
   <section id="galeria" class="section galeria">
-    <div class="section__inner reveal">
+    <div class="section__inner" data-aos="fade-up">
       <span class="section__eyebrow">Recuerdos</span>
       <h2 class="section__title">Galería de fotos</h2>
-      <div class="galeria__grid" id="galeriaGrid">
-        <button class="galeria__item" data-full="assets/gallery/image01.jpeg"><img src="assets/gallery/image01.jpeg" alt="Foto 1" loading="lazy"></button>
-        <button class="galeria__item" data-full="assets/gallery/image02.jpeg"><img src="assets/gallery/image02.jpeg" alt="Foto 2" loading="lazy"></button>
-        <button class="galeria__item" data-full="assets/gallery/image03.jpeg"><img src="assets/gallery/image03.jpeg" alt="Foto 3" loading="lazy"></button>
-        <button class="galeria__item" data-full="assets/gallery/foto4.jpg"><img src="assets/gallery/foto4.jpg" alt="Foto 4" loading="lazy"></button>
-        <button class="galeria__item" data-full="assets/gallery/foto5.jpg"><img src="assets/gallery/foto5.jpg" alt="Foto 5" loading="lazy"></button>
-        <button class="galeria__item" data-full="assets/gallery/foto6.jpg"><img src="assets/gallery/foto6.jpg" alt="Foto 6" loading="lazy"></button>
+
+      <div class="swiper galeria__swiper" id="galeriaSwiper">
+        <div class="swiper-wrapper" id="galeriaWrapper">
+          <div class="swiper-slide"><button class="galeria__item" data-full="assets/gallery/image01.jpeg"><img src="assets/gallery/image01.jpeg" alt="Foto 1" loading="lazy"></button></div>
+          <div class="swiper-slide"><button class="galeria__item" data-full="assets/gallery/image02.jpeg"><img src="assets/gallery/image02.jpeg" alt="Foto 2" loading="lazy"></button></div>
+          <div class="swiper-slide"><button class="galeria__item" data-full="assets/gallery/image03.jpeg"><img src="assets/gallery/image03.jpeg" alt="Foto 3" loading="lazy"></button></div>
+          <div class="swiper-slide"><button class="galeria__item" data-full="assets/gallery/foto4.jpg"><img src="assets/gallery/foto4.jpg" alt="Foto 4" loading="lazy"></button></div>
+          <div class="swiper-slide"><button class="galeria__item" data-full="assets/gallery/foto5.jpg"><img src="assets/gallery/foto5.jpg" alt="Foto 5" loading="lazy"></button></div>
+          <div class="swiper-slide"><button class="galeria__item" data-full="assets/gallery/foto6.jpg"><img src="assets/gallery/foto6.jpg" alt="Foto 6" loading="lazy"></button></div>
+        </div>
+        <div class="swiper-pagination"></div>
+        <div class="swiper-button-prev"></div>
+        <div class="swiper-button-next"></div>
       </div>
     </div>
   </section>
@@ -349,7 +366,7 @@
 
   <!-- ===================== RSVP ===================== -->
   <section id="rsvp" class="section rsvp">
-    <div class="section__inner reveal">
+    <div class="section__inner" data-aos="fade-up">
       <span class="section__eyebrow">Confirma tu lugar</span>
       <h2 class="section__title">¿Nos acompañas?</h2>
       <p class="rsvp__sub">Por favor confirma tu asistencia antes del 1 de septiembre.</p>
@@ -394,6 +411,15 @@
   <p>Gracias por ser parte de este capítulo</p>
   <p class="footer__hashtag">#LindaXV2026</p>
 </footer>
+
+<!-- ===================== LIBRERÍAS JS (CDN) ===================== -->
+<script src="https://unpkg.com/aos@2.3.4/dist/aos.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tsparticles/confetti@3.5.0/tsparticles.confetti.bundle.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@tsparticles/all@3.5.0/tsparticles.all.bundle.min.js"></script>
+<script src="https://unpkg.com/@lottiefiles/lottie-player@2.0.8/dist/lottie-player.js"></script>
 
 <script src="js/script.js"></script>
 </body>
