@@ -13,9 +13,7 @@
 <link rel="stylesheet" href="css/style.css">
 
 <!-- ===================== LIBRERÍAS (CDN, sin build tools) ===================== -->
-<!-- Iconify: íconos vectoriales profesionales. Se carga async; el custom
-     element <iconify-icon> se registra solo al terminar de descargar. -->
-<script async src="https://cdn.jsdelivr.net/npm/iconify-icon@2.1.0/dist/iconify-icon.min.js"></script>
+<!-- Los íconos ahora son SVG propios (en js/script.js), no dependen de Iconify. -->
 <!-- AOS: animaciones al hacer scroll -->
 <link rel="stylesheet" href="https://unpkg.com/aos@2.3.4/dist/aos.css">
 <!-- Swiper: carrusel de la galería de fotos -->
@@ -63,7 +61,7 @@
   <lottie-player
     id="gateLottie"
     class="gate__lottie"
-    src="assets/celebrate.json"
+    src="https://assets9.lottiefiles.com/packages/lf20_touohxv0.json"
     background="transparent" speed="0.6" loop autoplay>
   </lottie-player>
 
@@ -285,19 +283,19 @@
 
       <ul class="timeline" data-aos="fade-up">
         <li class="timeline__item">
-          <span class="timeline__icon" aria-hidden="true"><iconify-icon icon="mdi:glass-cocktail"></iconify-icon></span>
+          <span class="timeline__icon" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M10 12 L38 12 L24 28 Z" fill="currentColor"/><rect x="22.5" y="28" width="3" height="12" rx="1" fill="currentColor"/><rect x="16" y="40" width="16" height="3" rx="1.5" fill="currentColor"/><circle cx="19" cy="15" r="2.4" fill="var(--blush)"/><path d="M30 14 C33 13 34 16 32 18" stroke="var(--blush)" stroke-width="1.3" fill="none" stroke-linecap="round"/></svg></span>
           <span class="timeline__text"><strong>Recepción</strong><em>7:00 p.m.</em></span>
         </li>
         <li class="timeline__item">
-          <span class="timeline__icon" aria-hidden="true"><iconify-icon icon="mdi:church"></iconify-icon></span>
+          <span class="timeline__icon" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M24 4 L24 10 M21 7 L27 7" stroke="currentColor" stroke-width="2" stroke-linecap="round"/><path d="M24 11 L38 22 L38 42 L28 42 L28 32 C28 30 20 30 20 32 L20 42 L10 42 L10 22 Z" fill="currentColor"/><path d="M24 20 L24 27 M20.5 23.5 L27.5 23.5" stroke="var(--blush)" stroke-width="1.4" stroke-linecap="round"/><rect x="21" y="35" width="6" height="7" rx="3" fill="var(--blush)"/></svg></span>
           <span class="timeline__text"><strong>Ceremonia</strong><em>7:30 p.m.</em></span>
         </li>
         <li class="timeline__item">
-          <span class="timeline__icon" aria-hidden="true"><iconify-icon icon="mdi:dance-ballroom"></iconify-icon></span>
+          <span class="timeline__icon" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none" aria-hidden="true"><circle cx="19" cy="11" r="3.4" fill="currentColor"/><circle cx="29" cy="11" r="3.4" fill="currentColor"/><path d="M15 17 C11 21 11 30 15 40 L21 40 C21 30 19 22 15 17 Z" fill="currentColor"/><path d="M33 17 C37 21 37 30 33 40 L25 40 C24 33 27 24 33 17 Z" fill="currentColor"/><path d="M19 20 C22 23 26 23 29 20" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg></span>
           <span class="timeline__text"><strong>Vals</strong><em>8:00 p.m.</em></span>
         </li>
         <li class="timeline__item">
-          <span class="timeline__icon" aria-hidden="true"><iconify-icon icon="mdi:silverware-fork-knife"></iconify-icon></span>
+          <span class="timeline__icon" aria-hidden="true"><svg viewBox="0 0 48 48" fill="none" aria-hidden="true"><circle cx="24" cy="24" r="13" stroke="currentColor" stroke-width="2" fill="none"/><circle cx="24" cy="24" r="7" stroke="currentColor" stroke-width="1.4" fill="none"/><path d="M8 9 L8 18 M6 9 L6 15 M10 9 L10 15 M6 15 C6 17.5 10 17.5 10 15" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round"/><path d="M8 18 L8 40" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/><path d="M40 9 C43 12 43 17 40 20 L40 40" stroke="currentColor" stroke-width="1.6" fill="none" stroke-linecap="round"/></svg></span>
           <span class="timeline__text"><strong>Cena</strong><em>9:00 p.m.</em></span>
         </li>
       </ul>
@@ -310,8 +308,8 @@
       <span class="section__eyebrow">Código de vestimenta</span>
       <h2 class="section__title">Vestimenta formal</h2>
       <div class="vestimenta__icons" id="vestimentaIcons" data-aos="zoom-in">
-        <span class="vestimenta__icon"><iconify-icon icon="fa6-solid:person-dress"></iconify-icon></span>
-        <span class="vestimenta__icon"><iconify-icon icon="mdi:tie"></iconify-icon></span>
+        <span class="vestimenta__icon"><svg viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M24 6 C22.5 6 21.5 7.2 21.8 8.8 L22.5 13 C20 14 19.5 17 20.5 20 L18 30 C16 36 14 40 12 43 C16 44.5 32 44.5 36 43 C34 40 32 36 30 30 L27.5 20 C28.5 17 28 14 25.5 13 L26.2 8.8 C26.5 7.2 25.5 6 24 6 Z" fill="currentColor"/><path d="M20.8 20 C22.8 22 25.2 22 27.2 20" stroke="var(--blush)" stroke-width="0.8" fill="none"/><path d="M15 34 C20 36 28 36 33 34" stroke="var(--blush)" stroke-width="0.8" fill="none" opacity="0.7"/></svg></span>
+        <span class="vestimenta__icon"><svg viewBox="0 0 48 48" fill="none" aria-hidden="true"><path d="M24 9 L29 12 L33 10 L34 15 L31 18 L36 42 L28 42 L26.5 24 L24 26 L21.5 24 L20 42 L12 42 L17 18 L14 15 L15 10 L19 12 Z" fill="currentColor"/><path d="M21 13 L24 20 L27 13 L24 15 Z" fill="var(--blush)"/><path d="M20.5 17 L24 20.5 L27.5 17" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg></span>
       </div>
       <p class="vestimenta__nota">
         <span class="color-swatch" id="colorEvitarSwatch" style="background:#E9AABB" aria-hidden="true"></span>
@@ -327,7 +325,7 @@
       <span class="section__eyebrow">Con cariño</span>
       <h2 class="section__title" id="regalosTitulo">Mesa de regalos</h2>
       <div class="regalos__sobre" data-aos="zoom-in" aria-hidden="true">
-        <iconify-icon icon="mdi:email-heart-outline"></iconify-icon>
+        <svg viewBox="0 0 48 48" fill="none" aria-hidden="true"><rect x="7" y="12" width="34" height="24" rx="2.5" stroke="currentColor" stroke-width="2.4" fill="none"/><path d="M8 14 L24 27 L40 14" stroke="currentColor" stroke-width="2.4" fill="none" stroke-linecap="round" stroke-linejoin="round"/><path d="M24 34 C18 29 19.5 24 23 25.5 C24 26 24 27 24 27 C24 27 24 26 25 25.5 C28.5 24 30 29 24 34 Z" fill="currentColor"/></svg>
       </div>
       <p class="regalos__mensaje" id="regalosMensaje">Tu presencia es mi mejor regalo. Si además deseas obsequiarme algo, un sobre con tu cariño será recibido con todo el corazón.</p>
       <p class="regalos__detalle" id="regalosDetalle"></p>

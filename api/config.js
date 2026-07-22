@@ -8,11 +8,17 @@ const ADMIN_KEY = process.env.ADMIN_KEY || '';
 // tanto en el itinerario como en la sección de vestimenta.
 // Formato: 'set:nombre' — renderizados por <iconify-icon> en el sitio.
 const ICONOS_VALIDOS = [
+  // Set clásico (mdi) — se mantiene por compatibilidad con configs guardadas
   'mdi:glass-cocktail', 'mdi:church', 'mdi:dance-ballroom', 'mdi:silverware-fork-knife',
   'mdi:heart', 'mdi:gift', 'mdi:clock-outline', 'fa6-solid:person-dress',
   'mdi:tie', 'mdi:ring', 'mdi:flower', 'mdi:butterfly', 'mdi:star-four-points',
   'mdi:diamond-stone', 'mdi:music-note', 'mdi:cake-variant', 'mdi:crown',
-  'mdi:hat-fedora', 'mdi:shoe-heel', 'mdi:fan', 'mdi:email-outline', 'mdi:champagne'
+  'mdi:hat-fedora', 'mdi:shoe-heel', 'mdi:fan', 'mdi:email-outline', 'mdi:champagne',
+  // Set premium (Phosphor duotone/regular) — líneas más finas y elegantes
+  'ph:martini', 'ph:church', 'ph:music-notes', 'ph:fork-knife', 'ph:heart-straight',
+  'ph:gift', 'ph:clock', 'ph:dress', 'ph:bowtie', 'ph:diamond', 'ph:flower-lotus',
+  'ph:butterfly', 'ph:star-four', 'ph:cake', 'ph:crown', 'ph:champagne', 'ph:high-heel',
+  'ph:hand-heart', 'ph:sparkle', 'ph:confetti', 'ph:envelope', 'ph:camera'
 ];
 
 // Mapa de compatibilidad — las configuraciones guardadas antes de este
@@ -72,16 +78,16 @@ const DEFAULT_CONFIG = {
     escalaMensajes: 'normal'
   },
   itinerario: [
-    { titulo: 'Recepción', hora: '7:00 p.m.', icono: 'mdi:glass-cocktail' },
-    { titulo: 'Ceremonia', hora: '7:30 p.m.', icono: 'mdi:church' },
-    { titulo: 'Vals', hora: '8:00 p.m.', icono: 'mdi:dance-ballroom' },
-    { titulo: 'Cena', hora: '9:00 p.m.', icono: 'mdi:silverware-fork-knife' }
+    { titulo: 'Recepción', hora: '7:00 p.m.', icono: 'ph:martini' },
+    { titulo: 'Ceremonia', hora: '7:30 p.m.', icono: 'ph:church' },
+    { titulo: 'Vals', hora: '8:00 p.m.', icono: 'ph:music-notes' },
+    { titulo: 'Cena', hora: '9:00 p.m.', icono: 'ph:fork-knife' }
   ],
   vestimenta: {
     nota: 'Color a evitar: rosa palo — ¡es el mío! 🌹',
     colorEvitar: '#E9AABB',
-    iconoIzquierdo: 'fa6-solid:person-dress',
-    iconoDerecho: 'mdi:tie'
+    iconoIzquierdo: 'ph:dress',
+    iconoDerecho: 'ph:bowtie'
   },
   regalos: {
     activo: true,
