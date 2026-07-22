@@ -72,12 +72,12 @@ img{ max-width:100%; display:block; }
 @media (max-width:640px){ .gate__lottie{ width:56px; height:56px; right:4%; } }
 
 .garland{ width:min(500px, 90vw); height:auto; flex:0 0 auto; }
-.rose__c1{ fill:var(--rosa); opacity:.9; }
-.rose__c2{ fill:var(--rosa-deep); opacity:.85; }
-.rose__c3{ fill:#F6C9D4; opacity:.9; }
-.rose__spiral{ fill:none; stroke:var(--vino); stroke-width:2; stroke-linecap:round; opacity:.5; }
-.garland__vine{ fill:none; stroke:var(--verde); stroke-width:1.4; opacity:.55; }
-.leaf{ fill:var(--verde); opacity:.55; }
+.rose__c1{ fill:var(--rosa); opacity:.62; }
+.rose__c2{ fill:var(--rosa-deep); opacity:.5; }
+.rose__c3{ fill:#F6C9D4; opacity:.7; }
+.rose__spiral{ fill:none; stroke:var(--rosa-deep); stroke-width:1.2; stroke-linecap:round; opacity:.4; }
+.garland__vine{ fill:none; stroke:var(--verde); stroke-width:1.2; opacity:.42; }
+.leaf{ fill:var(--verde); opacity:.4; }
 
 .gate__content{ max-width:440px; margin:2vh auto; position:relative; z-index:1; }
 .gate__eyebrow{
@@ -127,6 +127,7 @@ img{ max-width:100%; display:block; }
 .dress__pleat{ fill:none; stroke:var(--rosa-deep); stroke-width:1; opacity:.22; stroke-linecap:round; }
 .dress__shadow{ fill:var(--tinta-suave); opacity:.15; }
 .dress__sparkle{ fill:#fff; opacity:.9; animation:twinkle 2.4s ease-in-out infinite; }
+.dress__sheen{ fill:none; stroke:#fff; stroke-width:1.4; opacity:.18; stroke-linecap:round; }
 @keyframes twinkle{ 0%,100%{ opacity:.2; } 50%{ opacity:1; } }
 
 .butterfly{ position:absolute; width:50px; height:34px; }
@@ -329,16 +330,16 @@ img{ max-width:100%; display:block; }
 .mapa-wrap{ border-radius:var(--radius); overflow:hidden; aspect-ratio:4/3; margin-bottom:12px; filter:saturate(.85); }
 .mapa-wrap iframe{ width:100%; height:100%; border:0; }
 .btn-link{
-  display:inline-flex; align-items:center; gap:8px;
-  font-family:var(--f-body); font-size:.92rem; font-weight:500; letter-spacing:.04em;
-  color:var(--blanco); text-decoration:none;
-  background:linear-gradient(135deg, var(--rosa-deep), var(--vino));
-  padding:13px 26px; border-radius:40px; margin-top:6px;
-  box-shadow:0 14px 30px -12px rgba(139,79,98,.6);
-  transition:transform .3s var(--ease), box-shadow .3s var(--ease);
+  display:inline-flex; align-items:center; gap:9px;
+  font-family:var(--f-body); font-size:.86rem; font-weight:400; letter-spacing:.08em; text-transform:uppercase;
+  color:var(--vino); text-decoration:none;
+  background:transparent;
+  padding:11px 26px; border-radius:40px; margin-top:10px;
+  border:1px solid var(--oro);
+  transition:background .4s var(--ease), color .4s var(--ease), letter-spacing .4s var(--ease);
 }
-.btn-link:hover{ transform:translateY(-2px); box-shadow:0 20px 40px -14px rgba(139,79,98,.75); }
-.btn-link svg{ width:18px; height:18px; flex:0 0 auto; }
+.btn-link:hover{ background:var(--oro); color:var(--blanco); letter-spacing:.12em; }
+.btn-link svg{ width:16px; height:16px; flex:0 0 auto; opacity:.9; }
 
 /* GALERÍA — carrusel Swiper */
 .galeria__swiper{ margin-top:36px; padding-bottom:44px; }

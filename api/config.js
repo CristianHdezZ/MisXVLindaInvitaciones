@@ -14,6 +14,9 @@ const ICONOS_VALIDOS = [
   'mdi:tie', 'mdi:ring', 'mdi:flower', 'mdi:butterfly', 'mdi:star-four-points',
   'mdi:diamond-stone', 'mdi:music-note', 'mdi:cake-variant', 'mdi:crown',
   'mdi:hat-fedora', 'mdi:shoe-heel', 'mdi:fan', 'mdi:email-outline', 'mdi:champagne',
+  // Trajes y vestidos elegantes (SVG propios) — para el código de vestimenta
+  'traje:gala', 'traje:sirena', 'traje:corte-a', 'traje:lazo', 'traje:coctel',
+  'traje:esmoquin', 'traje:corbata', 'traje:chaleco',
   // Set premium (Phosphor duotone/regular) — líneas más finas y elegantes
   'ph:martini', 'ph:church', 'ph:music-notes', 'ph:fork-knife', 'ph:heart-straight',
   'ph:gift', 'ph:clock', 'ph:dress', 'ph:bowtie', 'ph:diamond', 'ph:flower-lotus',
@@ -88,8 +91,8 @@ const DEFAULT_CONFIG = {
   vestimenta: {
     nota: 'Color a evitar: rosa palo — ¡es el mío! 🌹',
     colorEvitar: '#E9AABB',
-    iconoIzquierdo: 'ph:dress',
-    iconoDerecho: 'ph:bowtie'
+    iconoIzquierdo: 'traje:gala',
+    iconoDerecho: 'traje:esmoquin'
   },
   regalos: {
     activo: true,
