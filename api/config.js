@@ -2,14 +2,35 @@ const { getConfig, setConfig } = require('../lib/store');
 
 const ADMIN_KEY = process.env.ADMIN_KEY || '';
 
-// Íconos permitidos — lista cerrada para no aceptar SVG/HTML arbitrario
-// desde el formulario (evita inyección de contenido). Se usan tanto en
-// el itinerario como en la sección de vestimenta.
+// Íconos permitidos — lista cerrada de identificadores de Iconify
+// (no texto libre) para no aceptar cualquier ícono público arbitrario
+// desde el formulario y mantener el estilo visual coherente. Se usan
+// tanto en el itinerario como en la sección de vestimenta.
+// Formato: 'set:nombre' — renderizados por <iconify-icon> en el sitio.
 const ICONOS_VALIDOS = [
-  'copa', 'ceremonia', 'vals', 'cena', 'iglesia', 'corazon', 'regalo', 'reloj',
-  'vestido', 'esmoquin', 'anillo', 'flor', 'mariposa', 'estrella', 'diamante',
-  'musica', 'pastel', 'corona', 'sombrero', 'zapato', 'abanico', 'sobre'
+  'mdi:glass-cocktail', 'mdi:church', 'mdi:dance-ballroom', 'mdi:silverware-fork-knife',
+  'mdi:heart', 'mdi:gift', 'mdi:clock-outline', 'fa6-solid:person-dress',
+  'mdi:tie', 'mdi:ring', 'mdi:flower', 'mdi:butterfly', 'mdi:star-four-points',
+  'mdi:diamond-stone', 'mdi:music-note', 'mdi:cake-variant', 'mdi:crown',
+  'mdi:hat-fedora', 'mdi:shoe-heel', 'mdi:fan', 'mdi:email-outline', 'mdi:champagne'
 ];
+
+// Mapa de compatibilidad — las configuraciones guardadas antes de este
+// cambio usaban nombres internos ('copa', 'vals', etc.) en vez de
+// identificadores de Iconify. Este mapa los traduce automáticamente la
+// primera vez que se lee una config vieja, para no perder lo ya guardado.
+const ICONOS_LEGADO = {
+  copa: 'mdi:glass-cocktail', ceremonia: 'mdi:church', vals: 'mdi:dance-ballroom',
+  cena: 'mdi:silverware-fork-knife', iglesia: 'mdi:church', corazon: 'mdi:heart',
+  regalo: 'mdi:gift', reloj: 'mdi:clock-outline', vestido: 'fa6-solid:person-dress',
+  esmoquin: 'mdi:tie', anillo: 'mdi:ring', flor: 'mdi:flower', mariposa: 'mdi:butterfly',
+  estrella: 'mdi:star-four-points', diamante: 'mdi:diamond-stone', musica: 'mdi:music-note',
+  pastel: 'mdi:cake-variant', corona: 'mdi:crown', sombrero: 'mdi:hat-fedora',
+  zapato: 'mdi:shoe-heel', abanico: 'mdi:fan', sobre: 'mdi:email-outline'
+};
+function migrarIcono(valor) {
+  return ICONOS_LEGADO[valor] || valor;
+}
 
 // Fuentes permitidas — lista cerrada (no texto libre) para no tener que
 // cargar URLs de Google Fonts arbitrarias ni romper el diseño con una
@@ -50,16 +71,16 @@ const DEFAULT_CONFIG = {
     escalaMensajes: 'normal'
   },
   itinerario: [
-    { titulo: 'Recepción', hora: '7:00 p.m.', icono: 'copa' },
-    { titulo: 'Ceremonia', hora: '7:30 p.m.', icono: 'ceremonia' },
-    { titulo: 'Vals', hora: '8:00 p.m.', icono: 'vals' },
-    { titulo: 'Cena', hora: '9:00 p.m.', icono: 'cena' }
+    { titulo: 'Recepción', hora: '7:00 p.m.', icono: 'mdi:glass-cocktail' },
+    { titulo: 'Ceremonia', hora: '7:30 p.m.', icono: 'mdi:church' },
+    { titulo: 'Vals', hora: '8:00 p.m.', icono: 'mdi:dance-ballroom' },
+    { titulo: 'Cena', hora: '9:00 p.m.', icono: 'mdi:silverware-fork-knife' }
   ],
   vestimenta: {
     nota: 'Color a evitar: rosa palo — ¡es el mío! 🌹',
     colorEvitar: '#E9AABB',
-    iconoIzquierdo: 'vestido',
-    iconoDerecho: 'esmoquin'
+    iconoIzquierdo: 'fa6-solid:person-dress',
+    iconoDerecho: 'mdi:tie'
   },
   ubicacion: {
     nombreLugar: 'Salón de Eventos Imperial Eventos Deluxe',
@@ -124,18 +145,23 @@ function sanitizeConfig(body) {
   };
 
   const itinerario = Array.isArray(b.itinerario)
-    ? b.itinerario.slice(0, 10).map((item) => ({
-        titulo: sanitizeText(item?.titulo, 60, 'Actividad'),
-        hora: sanitizeText(item?.hora, 30, ''),
-        icono: ICONOS_VALIDOS.includes(item?.icono) ? item.icono : 'copa'
-      }))
+    ? b.itinerario.slice(0, 10).map((item) => {
+        const iconoMigrado = migrarIcono(item?.icono);
+        return {
+          titulo: sanitizeText(item?.titulo, 60, 'Actividad'),
+          hora: sanitizeText(item?.hora, 30, ''),
+          icono: ICONOS_VALIDOS.includes(iconoMigrado) ? iconoMigrado : 'mdi:glass-cocktail'
+        };
+      })
     : d.itinerario;
 
+  const vestimentaIconoIzq = migrarIcono(b?.vestimenta?.iconoIzquierdo);
+  const vestimentaIconoDer = migrarIcono(b?.vestimenta?.iconoDerecho);
   const vestimenta = {
     nota: sanitizeText(b?.vestimenta?.nota, 200, d.vestimenta.nota),
     colorEvitar: sanitizeColor(b?.vestimenta?.colorEvitar, d.vestimenta.colorEvitar),
-    iconoIzquierdo: ICONOS_VALIDOS.includes(b?.vestimenta?.iconoIzquierdo) ? b.vestimenta.iconoIzquierdo : d.vestimenta.iconoIzquierdo,
-    iconoDerecho: ICONOS_VALIDOS.includes(b?.vestimenta?.iconoDerecho) ? b.vestimenta.iconoDerecho : d.vestimenta.iconoDerecho
+    iconoIzquierdo: ICONOS_VALIDOS.includes(vestimentaIconoIzq) ? vestimentaIconoIzq : d.vestimenta.iconoIzquierdo,
+    iconoDerecho: ICONOS_VALIDOS.includes(vestimentaIconoDer) ? vestimentaIconoDer : d.vestimenta.iconoDerecho
   };
 
   const galeria = Array.isArray(b.galeria)
@@ -186,7 +212,11 @@ module.exports = async (req, res) => {
   if (req.method === 'GET') {
     try {
       const stored = await getConfig();
-      return res.status(200).json({ ok: true, config: stored || DEFAULT_CONFIG });
+      // Pasa lo almacenado por sanitizeConfig aunque sea de solo lectura:
+      // así se migran identificadores de íconos viejos (copa, vals, ...) a
+      // los de Iconify y se rellenan campos que falten en configs antiguas.
+      const config = stored ? sanitizeConfig(stored) : DEFAULT_CONFIG;
+      return res.status(200).json({ ok: true, config });
     } catch (err) {
       console.error('Error leyendo configuración:', err);
       return res.status(200).json({ ok: true, config: DEFAULT_CONFIG });
