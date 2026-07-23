@@ -21,10 +21,9 @@ const ICONOS_VALIDOS = [
   'traje:bailarina',
   // Íconos de Flaticon (autor Magnific) — siluetas profesionales
   'fi:vestido', 'fi:esmoquin', 'fi:silueta', 'fi:baile', 'fi:fiesta', 'fi:arco', 'fi:salon', 'fi:cena', 'fi:copa', 'fi:champan', 'fi:champan2', 'fi:champan3', 'fi:brindis', 'fi:corona', 'fi:pastel', 'fi:pastel2', 'fi:pastel-velas', 'fi:regalo', 'fi:tarjeta-regalo', 'fi:invitacion', 'fi:dj', 'fi:dj2', 'fi:microfono', 'fi:luces', 'fi:escenario', 'fi:reloj',
-  'fi:vals', 'fi:sobre', 'fi:reloj-arena', 'fi:reloj2', 'fi:botella', ,
+  'fi:vals', 'fi:sobre', 'fi:reloj-arena', 'fi:reloj2', 'fi:botella',
   // Variantes rellenas (mismo ícono, estilo sólido)
-  'fi:sobre-relleno', 'fi:reloj-arena-relleno', 'fi:vals-relleno', 'fi:reloj2-relleno', 'fi:botella-relleno'
-,
+  'fi:sobre-relleno', 'fi:reloj-arena-relleno', 'fi:vals-relleno', 'fi:reloj2-relleno', 'fi:botella-relleno',
   'fi:corona2', 'fi:pastel3'
 ];
 
@@ -62,6 +61,7 @@ const DEFAULT_CONFIG = {
   nombre: 'Linda',
   apellido: 'Hernández',
   fechaEvento: '2026-09-19T18:00:00',
+  fraseFecha: 'Que se llevará a cabo el día',
   fraseInvitacion: 'Tenemos el honor de invitarlos a la celebración de los XV años de nuestra hija',
   fraseGate: 'Hay momentos inolvidables que se atesoran en el corazón para siempre. Me siento muy feliz de llegar a este momento de mi vida y quiero compartirlo contigo.',
   mensajeCarta: 'Hoy quiero compartir contigo uno de los días más felices de mi vida. Quince años de historias, de risas y de aprender a florecer, y quiero que estés ahí para verlo con tus propios ojos. Esta invitación es un pedacito de mi corazón, hecha con la misma ilusión con la que espero abrazarte ese día.',
@@ -157,7 +157,7 @@ function sanitizeUrl(value, fallback) {
 // Elementos de texto que pueden tener color/fuente/tamaño propios desde el
 // admin. Si un valor queda vacío, el elemento hereda el estilo global.
 const ELEMENTOS_ESTILO = [
-  'nombre', 'apellido', 'fraseInvitacion', 'fraseGate', 'carta', 'hashtag',
+  'nombre', 'apellido', 'fraseInvitacion', 'fraseFecha', 'fraseGate', 'carta', 'hashtag',
   'vestimentaNota', 'regalosTitulo', 'regalosMensaje', 'regalosDetalle',
   'itinerarioTitulo', 'itinerarioHora', 'ubicacionLugar', 'ubicacionDireccion', 'ubicacionHora'
 ];
@@ -240,13 +240,13 @@ function sanitizeConfig(body) {
   const vestimenta = {
     nota: sanitizeText(b?.vestimenta?.nota, 200, d.vestimenta.nota),
     colorEvitar: sanitizeColor(b?.vestimenta?.colorEvitar, d.vestimenta.colorEvitar),
-    iconoColorEvitar: ICONOS_VALIDOS.includes(b?.vestimenta?.iconoColorEvitar) ? b.vestimenta.iconoColorEvitar : d.vestimenta.iconoColorEvitar,
+    iconoColorEvitar: ICONOS_VALIDOS.includes(b?.vestimenta?.iconoColorEvitar) ? b?.vestimenta?.iconoColorEvitar : d.vestimenta.iconoColorEvitar,
     iconoIzquierdo: ICONOS_VALIDOS.includes(vestimentaIconoIzq) ? vestimentaIconoIzq : d.vestimenta.iconoIzquierdo,
     iconoDerecho: ICONOS_VALIDOS.includes(vestimentaIconoDer) ? vestimentaIconoDer : d.vestimenta.iconoDerecho
   };
 
   const regalos = {
-    activo: typeof b?.regalos?.activo === 'boolean' ? b.regalos.activo : d.regalos.activo,
+    activo: typeof b?.regalos?.activo === 'boolean' ? b?.regalos?.activo : d.regalos.activo,
     icono: ICONOS_VALIDOS.includes(b?.regalos?.icono) ? b?.regalos?.icono : d.regalos.icono,
     titulo: sanitizeText(b?.regalos?.titulo, 80, d.regalos.titulo),
     mensaje: sanitizeText(b?.regalos?.mensaje, 400, d.regalos.mensaje),
@@ -274,6 +274,7 @@ function sanitizeConfig(body) {
     nombre: sanitizeText(b.nombre, 60, d.nombre),
     apellido: sanitizeText(b.apellido, 60, d.apellido),
     fechaEvento,
+    fraseFecha: sanitizeText(b.fraseFecha, 200, d.fraseFecha),
     fraseInvitacion: sanitizeText(b.fraseInvitacion, 300, d.fraseInvitacion),
     fraseGate: sanitizeText(b.fraseGate, 400, d.fraseGate),
     mensajeCarta: sanitizeText(b.mensajeCarta, 800, d.mensajeCarta),

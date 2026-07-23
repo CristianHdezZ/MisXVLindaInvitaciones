@@ -224,6 +224,12 @@
       <div data-estilo-slot="fraseInvitacion"></div>
     </div>
     <div class="field">
+      <label for="cfgFraseFecha">Frase antes de la fecha</label>
+      <textarea id="cfgFraseFecha" rows="2"></textarea>
+      <p class="hint">Ej. "Que se llevará a cabo el día".</p>
+      <div data-estilo-slot="fraseFecha"></div>
+    </div>
+    <div class="field">
       <label for="cfgFrase">Frase de la portada</label>
       <textarea id="cfgFrase" rows="3"></textarea>
       <div data-estilo-slot="fraseGate"></div>
@@ -681,7 +687,7 @@ function iconoSvg(id, extraClass) {
      Si se deja vacío, el elemento hereda el estilo global de la
      sección "Colores" / "Tipografía". */
   const ESTILO_CAMPOS = [
-    'nombre','apellido','fraseInvitacion','fraseGate','carta','hashtag',
+    'nombre','apellido','fraseInvitacion','fraseFecha','fraseGate','carta','hashtag',
     'vestimentaNota','regalosTitulo','regalosMensaje','regalosDetalle',
     'itinerarioTitulo','itinerarioHora','ubicacionLugar','ubicacionDireccion','ubicacionHora'
   ];
@@ -1000,6 +1006,7 @@ function iconoSvg(id, extraClass) {
     document.getElementById('cfgFecha').value = isoToLocalInput(config.fechaEvento);
     document.getElementById('cfgHashtag').value = config.hashtag || '';
     document.getElementById('cfgFraseInvitacion').value = config.fraseInvitacion || '';
+    document.getElementById('cfgFraseFecha').value = config.fraseFecha || '';
     document.getElementById('cfgFrase').value = config.fraseGate || '';
     document.getElementById('cfgCarta').value = config.mensajeCarta || '';
 
@@ -1092,6 +1099,7 @@ function iconoSvg(id, extraClass) {
       lottieGate: document.getElementById('cfgLottie').value.trim(),
       musica: document.getElementById('cfgMusica').value.trim(),
       fraseInvitacion: document.getElementById('cfgFraseInvitacion').value.trim(),
+      fraseFecha: document.getElementById('cfgFraseFecha').value.trim(),
       fraseGate: document.getElementById('cfgFrase').value.trim(),
       mensajeCarta: document.getElementById('cfgCarta').value.trim(),
       colores: {

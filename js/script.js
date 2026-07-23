@@ -194,6 +194,7 @@ const ESTILO_SELECTORES = {
   nombre:             ['.hero__name', '.gate__name'],
   apellido:           ['.hero__apellido'],
   fraseInvitacion:    ['.hero__eyebrow'],
+  fraseFecha:         ['.hero__subtitle'],
   fraseGate:          ['.gate__quote'],
   carta:              ['.carta__texto'],
   hashtag:            ['.footer__hashtag'],
@@ -263,6 +264,7 @@ function renderTextos(config) {
   setText('.hero__apellido', config.apellido);
   setText('.gate__quote', config.fraseGate);
   setText('.hero__eyebrow', config.fraseInvitacion);
+  setText('.hero__subtitle', config.fraseFecha);
   setText('.carta__texto', config.mensajeCarta);
   if (config.nombre) setText('.carta__firma', 'Con cariño, ' + config.nombre);
   setText('.footer__hashtag', config.hashtag);
