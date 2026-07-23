@@ -115,6 +115,9 @@
   .hint{ font-size:.78rem; color:var(--tinta-suave); margin-top:4px; }
   h3.sub{ font-family:'Cormorant Garamond',serif; font-size:1.05rem; color:var(--vino); margin:22px 0 10px; padding-bottom:6px; border-bottom:1px solid var(--blush-2); letter-spacing:.02em; }
   h3.sub:first-of-type{ margin-top:6px; }
+  .rango-field{ display:flex; align-items:center; gap:12px; }
+  .rango-field input[type=range]{ flex:1; accent-color:var(--vino); cursor:pointer; }
+  .rango-field output{ min-width:56px; text-align:right; font-size:.85rem; color:var(--vino); font-variant-numeric:tabular-nums; }
   .estilo-box{
     display:flex; gap:10px; align-items:flex-end; flex-wrap:wrap;
     margin-top:8px; padding:10px 12px; border-radius:8px;
@@ -284,6 +287,14 @@
     </div>
     <div class="row-3">
       <div class="field"><label for="fontApellido">Fuente del apellido</label><select id="fontApellido"></select></div>
+      <div class="field">
+        <label for="espacioCorona">Espacio entre la corona y el nombre</label>
+        <div class="rango-field">
+          <input type="range" id="espacioCorona" min="0" max="120" step="1" value="14">
+          <output id="espacioCoronaVal">14 px</output>
+        </div>
+        <p class="hint">Se aplica en la portada y dentro de la invitación.</p>
+      </div>
       <div class="field"><label for="scaleApellido">Tamaño del apellido</label><select id="scaleApellido"><option value="xs">Muy pequeño</option><option value="compacta">Pequeño</option><option value="normal">Normal</option><option value="grande">Grande</option><option value="xl">Muy grande</option><option value="xxl">Extra grande</option></select></div>
     </div>
 
@@ -793,6 +804,15 @@ function iconoSvg(id, extraClass) {
   fillSelectConHerencia(document.getElementById('fontApellido'), FUENTES_NOMBRE);
   montarEstiloBoxes();
 
+  // Muestra el valor del deslizador de espacio de la corona
+  const rangoCorona = document.getElementById('espacioCorona');
+  const rangoCoronaVal = document.getElementById('espacioCoronaVal');
+  if (rangoCorona && rangoCoronaVal) {
+    const pintar = () => { rangoCoronaVal.textContent = rangoCorona.value + ' px'; };
+    rangoCorona.addEventListener('input', pintar);
+    pintar();
+  }
+
   document.querySelectorAll('.tab-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -1038,6 +1058,9 @@ function iconoSvg(id, extraClass) {
     document.getElementById('scaleMensajes').value = t.escalaMensajes || 'normal';
     document.getElementById('scaleIconos').value = t.escalaIconos || 'normal';
     document.getElementById('scaleApellido').value = t.escalaApellido || 'normal';
+    const ec = (typeof t.espacioCorona === 'number') ? t.espacioCorona : 14;
+    document.getElementById('espacioCorona').value = ec;
+    document.getElementById('espacioCoronaVal').textContent = ec + ' px';
     document.getElementById('fontNombre').value = t.fuenteNombre || '';
     document.getElementById('fontApellido').value = t.fuenteApellido || '';
 
@@ -1124,6 +1147,7 @@ function iconoSvg(id, extraClass) {
         escalaMensajes: document.getElementById('scaleMensajes').value,
         escalaIconos: document.getElementById('scaleIconos').value,
         escalaApellido: document.getElementById('scaleApellido').value,
+        espacioCorona: parseInt(document.getElementById('espacioCorona').value, 10),
         fuenteNombre: document.getElementById('fontNombre').value,
         fuenteApellido: document.getElementById('fontApellido').value
       },

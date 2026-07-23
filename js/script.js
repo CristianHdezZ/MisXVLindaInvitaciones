@@ -174,6 +174,9 @@ function applyTipografia(tipografia, estilos) {
   if (tipografia.escalaIconos && SCALE_MAP[tipografia.escalaIconos]) {
     root.setProperty('--scale-iconos', SCALE_MAP[tipografia.escalaIconos]);
   }
+  if (typeof tipografia.espacioCorona === 'number') {
+    root.setProperty('--espacio-corona', tipografia.espacioCorona + 'px');
+  }
   if (tipografia.escalaApellido && SCALE_MAP[tipografia.escalaApellido]) {
     root.setProperty('--scale-apellido', SCALE_MAP[tipografia.escalaApellido]);
   }

@@ -93,7 +93,8 @@ const DEFAULT_CONFIG = {
     escalaIconos: 'normal',
     fuenteNombre: '',
     fuenteApellido: '',
-    escalaApellido: 'normal'
+    escalaApellido: 'normal',
+    espacioCorona: 14
   },
   itinerario: [
     { titulo: 'Recepción', hora: '7:00 p.m.', icono: 'fi:copa' },
@@ -140,6 +141,12 @@ function sanitizeColor(value, fallback) {
 
 function sanitizeChoice(value, allowed, fallback) {
   return typeof value === 'string' && allowed.includes(value) ? value : fallback;
+}
+
+function sanitizeEntero(value, min, max, fallback) {
+  const n = Number(value);
+  if (!Number.isFinite(n)) return fallback;
+  return Math.min(max, Math.max(min, Math.round(n)));
 }
 
 function sanitizeUrl(value, fallback) {
@@ -219,7 +226,8 @@ function sanitizeConfig(body) {
     escalaIconos: sanitizeChoice(b?.tipografia?.escalaIconos, ESCALAS_ICONOS_VALIDAS, d.tipografia.escalaIconos),
     fuenteNombre: sanitizeChoice(b?.tipografia?.fuenteNombre, ['', ...FUENTES_SCRIPT, ...FUENTES_DISPLAY], d.tipografia.fuenteNombre),
     fuenteApellido: sanitizeChoice(b?.tipografia?.fuenteApellido, ['', ...FUENTES_SCRIPT, ...FUENTES_DISPLAY], d.tipografia.fuenteApellido),
-    escalaApellido: sanitizeChoice(b?.tipografia?.escalaApellido, ESCALAS_VALIDAS, d.tipografia.escalaApellido)
+    escalaApellido: sanitizeChoice(b?.tipografia?.escalaApellido, ESCALAS_VALIDAS, d.tipografia.escalaApellido),
+    espacioCorona: sanitizeEntero(b?.tipografia?.espacioCorona, 0, 120, d.tipografia.espacioCorona)
   };
 
   const estilos = sanitizeEstilos(b.estilos, estilosPorDefecto());
