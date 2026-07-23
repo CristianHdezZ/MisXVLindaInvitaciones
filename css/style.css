@@ -20,6 +20,7 @@
   --scale-iconos:   1;
   --scale-apellido: 1;
   --espacio-corona: 14px;
+  --espacio-apellido: 4px;
 
   --f-display: 'Cormorant Garamond', serif;
   --f-script:  'Alex Brush', cursive;
@@ -87,10 +88,11 @@ img{ max-width:100%; display:block; }
   color:var(--tinta-suave); margin:0 0 10px;
 }
 .gate__name{
-  font-family:var(--f-script);
+  font-family:var(--f-nombre, var(--f-script));
   font-size:calc(clamp(3rem, 11vw, 4.6rem) * var(--scale-nombre));
-  color:var(--rosa-deep);
+  color:var(--color-nombre, var(--rosa-deep));
   line-height:1;
+  margin:0;
 }
 .gate__xv{
   font-size:.85rem; letter-spacing:.3em; color:var(--oro);
@@ -204,8 +206,8 @@ img{ max-width:100%; display:block; }
 }
 .hero__frame img{ width:100%; height:100%; object-fit:cover; }
 .name-crown{ width:clamp(70px, 16vw, 110px); height:auto; display:block; margin:0 auto var(--espacio-corona, 14px); }
-.hero__name{ font-family:var(--f-nombre, var(--f-script)); font-size:calc(clamp(2.6rem, 8vw, 3.8rem) * var(--scale-nombre)); color:var(--color-nombre, var(--vino)); }
-.hero__apellido{ font-family:var(--f-apellido, var(--f-script)); font-size:calc(clamp(2.6rem, 8vw, 3.8rem) * var(--scale-apellido, var(--scale-nombre))); color:var(--color-apellido, var(--rosa-deep)); letter-spacing:0; margin-top:-6px; }
+.hero__name{ font-family:var(--f-nombre, var(--f-script)); font-size:calc(clamp(2.6rem, 8vw, 3.8rem) * var(--scale-nombre)); color:var(--color-nombre, var(--vino)); margin:0; line-height:1.05; }
+.hero__apellido{ font-family:var(--f-apellido, var(--f-script)); font-size:calc(clamp(2.6rem, 8vw, 3.8rem) * var(--scale-apellido, var(--scale-nombre))); color:var(--color-apellido, var(--rosa-deep)); letter-spacing:0; margin:var(--espacio-apellido, 4px) 0 0; line-height:1.05; }
 .hero__subtitle{ font-size:.85rem; color:var(--tinta-suave); margin:6px 0 18px; letter-spacing:.04em; }
 .hero__badge{
   display:flex; align-items:center; gap:14px;

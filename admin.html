@@ -295,6 +295,14 @@
         </div>
         <p class="hint">Se aplica en la portada y dentro de la invitación.</p>
       </div>
+      <div class="field">
+        <label for="espacioApellido">Espacio entre el nombre y el apellido</label>
+        <div class="rango-field">
+          <input type="range" id="espacioApellido" min="-30" max="120" step="1" value="4">
+          <output id="espacioApellidoVal">4 px</output>
+        </div>
+        <p class="hint">Valores negativos los acercan aún más.</p>
+      </div>
       <div class="field"><label for="scaleApellido">Tamaño del apellido</label><select id="scaleApellido"><option value="xs">Muy pequeño</option><option value="compacta">Pequeño</option><option value="normal">Normal</option><option value="grande">Grande</option><option value="xl">Muy grande</option><option value="xxl">Extra grande</option></select></div>
     </div>
 
@@ -812,6 +820,13 @@ function iconoSvg(id, extraClass) {
     rangoCorona.addEventListener('input', pintar);
     pintar();
   }
+  const rangoApellido = document.getElementById('espacioApellido');
+  const rangoApellidoVal = document.getElementById('espacioApellidoVal');
+  if (rangoApellido && rangoApellidoVal) {
+    const pintarAp = () => { rangoApellidoVal.textContent = rangoApellido.value + ' px'; };
+    rangoApellido.addEventListener('input', pintarAp);
+    pintarAp();
+  }
 
   document.querySelectorAll('.tab-btn').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -1061,6 +1076,9 @@ function iconoSvg(id, extraClass) {
     const ec = (typeof t.espacioCorona === 'number') ? t.espacioCorona : 14;
     document.getElementById('espacioCorona').value = ec;
     document.getElementById('espacioCoronaVal').textContent = ec + ' px';
+    const ea = (typeof t.espacioApellido === 'number') ? t.espacioApellido : 4;
+    document.getElementById('espacioApellido').value = ea;
+    document.getElementById('espacioApellidoVal').textContent = ea + ' px';
     document.getElementById('fontNombre').value = t.fuenteNombre || '';
     document.getElementById('fontApellido').value = t.fuenteApellido || '';
 
@@ -1148,6 +1166,7 @@ function iconoSvg(id, extraClass) {
         escalaIconos: document.getElementById('scaleIconos').value,
         escalaApellido: document.getElementById('scaleApellido').value,
         espacioCorona: parseInt(document.getElementById('espacioCorona').value, 10),
+        espacioApellido: parseInt(document.getElementById('espacioApellido').value, 10),
         fuenteNombre: document.getElementById('fontNombre').value,
         fuenteApellido: document.getElementById('fontApellido').value
       },

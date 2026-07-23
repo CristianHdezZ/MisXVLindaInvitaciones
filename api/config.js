@@ -94,7 +94,8 @@ const DEFAULT_CONFIG = {
     fuenteNombre: '',
     fuenteApellido: '',
     escalaApellido: 'normal',
-    espacioCorona: 14
+    espacioCorona: 14,
+    espacioApellido: 4
   },
   itinerario: [
     { titulo: 'Recepción', hora: '7:00 p.m.', icono: 'fi:copa' },
@@ -227,7 +228,8 @@ function sanitizeConfig(body) {
     fuenteNombre: sanitizeChoice(b?.tipografia?.fuenteNombre, ['', ...FUENTES_SCRIPT, ...FUENTES_DISPLAY], d.tipografia.fuenteNombre),
     fuenteApellido: sanitizeChoice(b?.tipografia?.fuenteApellido, ['', ...FUENTES_SCRIPT, ...FUENTES_DISPLAY], d.tipografia.fuenteApellido),
     escalaApellido: sanitizeChoice(b?.tipografia?.escalaApellido, ESCALAS_VALIDAS, d.tipografia.escalaApellido),
-    espacioCorona: sanitizeEntero(b?.tipografia?.espacioCorona, 0, 120, d.tipografia.espacioCorona)
+    espacioCorona: sanitizeEntero(b?.tipografia?.espacioCorona, 0, 120, d.tipografia.espacioCorona),
+    espacioApellido: sanitizeEntero(b?.tipografia?.espacioApellido, -30, 120, d.tipografia.espacioApellido)
   };
 
   const estilos = sanitizeEstilos(b.estilos, estilosPorDefecto());
