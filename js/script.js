@@ -132,11 +132,16 @@ const FONT_WEIGHTS = {
 
 const SCALE_MAP = { compacta: 0.9, normal: 1, grande: 1.12, pequeno: 0.8, mediano: 1, grande2: 1.25, xl: 1.5 };
 
-function applyTipografia(tipografia) {
+function applyTipografia(tipografia, estilos) {
   if (!tipografia) return;
   const root = document.documentElement.style;
 
-  const families = [...new Set([tipografia.display, tipografia.script, tipografia.body, tipografia.fuenteNombre, tipografia.fuenteApellido].filter(Boolean))];
+  const fuentesDeElementos = estilos ? Object.values(estilos).map(e => e && e.fuente).filter(Boolean) : [];
+  const families = [...new Set([
+    tipografia.display, tipografia.script, tipografia.body,
+    tipografia.fuenteNombre, tipografia.fuenteApellido,
+    ...fuentesDeElementos
+  ].filter(Boolean))];
   if (families.length) {
     const params = families
       .map((f) => `family=${encodeURIComponent(f)}${FONT_WEIGHTS[f] ? ':' + FONT_WEIGHTS[f] : ''}`)
@@ -177,6 +182,52 @@ function applyTipografia(tipografia) {
   else root.removeProperty('--f-nombre');
   if (tipografia.fuenteApellido) root.setProperty('--f-apellido', `'${tipografia.fuenteApellido}', cursive`);
   else root.removeProperty('--f-apellido');
+}
+
+/* =========================================================
+   ESTILOS POR ELEMENTO
+   Cada texto editable puede tener color, fuente y tamaño propios
+   (configurables desde el admin, junto a su campo). Si un valor
+   queda vacío, el elemento hereda el estilo global.
+   ========================================================= */
+const ESTILO_SELECTORES = {
+  nombre:             ['.hero__name', '.gate__name'],
+  apellido:           ['.hero__apellido'],
+  fraseGate:          ['.gate__quote'],
+  carta:              ['.carta__texto'],
+  hashtag:            ['.footer__hashtag'],
+  vestimentaNota:     ['#vestimentaNota'],
+  regalosTitulo:      ['#regalosTitulo'],
+  regalosMensaje:     ['#regalosMensaje'],
+  regalosDetalle:     ['#regalosDetalle'],
+  itinerarioTitulo:   ['.timeline__text strong'],
+  itinerarioHora:     ['.timeline__text em'],
+  ubicacionLugar:     ['.detalle-card h3'],
+  ubicacionDireccion: ['.detalle-card p'],
+  ubicacionHora:      ['.detalle-card__hora']
+};
+
+function applyEstilos(estilos) {
+  if (!estilos) return;
+  Object.keys(ESTILO_SELECTORES).forEach((clave) => {
+    const e = estilos[clave];
+    if (!e) return;
+    ESTILO_SELECTORES[clave].forEach((sel) => {
+      document.querySelectorAll(sel).forEach((el) => {
+        // Color: vacío = quitar el override y heredar del CSS global
+        if (e.color) el.style.color = e.color;
+        else el.style.removeProperty('color');
+
+        if (e.fuente) el.style.fontFamily = `'${e.fuente}', serif`;
+        else el.style.removeProperty('font-family');
+
+        // La escala multiplica el tamaño que ya tiene por CSS
+        const f = SCALE_MAP[e.escala];
+        if (f && f !== 1) el.style.fontSize = `calc(1em * ${f})`;
+        else el.style.removeProperty('font-size');
+      });
+    });
+  });
 }
 
 function renderVestimenta(v) {
@@ -383,12 +434,13 @@ async function applyConfig() {
     renderMusica(config.musica);
     renderFecha(config.fechaEvento);
     applyColors(config.colores);
-    applyTipografia(config.tipografia);
+    applyTipografia(config.tipografia, config.estilos);
     renderItinerario(config.itinerario);
     renderVestimenta(config.vestimenta);
     renderRegalos(config.regalos);
     renderGaleria(config.galeria);
     renderUbicacion(config.ubicacion);
+    applyEstilos(config.estilos);
   } catch (err) {
     console.warn('No se pudo cargar la configuración dinámica; se usa el contenido por defecto del HTML.', err);
   }

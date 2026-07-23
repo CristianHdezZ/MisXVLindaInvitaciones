@@ -81,6 +81,7 @@ const DEFAULT_CONFIG = {
     apellido: '#C97D95',
     iconoVestimenta: '#8B4F62'
   },
+  estilos: {},   // se rellena abajo con estilosPorDefecto()
   tipografia: {
     display: 'Cormorant Garamond',
     script: 'Alex Brush',
@@ -150,6 +151,44 @@ function sanitizeUrl(value, fallback) {
   return v.slice(0, 2000);
 }
 
+
+// Elementos de texto que pueden tener color/fuente/tamaño propios desde el
+// admin. Si un valor queda vacío, el elemento hereda el estilo global.
+const ELEMENTOS_ESTILO = [
+  'nombre', 'apellido', 'fraseGate', 'carta', 'hashtag',
+  'vestimentaNota', 'regalosTitulo', 'regalosMensaje', 'regalosDetalle',
+  'itinerarioTitulo', 'itinerarioHora', 'ubicacionLugar', 'ubicacionDireccion', 'ubicacionHora'
+];
+
+function estiloVacio() {
+  return { color: '', fuente: '', escala: 'normal' };
+}
+
+function estilosPorDefecto() {
+  const out = {};
+  ELEMENTOS_ESTILO.forEach((k) => { out[k] = estiloVacio(); });
+  return out;
+}
+
+// Rellenar los estilos por defecto una vez definidas las constantes.
+DEFAULT_CONFIG.estilos = estilosPorDefecto();
+
+function sanitizeEstilos(entrada, defecto) {
+  const out = {};
+  const fuentesOk = ['', ...FUENTES_SCRIPT, ...FUENTES_DISPLAY, ...FUENTES_BODY];
+  ELEMENTOS_ESTILO.forEach((k) => {
+    const e = entrada?.[k] || {};
+    const d = defecto?.[k] || estiloVacio();
+    out[k] = {
+      // color vacío = hereda el global
+      color: (typeof e.color === 'string' && /^#[0-9A-Fa-f]{6}$/.test(e.color)) ? e.color : (e.color === '' ? '' : d.color),
+      fuente: fuentesOk.includes(e.fuente) ? e.fuente : d.fuente,
+      escala: ESCALAS_VALIDAS.includes(e.escala) ? e.escala : d.escala
+    };
+  });
+  return out;
+}
+
 function sanitizeConfig(body) {
   const d = DEFAULT_CONFIG;
   const b = body || {};
@@ -181,6 +220,8 @@ function sanitizeConfig(body) {
     escalaApellido: sanitizeChoice(b?.tipografia?.escalaApellido, ESCALAS_VALIDAS, d.tipografia.escalaApellido)
   };
 
+  const estilos = sanitizeEstilos(b.estilos, estilosPorDefecto());
+
   const itinerario = Array.isArray(b.itinerario)
     ? b.itinerario.slice(0, 10).map((item) => {
         const iconoMigrado = migrarIcono(item?.icono);
@@ -203,7 +244,7 @@ function sanitizeConfig(body) {
 
   const regalos = {
     activo: typeof b?.regalos?.activo === 'boolean' ? b.regalos.activo : d.regalos.activo,
-    icono: ICONOS_VALIDOS.includes(b?.regalos?.icono) ? b.regalos.icono : d.regalos.icono,
+    icono: ICONOS_VALIDOS.includes(b?.regalos?.icono) ? b?.regalos?.icono : d.regalos.icono,
     titulo: sanitizeText(b?.regalos?.titulo, 80, d.regalos.titulo),
     mensaje: sanitizeText(b?.regalos?.mensaje, 400, d.regalos.mensaje),
     detalle: sanitizeText(b?.regalos?.detalle, 300, d.regalos.detalle || '')
@@ -238,6 +279,7 @@ function sanitizeConfig(body) {
     musica: sanitizeUrl(b.musica, d.musica),
     colores,
     tipografia,
+    estilos,
     itinerario,
     vestimenta,
     regalos,
