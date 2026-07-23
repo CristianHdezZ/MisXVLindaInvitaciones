@@ -520,7 +520,7 @@ const ICON_SVG = {
 function iconoSvg(id, extraClass) {
   const cuerpo = ICON_SVG[id] || ICON_SVG['mdi:heart'];
   const cls = extraClass ? ` class="${extraClass}"` : '';
-  return `<svg${cls} viewBox="0 0 48 48" fill="none" aria-hidden="true">${cuerpo}</svg>`;
+  return `<svg${cls} viewBox="0 0 48 48" fill="none" preserveAspectRatio="xMidYMid meet" aria-hidden="true">${cuerpo}</svg>`;
 }
 
   const ICON_LIST = [
