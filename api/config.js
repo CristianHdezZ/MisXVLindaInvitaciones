@@ -21,8 +21,7 @@ const ICONOS_VALIDOS = [
   'traje:bailarina',
   // Íconos de Flaticon (autor Magnific) — siluetas profesionales
   'fi:vestido', 'fi:esmoquin', 'fi:silueta', 'fi:baile', 'fi:fiesta', 'fi:arco', 'fi:salon', 'fi:cena', 'fi:copa', 'fi:champan', 'fi:champan2', 'fi:champan3', 'fi:brindis', 'fi:corona', 'fi:pastel', 'fi:pastel2', 'fi:pastel-velas', 'fi:regalo', 'fi:tarjeta-regalo', 'fi:invitacion', 'fi:dj', 'fi:dj2', 'fi:microfono', 'fi:luces', 'fi:escenario', 'fi:reloj',
-  'fi:corona2', 'fi:vals', 'fi:sobre', 'fi:reloj-arena', 'fi:reloj2', 'fi:botella', 'fi:pastel3'
-];
+  'fi:vals', 'fi:sobre', 'fi:reloj-arena', 'fi:reloj2', 'fi:botella', ];
 
 // Mapa de compatibilidad — las configuraciones guardadas antes de este
 // cambio usaban nombres internos ('copa', 'vals', etc.) en vez de
@@ -72,7 +71,10 @@ const DEFAULT_CONFIG = {
     vino: '#8B4F62',
     oro: '#B8935C',
     vestido: '#E9AABB',
-    icono: '#8B4F62'
+    icono: '#8B4F62',
+    nombre: '#8B4F62',
+    apellido: '#C97D95',
+    iconoVestimenta: '#8B4F62'
   },
   tipografia: {
     display: 'Cormorant Garamond',
@@ -81,7 +83,10 @@ const DEFAULT_CONFIG = {
     escalaNombre: 'normal',
     escalaTitulos: 'normal',
     escalaMensajes: 'normal',
-    escalaIconos: 'normal'
+    escalaIconos: 'normal',
+    fuenteNombre: '',
+    fuenteApellido: '',
+    escalaApellido: 'normal'
   },
   itinerario: [
     { titulo: 'Recepción', hora: '7:00 p.m.', icono: 'fi:copa' },
@@ -152,7 +157,10 @@ function sanitizeConfig(body) {
     vino: sanitizeColor(b?.colores?.vino, d.colores.vino),
     oro: sanitizeColor(b?.colores?.oro, d.colores.oro),
     vestido: sanitizeColor(b?.colores?.vestido, d.colores.vestido),
-    icono: sanitizeColor(b?.colores?.icono, d.colores.icono)
+    icono: sanitizeColor(b?.colores?.icono, d.colores.icono),
+    nombre: sanitizeColor(b?.colores?.nombre, d.colores.nombre),
+    apellido: sanitizeColor(b?.colores?.apellido, d.colores.apellido),
+    iconoVestimenta: sanitizeColor(b?.colores?.iconoVestimenta, d.colores.iconoVestimenta)
   };
 
   const tipografia = {
@@ -162,7 +170,10 @@ function sanitizeConfig(body) {
     escalaNombre: sanitizeChoice(b?.tipografia?.escalaNombre, ESCALAS_VALIDAS, d.tipografia.escalaNombre),
     escalaTitulos: sanitizeChoice(b?.tipografia?.escalaTitulos, ESCALAS_VALIDAS, d.tipografia.escalaTitulos),
     escalaMensajes: sanitizeChoice(b?.tipografia?.escalaMensajes, ESCALAS_VALIDAS, d.tipografia.escalaMensajes),
-    escalaIconos: sanitizeChoice(b?.tipografia?.escalaIconos, ESCALAS_ICONOS_VALIDAS, d.tipografia.escalaIconos)
+    escalaIconos: sanitizeChoice(b?.tipografia?.escalaIconos, ESCALAS_ICONOS_VALIDAS, d.tipografia.escalaIconos),
+    fuenteNombre: sanitizeChoice(b?.tipografia?.fuenteNombre, ['', ...FUENTES_SCRIPT, ...FUENTES_DISPLAY], d.tipografia.fuenteNombre),
+    fuenteApellido: sanitizeChoice(b?.tipografia?.fuenteApellido, ['', ...FUENTES_SCRIPT, ...FUENTES_DISPLAY], d.tipografia.fuenteApellido),
+    escalaApellido: sanitizeChoice(b?.tipografia?.escalaApellido, ESCALAS_VALIDAS, d.tipografia.escalaApellido)
   };
 
   const itinerario = Array.isArray(b.itinerario)
