@@ -20,7 +20,8 @@ const ICONOS_VALIDOS = [
   'traje:saco-corbata', 'traje:solo-corbata', 'traje:zapatilla', 'traje:tacon', 'traje:escote-v',
   'traje:bailarina',
   // Íconos de Flaticon (autor Magnific) — siluetas profesionales
-  'fi:vestido', 'fi:esmoquin', 'fi:silueta', 'fi:baile', 'fi:fiesta', 'fi:arco', 'fi:salon', 'fi:cena', 'fi:copa', 'fi:champan', 'fi:champan2', 'fi:champan3', 'fi:brindis', 'fi:corona', 'fi:pastel', 'fi:pastel2', 'fi:pastel-velas', 'fi:regalo', 'fi:tarjeta-regalo', 'fi:invitacion', 'fi:dj', 'fi:dj2', 'fi:microfono', 'fi:luces', 'fi:escenario', 'fi:reloj'
+  'fi:vestido', 'fi:esmoquin', 'fi:silueta', 'fi:baile', 'fi:fiesta', 'fi:arco', 'fi:salon', 'fi:cena', 'fi:copa', 'fi:champan', 'fi:champan2', 'fi:champan3', 'fi:brindis', 'fi:corona', 'fi:pastel', 'fi:pastel2', 'fi:pastel-velas', 'fi:regalo', 'fi:tarjeta-regalo', 'fi:invitacion', 'fi:dj', 'fi:dj2', 'fi:microfono', 'fi:luces', 'fi:escenario', 'fi:reloj',
+  'fi:corona2', 'fi:vals', 'fi:sobre', 'fi:reloj-arena', 'fi:reloj2', 'fi:botella', 'fi:pastel3'
 ];
 
 // Mapa de compatibilidad — las configuraciones guardadas antes de este
@@ -62,6 +63,7 @@ const DEFAULT_CONFIG = {
   hashtag: '#LindaXV2026',
   fotoPrincipal: 'assets/gallery/image01.jpeg',
   lottieGate: 'assets/flor.json',
+  musica: 'assets/music/LovethemefromRomeo.mp3',
   colores: {
     blush: '#FBEAEE',
     blush2: '#F6D8DF',
@@ -95,6 +97,7 @@ const DEFAULT_CONFIG = {
   },
   regalos: {
     activo: true,
+    icono: 'fi:regalo',
     titulo: 'Mesa de regalos',
     mensaje: 'Tu presencia es mi mejor regalo. Si además deseas obsequiarme algo, un sobre con tu cariño será recibido con todo el corazón.',
     detalle: ''
@@ -184,6 +187,7 @@ function sanitizeConfig(body) {
 
   const regalos = {
     activo: typeof b?.regalos?.activo === 'boolean' ? b.regalos.activo : d.regalos.activo,
+    icono: ICONOS_VALIDOS.includes(b?.regalos?.icono) ? b.regalos.icono : d.regalos.icono,
     titulo: sanitizeText(b?.regalos?.titulo, 80, d.regalos.titulo),
     mensaje: sanitizeText(b?.regalos?.mensaje, 400, d.regalos.mensaje),
     detalle: sanitizeText(b?.regalos?.detalle, 300, d.regalos.detalle || '')
@@ -215,6 +219,7 @@ function sanitizeConfig(body) {
     hashtag: sanitizeText(b.hashtag, 40, d.hashtag),
     fotoPrincipal: sanitizeUrl(b.fotoPrincipal, d.fotoPrincipal),
     lottieGate: sanitizeUrl(b.lottieGate, d.lottieGate),
+    musica: sanitizeUrl(b.musica, d.musica),
     colores,
     tipografia,
     itinerario,
