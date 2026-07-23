@@ -130,7 +130,7 @@ const FONT_WEIGHTS = {
   'Lato': '300;400;700'
 };
 
-const SCALE_MAP = { compacta: 0.9, normal: 1, grande: 1.12, pequeno: 0.8, mediano: 1, grande2: 1.25, xl: 1.5 };
+const SCALE_MAP = { xs: 0.75, compacta: 0.9, normal: 1, grande: 1.15, xl: 1.35, xxl: 1.6, pequeno: 0.8, mediano: 1, grande2: 1.25 };
 
 function applyTipografia(tipografia, estilos) {
   if (!tipografia) return;
@@ -193,6 +193,7 @@ function applyTipografia(tipografia, estilos) {
 const ESTILO_SELECTORES = {
   nombre:             ['.hero__name', '.gate__name'],
   apellido:           ['.hero__apellido'],
+  fraseInvitacion:    ['.hero__eyebrow'],
   fraseGate:          ['.gate__quote'],
   carta:              ['.carta__texto'],
   hashtag:            ['.footer__hashtag'],
@@ -241,8 +242,13 @@ function renderVestimenta(v) {
       <span class="vestimenta__icon">${iconoSvg(right)}</span>
     `;
   }
+  // El indicador del color a evitar es un ícono configurable, pintado
+  // con el propio color a evitar para que se entienda de un vistazo.
   const swatch = document.getElementById('colorEvitarSwatch');
-  if (swatch && v.colorEvitar) swatch.style.background = v.colorEvitar;
+  if (swatch) {
+    swatch.innerHTML = iconoSvg(v.iconoColorEvitar || 'mdi:flower');
+    if (v.colorEvitar) swatch.style.color = v.colorEvitar;
+  }
   const nota = document.getElementById('vestimentaNota');
   if (nota && v.nota) nota.textContent = v.nota;
 }
@@ -256,6 +262,7 @@ function renderTextos(config) {
   setText('.hero__name', config.nombre);
   setText('.hero__apellido', config.apellido);
   setText('.gate__quote', config.fraseGate);
+  setText('.hero__eyebrow', config.fraseInvitacion);
   setText('.carta__texto', config.mensajeCarta);
   if (config.nombre) setText('.carta__firma', 'Con cariño, ' + config.nombre);
   setText('.footer__hashtag', config.hashtag);

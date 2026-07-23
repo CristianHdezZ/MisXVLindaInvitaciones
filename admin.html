@@ -218,6 +218,12 @@
   <div class="card-box">
     <h2>Mensajes</h2>
     <div class="field">
+      <label for="cfgFraseInvitacion">Frase de invitación (arriba de la foto)</label>
+      <textarea id="cfgFraseInvitacion" rows="2"></textarea>
+      <p class="hint">Ej. "Tenemos el honor de invitarlos a la celebración de los XV años de nuestra hija".</p>
+      <div data-estilo-slot="fraseInvitacion"></div>
+    </div>
+    <div class="field">
       <label for="cfgFrase">Frase de la portada</label>
       <textarea id="cfgFrase" rows="3"></textarea>
       <div data-estilo-slot="fraseGate"></div>
@@ -268,11 +274,11 @@
     <h3 class="sub">Nombre de la quinceañera</h3>
     <div class="row-3">
       <div class="field"><label for="fontNombre">Fuente del nombre</label><select id="fontNombre"></select><p class="hint">Déjalo en "(usar la general)" para que siga la fuente cursiva de abajo.</p></div>
-      <div class="field"><label for="scaleNombre">Tamaño del nombre</label><select id="scaleNombre"><option value="compacta">Compacto</option><option value="normal">Normal</option><option value="grande">Grande</option></select></div>
+      <div class="field"><label for="scaleNombre">Tamaño del nombre</label><select id="scaleNombre"><option value="xs">Muy pequeño</option><option value="compacta">Pequeño</option><option value="normal">Normal</option><option value="grande">Grande</option><option value="xl">Muy grande</option><option value="xxl">Extra grande</option></select></div>
     </div>
     <div class="row-3">
       <div class="field"><label for="fontApellido">Fuente del apellido</label><select id="fontApellido"></select></div>
-      <div class="field"><label for="scaleApellido">Tamaño del apellido</label><select id="scaleApellido"><option value="compacta">Compacto</option><option value="normal">Normal</option><option value="grande">Grande</option></select></div>
+      <div class="field"><label for="scaleApellido">Tamaño del apellido</label><select id="scaleApellido"><option value="xs">Muy pequeño</option><option value="compacta">Pequeño</option><option value="normal">Normal</option><option value="grande">Grande</option><option value="xl">Muy grande</option><option value="xxl">Extra grande</option></select></div>
     </div>
 
     <h3 class="sub">Fuentes generales</h3>
@@ -284,8 +290,8 @@
 
     <h3 class="sub">Tamaños del resto</h3>
     <div class="row-3">
-      <div class="field"><label for="scaleTitulos">Títulos de sección</label><select id="scaleTitulos"><option value="compacta">Compacto</option><option value="normal">Normal</option><option value="grande">Grande</option></select></div>
-      <div class="field"><label for="scaleMensajes">Mensajes y párrafos</label><select id="scaleMensajes"><option value="compacta">Compacto</option><option value="normal">Normal</option><option value="grande">Grande</option></select></div>
+      <div class="field"><label for="scaleTitulos">Títulos de sección</label><select id="scaleTitulos"><option value="xs">Muy pequeño</option><option value="compacta">Pequeño</option><option value="normal">Normal</option><option value="grande">Grande</option><option value="xl">Muy grande</option><option value="xxl">Extra grande</option></select></div>
+      <div class="field"><label for="scaleMensajes">Mensajes y párrafos</label><select id="scaleMensajes"><option value="xs">Muy pequeño</option><option value="compacta">Pequeño</option><option value="normal">Normal</option><option value="grande">Grande</option><option value="xl">Muy grande</option><option value="xxl">Extra grande</option></select></div>
       <div class="field"><label for="scaleIconos">Íconos</label><select id="scaleIconos"><option value="pequeno">Pequeño</option><option value="normal">Normal</option><option value="grande2">Grande</option><option value="xl">Extra grande</option></select></div>
     </div>
   </div>
@@ -300,6 +306,12 @@
     <div class="field">
       <label>Color a evitar (muestra junto al texto)</label>
       <div class="color-field"><input type="color" id="vestColorEvitar"></div>
+      <p class="hint">Este color pinta el ícono de abajo.</p>
+    </div>
+    <div class="field">
+      <label>Ícono del color a evitar</label>
+      <input type="hidden" id="vestIconoColorEvitar" value="mdi:flower">
+      <div class="icon-picker" id="vestIconoColorEvitarPicker"></div>
     </div>
     <div class="field">
       <label>Ícono izquierdo</label>
@@ -669,7 +681,7 @@ function iconoSvg(id, extraClass) {
      Si se deja vacío, el elemento hereda el estilo global de la
      sección "Colores" / "Tipografía". */
   const ESTILO_CAMPOS = [
-    'nombre','apellido','fraseGate','carta','hashtag',
+    'nombre','apellido','fraseInvitacion','fraseGate','carta','hashtag',
     'vestimentaNota','regalosTitulo','regalosMensaje','regalosDetalle',
     'itinerarioTitulo','itinerarioHora','ubicacionLugar','ubicacionDireccion','ubicacionHora'
   ];
@@ -691,9 +703,12 @@ function iconoSvg(id, extraClass) {
         <div class="mini">
           <label>Tamaño</label>
           <select id="est_${clave}_escala">
-            <option value="compacta">Compacto</option>
+            <option value="xs">Muy pequeño</option>
+            <option value="compacta">Pequeño</option>
             <option value="normal">Normal</option>
             <option value="grande">Grande</option>
+            <option value="xl">Muy grande</option>
+            <option value="xxl">Extra grande</option>
           </select>
         </div>
         <button type="button" class="reset" data-reset="${clave}">usar estilo general</button>
@@ -899,6 +914,7 @@ function iconoSvg(id, extraClass) {
   const vestIzquierdoPicker = setupIconPicker('vestIconoIzquierdoPicker', 'vestIconoIzquierdo', 'fi:vestido');
   const vestDerechoPicker = setupIconPicker('vestIconoDerechoPicker', 'vestIconoDerecho', 'fi:esmoquin');
   const regIconoPicker = setupIconPicker('regIconoPicker', 'regIcono', 'fi:regalo');
+  const vestColorEvitarPicker = setupIconPicker('vestIconoColorEvitarPicker', 'vestIconoColorEvitar', 'mdi:flower');
 
   function addItinerarioRow(item){
     item = item || { titulo:'', hora:'', icono:'mdi:glass-cocktail' };
@@ -983,6 +999,7 @@ function iconoSvg(id, extraClass) {
     document.getElementById('cfgApellido').value = config.apellido || '';
     document.getElementById('cfgFecha').value = isoToLocalInput(config.fechaEvento);
     document.getElementById('cfgHashtag').value = config.hashtag || '';
+    document.getElementById('cfgFraseInvitacion').value = config.fraseInvitacion || '';
     document.getElementById('cfgFrase').value = config.fraseGate || '';
     document.getElementById('cfgCarta').value = config.mensajeCarta || '';
 
@@ -1027,6 +1044,8 @@ function iconoSvg(id, extraClass) {
     document.getElementById('vestColorEvitar').value = v.colorEvitar || '#E9AABB';
     document.getElementById('vestIconoIzquierdo').value = v.iconoIzquierdo || 'fi:vestido';
     document.getElementById('vestIconoDerecho').value = v.iconoDerecho || 'fi:esmoquin';
+    document.getElementById('vestIconoColorEvitar').value = v.iconoColorEvitar || 'mdi:flower';
+    vestColorEvitarPicker.setSelected(v.iconoColorEvitar || 'mdi:flower');
     vestIzquierdoPicker.setSelected(v.iconoIzquierdo || 'fi:vestido');
     vestDerechoPicker.setSelected(v.iconoDerecho || 'fi:esmoquin');
 
@@ -1072,6 +1091,7 @@ function iconoSvg(id, extraClass) {
       fotoPrincipal: document.getElementById('cfgFoto').value.trim(),
       lottieGate: document.getElementById('cfgLottie').value.trim(),
       musica: document.getElementById('cfgMusica').value.trim(),
+      fraseInvitacion: document.getElementById('cfgFraseInvitacion').value.trim(),
       fraseGate: document.getElementById('cfgFrase').value.trim(),
       mensajeCarta: document.getElementById('cfgCarta').value.trim(),
       colores: {
@@ -1108,6 +1128,7 @@ function iconoSvg(id, extraClass) {
       vestimenta: {
         nota: document.getElementById('vestNota').value.trim(),
         colorEvitar: document.getElementById('vestColorEvitar').value,
+        iconoColorEvitar: document.getElementById('vestIconoColorEvitar').value,
         iconoIzquierdo: document.getElementById('vestIconoIzquierdo').value,
         iconoDerecho: document.getElementById('vestIconoDerecho').value
       },

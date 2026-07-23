@@ -51,7 +51,7 @@ function migrarIcono(valor) {
 const FUENTES_DISPLAY = ['Cormorant Garamond', 'Playfair Display', 'EB Garamond', 'Marcellus'];
 const FUENTES_SCRIPT = ['Alex Brush', 'Great Vibes', 'Parisienne', 'Dancing Script', 'Playball'];
 const FUENTES_BODY = ['Jost', 'Poppins', 'Montserrat', 'Lato'];
-const ESCALAS_VALIDAS = ['compacta', 'normal', 'grande'];
+const ESCALAS_VALIDAS = ['xs', 'compacta', 'normal', 'grande', 'xl', 'xxl'];
 const ESCALAS_ICONOS_VALIDAS = ['pequeno', 'normal', 'grande2', 'xl'];
 
 const HEX_COLOR = /^#[0-9a-fA-F]{3,8}$/;
@@ -62,6 +62,7 @@ const DEFAULT_CONFIG = {
   nombre: 'Linda',
   apellido: 'Hernández',
   fechaEvento: '2026-09-19T18:00:00',
+  fraseInvitacion: 'Tenemos el honor de invitarlos a la celebración de los XV años de nuestra hija',
   fraseGate: 'Hay momentos inolvidables que se atesoran en el corazón para siempre. Me siento muy feliz de llegar a este momento de mi vida y quiero compartirlo contigo.',
   mensajeCarta: 'Hoy quiero compartir contigo uno de los días más felices de mi vida. Quince años de historias, de risas y de aprender a florecer, y quiero que estés ahí para verlo con tus propios ojos. Esta invitación es un pedacito de mi corazón, hecha con la misma ilusión con la que espero abrazarte ese día.',
   hashtag: '#LindaXV2026',
@@ -103,6 +104,7 @@ const DEFAULT_CONFIG = {
   vestimenta: {
     nota: 'Color a evitar: rosa palo — ¡es el mío! 🌹',
     colorEvitar: '#E9AABB',
+    iconoColorEvitar: 'mdi:flower',
     iconoIzquierdo: 'fi:vestido',
     iconoDerecho: 'fi:esmoquin'
   },
@@ -155,7 +157,7 @@ function sanitizeUrl(value, fallback) {
 // Elementos de texto que pueden tener color/fuente/tamaño propios desde el
 // admin. Si un valor queda vacío, el elemento hereda el estilo global.
 const ELEMENTOS_ESTILO = [
-  'nombre', 'apellido', 'fraseGate', 'carta', 'hashtag',
+  'nombre', 'apellido', 'fraseInvitacion', 'fraseGate', 'carta', 'hashtag',
   'vestimentaNota', 'regalosTitulo', 'regalosMensaje', 'regalosDetalle',
   'itinerarioTitulo', 'itinerarioHora', 'ubicacionLugar', 'ubicacionDireccion', 'ubicacionHora'
 ];
@@ -238,6 +240,7 @@ function sanitizeConfig(body) {
   const vestimenta = {
     nota: sanitizeText(b?.vestimenta?.nota, 200, d.vestimenta.nota),
     colorEvitar: sanitizeColor(b?.vestimenta?.colorEvitar, d.vestimenta.colorEvitar),
+    iconoColorEvitar: ICONOS_VALIDOS.includes(b?.vestimenta?.iconoColorEvitar) ? b.vestimenta.iconoColorEvitar : d.vestimenta.iconoColorEvitar,
     iconoIzquierdo: ICONOS_VALIDOS.includes(vestimentaIconoIzq) ? vestimentaIconoIzq : d.vestimenta.iconoIzquierdo,
     iconoDerecho: ICONOS_VALIDOS.includes(vestimentaIconoDer) ? vestimentaIconoDer : d.vestimenta.iconoDerecho
   };
@@ -271,6 +274,7 @@ function sanitizeConfig(body) {
     nombre: sanitizeText(b.nombre, 60, d.nombre),
     apellido: sanitizeText(b.apellido, 60, d.apellido),
     fechaEvento,
+    fraseInvitacion: sanitizeText(b.fraseInvitacion, 300, d.fraseInvitacion),
     fraseGate: sanitizeText(b.fraseGate, 400, d.fraseGate),
     mensajeCarta: sanitizeText(b.mensajeCarta, 800, d.mensajeCarta),
     hashtag: sanitizeText(b.hashtag, 40, d.hashtag),
