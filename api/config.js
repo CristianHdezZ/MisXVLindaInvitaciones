@@ -21,7 +21,12 @@ const ICONOS_VALIDOS = [
   'traje:bailarina',
   // Íconos de Flaticon (autor Magnific) — siluetas profesionales
   'fi:vestido', 'fi:esmoquin', 'fi:silueta', 'fi:baile', 'fi:fiesta', 'fi:arco', 'fi:salon', 'fi:cena', 'fi:copa', 'fi:champan', 'fi:champan2', 'fi:champan3', 'fi:brindis', 'fi:corona', 'fi:pastel', 'fi:pastel2', 'fi:pastel-velas', 'fi:regalo', 'fi:tarjeta-regalo', 'fi:invitacion', 'fi:dj', 'fi:dj2', 'fi:microfono', 'fi:luces', 'fi:escenario', 'fi:reloj',
-  'fi:vals', 'fi:sobre', 'fi:reloj-arena', 'fi:reloj2', 'fi:botella', ];
+  'fi:vals', 'fi:sobre', 'fi:reloj-arena', 'fi:reloj2', 'fi:botella', ,
+  // Variantes rellenas (mismo ícono, estilo sólido)
+  'fi:sobre-relleno', 'fi:reloj-arena-relleno', 'fi:vals-relleno', 'fi:reloj2-relleno', 'fi:botella-relleno'
+,
+  'fi:corona2', 'fi:pastel3'
+];
 
 // Mapa de compatibilidad — las configuraciones guardadas antes de este
 // cambio usaban nombres internos ('copa', 'vals', etc.) en vez de
