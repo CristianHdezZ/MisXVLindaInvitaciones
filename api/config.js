@@ -17,11 +17,10 @@ const ICONOS_VALIDOS = [
   // Trajes y vestidos elegantes (SVG propios) — para el código de vestimenta
   'traje:gala', 'traje:sirena', 'traje:corte-a', 'traje:lazo', 'traje:coctel',
   'traje:esmoquin', 'traje:corbata', 'traje:chaleco',
-  // Set premium (Phosphor duotone/regular) — líneas más finas y elegantes
-  'ph:martini', 'ph:church', 'ph:music-notes', 'ph:fork-knife', 'ph:heart-straight',
-  'ph:gift', 'ph:clock', 'ph:dress', 'ph:bowtie', 'ph:diamond', 'ph:flower-lotus',
-  'ph:butterfly', 'ph:star-four', 'ph:cake', 'ph:crown', 'ph:champagne', 'ph:high-heel',
-  'ph:hand-heart', 'ph:sparkle', 'ph:confetti', 'ph:envelope', 'ph:camera'
+  'traje:saco-corbata', 'traje:solo-corbata', 'traje:zapatilla', 'traje:tacon', 'traje:escote-v',
+  'traje:bailarina',
+  // Íconos de Flaticon (autor Magnific) — siluetas profesionales
+  'fi:vestido', 'fi:esmoquin', 'fi:silueta', 'fi:baile', 'fi:fiesta', 'fi:arco', 'fi:salon', 'fi:cena', 'fi:copa', 'fi:champan', 'fi:champan2', 'fi:champan3', 'fi:brindis', 'fi:corona', 'fi:pastel', 'fi:pastel2', 'fi:pastel-velas', 'fi:regalo', 'fi:tarjeta-regalo', 'fi:invitacion', 'fi:dj', 'fi:dj2', 'fi:microfono', 'fi:luces', 'fi:escenario', 'fi:reloj'
 ];
 
 // Mapa de compatibilidad — las configuraciones guardadas antes de este
@@ -83,16 +82,16 @@ const DEFAULT_CONFIG = {
     escalaIconos: 'normal'
   },
   itinerario: [
-    { titulo: 'Recepción', hora: '7:00 p.m.', icono: 'ph:martini' },
-    { titulo: 'Ceremonia', hora: '7:30 p.m.', icono: 'ph:church' },
-    { titulo: 'Vals', hora: '8:00 p.m.', icono: 'ph:music-notes' },
-    { titulo: 'Cena', hora: '9:00 p.m.', icono: 'ph:fork-knife' }
+    { titulo: 'Recepción', hora: '7:00 p.m.', icono: 'fi:copa' },
+    { titulo: 'Ceremonia', hora: '7:30 p.m.', icono: 'fi:arco' },
+    { titulo: 'Vals', hora: '8:00 p.m.', icono: 'fi:baile' },
+    { titulo: 'Cena', hora: '9:00 p.m.', icono: 'fi:cena' }
   ],
   vestimenta: {
     nota: 'Color a evitar: rosa palo — ¡es el mío! 🌹',
     colorEvitar: '#E9AABB',
-    iconoIzquierdo: 'traje:gala',
-    iconoDerecho: 'traje:esmoquin'
+    iconoIzquierdo: 'fi:vestido',
+    iconoDerecho: 'fi:esmoquin'
   },
   regalos: {
     activo: true,
